@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "714794753331",
+    "project_id": "tennisremind",
+    "storage_bucket": "tennisremind.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714794753331:android:e5a2a134f9a8bb181f7246",
+        "android_client_info": {
+          "package_name": "com.example.tennisreminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaYqDYfTXNw6dK_2MLugILKDrx1YVw-eI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
