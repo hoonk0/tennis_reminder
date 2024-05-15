@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/const/color.dart';
-import '../../start/login_screen.dart';
+import 'package:tennisreminder/home_screen/drawmenu/setting/list_setting_user.dart';
+import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/New_Court_register.dart';
+import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/setting_manager_court.dart';
+
 import '../home_screen.dart';
-import 'court_manager/New_Court_register.dart';
-import 'my_page/my_page.dart';
+
 import 'often_court/often_court.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -83,17 +85,17 @@ class DrawerMenu extends StatelessWidget {
             ),
 
             ListTile(
-              title: const Text('My page'),
+              title: const Text('설정'),
               onTap: (){
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyPage()),
+                  MaterialPageRoute(builder: (context) => const ListSettingUser()),
                 );
               },
             ),
 
-            ListTile(
+/*            ListTile(
               title: const Text('로그아웃'),
               onTap: () {
                 showModalBottomSheet(
@@ -145,7 +147,7 @@ class DrawerMenu extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                                      MaterialPageRoute(builder: (context) => const LoginScreen()),
                                     ); // 바텀 시트 닫기
                                     // 로그아웃 처리
                                   },
@@ -170,7 +172,7 @@ class DrawerMenu extends StatelessWidget {
                 );
               },
             ),
-
+*/
             ListTile(
               title: const Text('관리자 페이지'),
               onTap: (){
@@ -180,7 +182,7 @@ class DrawerMenu extends StatelessWidget {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const NewCourtRegister()),
+                  MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
                 );
               },
             ),

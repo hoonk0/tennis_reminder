@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MyPage extends StatelessWidget {
-  const MyPage({super.key});
+class SettingNotice extends StatelessWidget {
+  const SettingNotice({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('my page'),
+        title: Text('공지사항'),
       ),
     );
   }

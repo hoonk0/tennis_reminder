@@ -18,7 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('homescreen'),
+        centerTitle: true,
+        title: Text('COURT VIBE',
+        style: TS.s20w700(colorGreen900)),
       ),
       body: Center(
         child: Column(
