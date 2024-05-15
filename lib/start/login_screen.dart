@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tennisreminder/home_screen/home_screen.dart';
-import 'package:tennisreminder/login/new_member.dart';
 import 'package:tennisreminder/model/model_member.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 import '../const/color.dart';
+import 'login/new_member.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -22,11 +24,10 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     tecId.addListener(_validateInput);
     tecPw.addListener(_validateInput);
-    /*
+
     WidgetsBinding.instance.endOfFrame.then((value) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectOption()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     });
-     */
   }
 
   @override
@@ -54,13 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+/*
                   SizedBox(
-                    width: 180,
-                    height: 222,
+                    width: 200,
+                    height: 200,
                     child: Container(
                       margin: const EdgeInsets.only(left: 32, top: 96),
                       child: const Text(
-                        '테니스 \n 알리미',
+                        '테니스 알리미',
                         style: TextStyle(
                           color: colorGreen900,
                           fontSize: 28,
@@ -69,10 +71,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 250,
-                    //테니스 사진
+*/
+                const SizedBox(
+                  height: 30,
+                ),
+
+                  Row(
+                    children: [
+                      Expanded(child: Image.asset(
+                        'assets/home/logo_main.png',
+                            width: 300,
+                        height: 400,
+                      ))
+                    ],
                   ),
+
                   SizedBox(
                     width: 350,
                     height: 200,
@@ -126,6 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: TextField(
+                              obscureText: true,
                               controller: tecPw,
                               style: const TextStyle(
                                 fontSize: 16,
@@ -158,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewMember(),
+                        builder: (context) => const NewMember(),
                       ),
                     );
                   },
@@ -221,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   return;
                 }
                 userNotifier.value = targetModelUser;
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
                 // 여기서 로그인
               }, //_isInputValid ? _login : null,
               style: ElevatedButton.styleFrom(

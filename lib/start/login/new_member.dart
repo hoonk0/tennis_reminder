@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:uuid/uuid.dart';
-
-import '../model/model_member.dart';
+import '../../model/model_member.dart';
 
 
 class NewMember extends StatefulWidget {
@@ -14,18 +13,19 @@ class NewMember extends StatefulWidget {
 }
 
 class _NewMemberState extends State<NewMember> {
-  final TextEditingController _memberIdEditingController = TextEditingController();
+  final TextEditingController _memberidEditingController = TextEditingController();
   final TextEditingController _pwEditingController = TextEditingController();
   final TextEditingController _nameEditingController = TextEditingController();
   final TextEditingController _phoneEditingController = TextEditingController();
   final TextEditingController _locationEditingController = TextEditingController();
   final TextEditingController _emailEditingController = TextEditingController();
   bool _areAllFieldsFilled = false;
+  bool _isIdDuplicate = false;
 
   @override
   void initState() {
     super.initState();
-    _memberIdEditingController.addListener(_checkFields);
+    _memberidEditingController.addListener(_checkFields);
     _pwEditingController.addListener(_checkFields);
     _nameEditingController.addListener(_checkFields);
     _phoneEditingController.addListener(_checkFields);
@@ -35,14 +35,75 @@ class _NewMemberState extends State<NewMember> {
 
   void _checkFields() {
     setState(() {
-      _areAllFieldsFilled =
-          _memberIdEditingController.text.isNotEmpty &&
-              _pwEditingController.text.isNotEmpty &&
-              _nameEditingController.text.isNotEmpty &&
-              _phoneEditingController.text.isNotEmpty &&
-              _locationEditingController.text.isNotEmpty&&
-      _emailEditingController.text.isNotEmpty;
+      _areAllFieldsFilled = _memberidEditingController.text.isNotEmpty &&
+          _pwEditingController.text.isNotEmpty &&
+          _nameEditingController.text.isNotEmpty &&
+          _phoneEditingController.text.isNotEmpty &&
+          _locationEditingController.text.isNotEmpty &&
+          _emailEditingController.text.isNotEmpty;
     });
+  }
+
+  void _checkIdDuplicate() async {
+    String memberid = _memberidEditingController.text;
+    if (memberid.isEmpty) {
+      setState(() {
+        _isIdDuplicate = false;
+      });
+      return;
+    }
+
+    final idqs = await FirebaseFirestore.instance.collection('member').where('memberid', isEqualTo: memberid).get();
+
+    setState(() {
+      _isIdDuplicate = idqs.docs.isNotEmpty;
+    });
+
+    if (_isIdDuplicate) {
+      _showDuplicateDialog();
+    } else {
+      _showAvailableDialog();
+    }
+  }
+
+  void _showDuplicateDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('중복 확인'),
+          content: const Text('이미 사용 중인 아이디입니다.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showAvailableDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('중복 확인'),
+          content: const Text('사용 가능한 아이디입니다.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -62,16 +123,40 @@ class _NewMemberState extends State<NewMember> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '회원 아이디',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                color: Color(0xff87857a),
-              ),
+            Row(
+              children: [
+                const Text(
+                  '회원 아이디',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Color(0xff87857a),
+                  ),
+                ),
+                const SizedBox(width: 8),
+
+                ElevatedButton(
+                  onPressed: _checkIdDuplicate,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(1),
+                    backgroundColor: colorGreen900,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    '중복확인',
+                    style: TextStyle(
+                      color: colorWhite,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
             ),
             TextField(
-              controller: _memberIdEditingController,
+              controller: _memberidEditingController,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -114,7 +199,6 @@ class _NewMemberState extends State<NewMember> {
             const SizedBox(
               height: 20,
             ),
-
             const Text(
               '이름',
               style: TextStyle(
@@ -198,20 +282,24 @@ class _NewMemberState extends State<NewMember> {
                 color: Color(0xff87857a),
               ),
             ),
-            TextField(
-              controller: _emailEditingController,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-              onChanged: (_) => _checkFields(),
-              decoration: const InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Color(0xffe6e3dd), // 변경하려는 색상
+            Row(
+              children: [
+                TextField(
+                  controller: _emailEditingController,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  onChanged: (_) => _checkFields(),
+                  decoration: const InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xffe6e3dd), // 변경하려는 색상
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             Expanded(
               child: Align(
@@ -224,7 +312,7 @@ class _NewMemberState extends State<NewMember> {
                         final id = const Uuid().v4();
                         ModelMember modelmember = ModelMember(
                           id: id,
-                          memberid: _memberIdEditingController.text,
+                          memberid: _memberidEditingController.text,
                           pw: _pwEditingController.text,
                           name: _nameEditingController.text,
                           phone: _phoneEditingController.text,
@@ -273,7 +361,6 @@ class _NewMemberState extends State<NewMember> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -282,7 +369,7 @@ class _NewMemberState extends State<NewMember> {
 
   @override
   void dispose() {
-    _memberIdEditingController.dispose();
+    _memberidEditingController.dispose();
     _pwEditingController.dispose();
     _nameEditingController.dispose();
     _phoneEditingController.dispose();

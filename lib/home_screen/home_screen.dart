@@ -3,6 +3,7 @@ import 'package:tennisreminder/service/provider/providers.dart';
 
 import '../const/color.dart';
 import '../const/text_style.dart';
+import 'drawmenu/drawer_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,10 +16,27 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text('homescreen'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+          ],
+        ),
+      ),
+
+      endDrawer: DrawerMenu(),
+    );
+  }
+}
+
+
+/*
+
             ValueListenableBuilder(
               valueListenable: userNotifier,
               builder: (context, userMe, child) => Column(
@@ -28,9 +46,5 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+
+ */
