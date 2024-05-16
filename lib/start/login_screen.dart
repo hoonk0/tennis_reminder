@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tennisreminder/home_screen/home_screen.dart';
+import 'package:tennisreminder/home_screen/mainscreen.dart';
 import 'package:tennisreminder/model/model_member.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 import '../const/color.dart';
@@ -26,8 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
     tecPw.addListener(_validateInput);
 
     WidgetsBinding.instance.endOfFrame.then((value) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)));
     });
+
   }
 
   @override
@@ -235,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   return;
                 }
                 userNotifier.value = targetModelUser;
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0,)));
                 // 여기서 로그인
               }, //_isInputValid ? _login : null,
               style: ElevatedButton.styleFrom(

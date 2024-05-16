@@ -21,12 +21,12 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
   void initState() {
     super.initState();
     modelCourts = []; // 데이터를 담을 리스트 초기화
-    _fetchOuterData(); // Firestore에서 데이터 가져오기
+    _fetchCourtData(); // Firestore에서 데이터 가져오기
   }
 
   // Firestore에서 데이터를 가져와서 outerModels에 저장하는 메서드
   //이해 잘 안감
-  Future<void> _fetchOuterData() async {
+  Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedOuterModels = courtSnapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;

@@ -9,9 +9,16 @@ import '../home_screen.dart';
 
 import 'often_court/often_court.dart';
 
-class DrawerMenu extends StatelessWidget {
+class DrawerMenu extends StatefulWidget {
+
+
   const DrawerMenu({super.key});
 
+  @override
+  State<DrawerMenu> createState() => _DrawerMenuState();
+}
+
+class _DrawerMenuState extends State<DrawerMenu> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -173,18 +180,20 @@ class DrawerMenu extends StatelessWidget {
               },
             ),
 */
+
             ListTile(
               title: const Text('관리자 페이지'),
               onTap: (){
 
+                // isAdmin이 true인 경우에만 이동
 
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingManagerCourt()),
+                  );
 
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
-                );
               },
+
             ),
           ],
         ),

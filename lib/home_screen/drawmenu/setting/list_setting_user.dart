@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_contact_manager.dart';
 import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_my_page.dart';
 import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_donation.dart';
@@ -135,6 +136,16 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            title: const Text('관리자 페이지'),
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
+              );
+            },
+          ),
+
 
         ],
       ),
