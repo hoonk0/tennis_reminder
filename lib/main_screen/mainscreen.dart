@@ -1,18 +1,17 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tennisreminder/home_screen/drawmenu/search_court/court_favorite.dart';
-import 'package:tennisreminder/home_screen/drawmenu/search_court/court_search.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/list_setting_user.dart';
-import 'package:tennisreminder/home_screen/home_screen.dart';
-
+import 'package:tennisreminder/main_screen/home/user_home.dart';
 import '../const/color.dart';
+import 'my_page/search_court/court_favorite.dart';
+import 'my_page/search_court/court_search.dart';
+import 'my_page/setting/list_setting_user.dart';
+
 
 class MainScreen extends StatefulWidget {
   final int selectedIndex; // 선택된 인덱스를 저장하기 위한 변수
 
-  const MainScreen({required this.selectedIndex});
+  const MainScreen({super.key, required this.selectedIndex});
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -35,10 +34,10 @@ class _MainScreenState extends State<MainScreen> {
 
       // _selectedIndex가 0이 아닌 경우 앱바를 숨김
       body: _selectedIndex == 0
-          ? const HomeScreen()
+          ? const UserHome()
           : (_selectedIndex == 1 ? const CourtSearch() :
-      (_selectedIndex == 2 ? CourtFavorite() :
-      ListSettingUser()
+      (_selectedIndex == 2 ? const CourtFavorite() :
+      const ListSettingUser()
       )
       ),
 

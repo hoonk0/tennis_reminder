@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/New_Court_register.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/edit_court_register.dart';
+
 import 'package:tennisreminder/model/model_court.dart';
+
+import 'New_Court_register.dart';
+import 'edit_court_register.dart';
 
 class SettingManagerCourt extends StatefulWidget {
   const SettingManagerCourt({super.key});

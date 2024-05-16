@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/setting_manager_court.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_contact_manager.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_my_page.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_donation.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/setting_notice.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_donation.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_notice.dart';
 
 import '../../../const/color.dart';
 import '../../../start/login_screen.dart';

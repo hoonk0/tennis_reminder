@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/const/color.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/list_setting_user.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/New_Court_register.dart';
-import 'package:tennisreminder/home_screen/drawmenu/setting/setting_detail/court_manager/setting_manager_court.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/list_setting_user.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 
-import '../home_screen.dart';
 
+
+import '../home/user_home.dart';
 import 'often_court/often_court.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -76,7 +76,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               onTap: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  MaterialPageRoute(builder: (context) => const UserHome()),
                 );
               },
             ),
