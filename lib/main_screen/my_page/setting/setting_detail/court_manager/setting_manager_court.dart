@@ -30,13 +30,13 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
   //이해 잘 안감
   Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
-    final List<ModelCourt> fetchedOuterModels = courtSnapshot.docs.map((doc) {
+    final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
       return ModelCourt.fromJson(data);
     }).toList();
 
     setState(() {
-      modelCourts = fetchedOuterModels;
+      modelCourts = fetchedModelCourts;
     });
   }
 

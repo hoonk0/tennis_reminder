@@ -42,6 +42,8 @@ class _MainScreenState extends State<MainScreen> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: colorGray300,
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
@@ -61,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: const Color(0xffd2c6c0),
+        unselectedItemColor: colorGray500,
         selectedItemColor: colorGreen900,
         onTap: _onItemTapped,
       ),

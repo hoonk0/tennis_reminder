@@ -115,7 +115,7 @@ class _UserHomeState extends State<UserHome> {
                   onTap: () async {
                     final watchModelCourt = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CourtInformation(modelCourt: modelCourts[index])),
+                      MaterialPageRoute(builder: (context) => CourtInformation(courtId: modelCourts[index].id,)),
                     );
 
                     if (watchModelCourt != null) {
