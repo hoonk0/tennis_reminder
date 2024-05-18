@@ -67,7 +67,7 @@ class _UserHomeState extends State<UserHome> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const CourtSearch()),
+                      MaterialPageRoute(builder: (context) => CourtSearch()),
                     );
                   },
                   icon: const Icon(Icons.arrow_forward),
@@ -91,7 +91,7 @@ class _UserHomeState extends State<UserHome> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const CourtSearch()),
+                      MaterialPageRoute(builder: (context) => CourtSearch()),
                     );
                   },
                   icon: const Icon(Icons.arrow_forward),

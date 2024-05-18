@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
       // _selectedIndex가 0이 아닌 경우 앱바를 숨김
       body: _selectedIndex == 0
           ? const UserHome()
-          : (_selectedIndex == 1 ? const CourtSearch() :
+          : (_selectedIndex == 1 ? CourtSearch() :
       (_selectedIndex == 2 ? const CourtFavorite() :
       const ListSettingUser()
       )

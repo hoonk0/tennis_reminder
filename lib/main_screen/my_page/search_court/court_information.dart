@@ -48,7 +48,8 @@ class _CourtInformationState extends State<CourtInformation> {
 
           ModelCourt court = snapshot.data!;
           return SingleChildScrollView(
-            child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 children: [
 

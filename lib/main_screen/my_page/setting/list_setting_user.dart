@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
-import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_donation.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_notice.dart';
-
-import '../../../const/color.dart';
-import '../../../start/login_screen.dart';
+import 'package:tennisreminder/const/color.dart';
+import 'package:tennisreminder/start/login_screen.dart';
 
 class ListSettingUser extends StatelessWidget {
   const ListSettingUser({super.key});
@@ -15,51 +13,59 @@ class ListSettingUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('setting'),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text('SETTING', style: TextStyle(color: colorGreen900)),
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: Column(
         children: [
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(vertical:50,horizontal: 10),
+            title: const Text('로그인 화면 구현'),
+            onTap: () {
+               //로그인 화면 구현
+            },
+          ),
+          const Divider(),
+
+          ListTile(
+            leading: const Icon(Icons.person, color: colorGreen900),
             title: const Text('개인정보'),
-            onTap: (){
+            onTap: () {/*
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SettingMyPage()),
-              );
+
+              );  */
             },
           ),
-
+          const Divider(),
           ListTile(
+            leading: const Icon(Icons.notifications, color: colorGreen900),
             title: const Text('공지사항'),
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SettingNotice()),
               );
             },
           ),
-
+          const Divider(),
           ListTile(
+            leading: const Icon(Icons.contact_support_rounded, color: colorGreen900),
             title: const Text('고객센터'),
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ContactManager()),
               );
             },
           ),
-
+          const Divider(),
           ListTile(
-            title: const Text('후원'),
-            onTap: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingDonation()),
-              );
-            },
-          ),
-
-          ListTile(
+            leading: const Icon(Icons.logout, color: colorGreen900),
             title: const Text('로그아웃'),
             onTap: () {
               showModalBottomSheet(
@@ -75,18 +81,18 @@ class ListSettingUser extends StatelessWidget {
                           const Text(
                             '로그아웃 하시겠습니까?',
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff333333)
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff333333),
                             ),
                           ),
                           const SizedBox(height: 5),
                           const Text(
                             '지금 로그아웃하시겠어요?',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff7b796f)
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff7b796f),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -116,7 +122,7 @@ class ListSettingUser extends StatelessWidget {
                                   // 로그아웃 처리
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  foregroundColor: const Color(0xffffffff), backgroundColor: colorGreen900, // 텍스트 색상
+                                  foregroundColor: colorWhite, backgroundColor: colorGreen900, // 텍스트 색상
                                   textStyle: const TextStyle(fontSize: 16), // 텍스트 스타일
                                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60), // 버튼 내부 패딩
                                   shape: RoundedRectangleBorder(
@@ -127,7 +133,6 @@ class ListSettingUser extends StatelessWidget {
                               ),
                             ],
                           ),
-
                         ],
                       ),
                     ),
@@ -136,17 +141,18 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
+          const Divider(),
           ListTile(
+            leading: const Icon(Icons.admin_panel_settings, color: colorGreen900),
             title: const Text('관리자 페이지'),
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
               );
             },
           ),
-
-
+          const Divider(),
         ],
       ),
     );
