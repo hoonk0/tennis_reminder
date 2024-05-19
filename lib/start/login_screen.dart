@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     WidgetsBinding.instance.endOfFrame.then((value) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)));
     });
-
+//디버깅용 로그인 화면 스킵 코드
   }
 
   @override
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Expanded(child: Image.asset(
                         'assets/home/logo_main.png',
-                            width: 300,
+                            width: 400,
                         height: 400,
                       ))
                     ],

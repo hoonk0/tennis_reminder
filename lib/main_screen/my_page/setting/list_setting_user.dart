@@ -1,10 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
-import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_notice.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/start/login_screen.dart';
+
+import '../../../const/text_style.dart';
+
 
 class ListSettingUser extends StatelessWidget {
   const ListSettingUser({super.key});
@@ -15,17 +19,22 @@ class ListSettingUser extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: const Text('SETTING', style: TextStyle(color: colorGreen900)),
+        title: const Text('SETTING', style: TS.s20w700(colorGreen900)),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: Column(
         children: [
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(vertical:50,horizontal: 10),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            leading: Image.asset(
+              'assets/home/logo_courtvibe.png', // 이미지 경로
+              width: 100,
+              height: 100,
+            ),
             title: const Text('로그인 화면 구현'),
             onTap: () {
-               //로그인 화면 구현
+              // 로그인 화면 구현
             },
           ),
           const Divider(),
@@ -33,13 +42,15 @@ class ListSettingUser extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.person, color: colorGreen900),
             title: const Text('개인정보'),
-            onTap: () {/*
+            /*
+            onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SettingMyPage()),
-
-              );  */
+                MaterialPageRoute(builder: (context) => SettingMyPage()),
+              );
             },
+
+            */
           ),
           const Divider(),
           ListTile(

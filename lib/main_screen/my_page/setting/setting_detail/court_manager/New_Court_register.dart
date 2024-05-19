@@ -64,7 +64,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('새 코트 등정'), // 앱바 제목
+        title: const Text('새 코트 등록_관리자'), // 앱바 제목
       ),
       body: SingleChildScrollView(
         child: Center(

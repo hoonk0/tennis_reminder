@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:tennisreminder/model/model_court.dart';
-
 import 'New_Court_register.dart';
 import 'edit_court_register.dart';
 
@@ -31,7 +28,7 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
   Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       return ModelCourt.fromJson(data);
     }).toList();
 
@@ -44,23 +41,19 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('코트 등록 현황'),
+        title: const Text('코트 등록 현황'),
         automaticallyImplyLeading: false,
         centerTitle: true,
         actions: [
           IconButton(
             onPressed: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const NewCourtRegister()),
-              );
             },
             icon: const Icon(Icons.edit),
           ),
         ],
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
@@ -92,7 +85,7 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
                       File(modelCourts[index].imagePath),
                       fit: BoxFit.cover,
                     )
-                        : Icon(Icons.image),
+                        : const Icon(Icons.image),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -101,7 +94,7 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
                       children: [
                         Text(
                           modelCourts[index].name,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
 
                       ],

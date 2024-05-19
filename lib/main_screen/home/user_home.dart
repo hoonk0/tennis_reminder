@@ -46,10 +46,13 @@ class _UserHomeState extends State<UserHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text('COURT VIBE', style: TS.s20w700(colorGreen900)),
-      ),
+        title:
+                 Text('COURT VIBE', style: TS.s20w700(colorGreen900)),
+
+        ),
+
       body:
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
