@@ -1,37 +1,37 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:tennisreminder/main_screen/home/user_alarm.dart';
+import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
+import 'package:tennisreminder/main_screen/my_town_court/court_incheon.dart';
+import 'package:tennisreminder/main_screen/my_town_court/court_kyungki.dart';
+import 'package:tennisreminder/main_screen/my_town_court/court_seoul.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../const/color.dart';
 import '../../const/text_style.dart';
 import '../../model/model_court.dart';
 import '../my_page/search_court/court_information.dart';
 import '../my_page/search_court/court_search.dart';
 
-
 class UserHome extends StatefulWidget {
-
-  const UserHome({super.key});
+  const UserHome({Key? key}) : super(key: key);
 
   @override
   State<UserHome> createState() => _UserHomeState();
 }
 
 class _UserHomeState extends State<UserHome> {
-
   late List<ModelCourt> modelCourts;
-
 
   @override
   void initState() {
     super.initState();
     modelCourts = []; // 데이터를 담을 리스트 초기화
     _fetchCourtData(); // Firestore에서 데이터 가져오기
-
   }
 
   Future<void> _fetchCourtData() async {
-    final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
+    final courtSnapshot =
+    await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedOuterModels = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
@@ -46,40 +46,51 @@ class _UserHomeState extends State<UserHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         automaticallyImplyLeading: false,
-        centerTitle: true,
-        title:
-                 Text('COURT VIBE', style: TS.s20w700(colorGreen900)),
-
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite,
+        title: Text(
+          'COURT VIBE',
+          style: TS.s20w700(colorGreen900),
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=>CourtSearch()),
+              );
+            },
+            icon: const Icon(Icons.search_rounded),
+            color: colorGreen900,
+          ),
+          IconButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=>UserAlarm()),
+              );
+            },
+            icon: const Icon(Icons.notifications),
+            color: colorGreen900,
+          ),
+          IconButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=>CourtFavorite()),
+              );
+            },
+            icon: const Icon(Icons.favorite_border_rounded),
+            color: colorGreen900,
+          ),
+        ],
 
-      body:
-      Column(
+      ),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  '우리동네 코트 찾기',
-                  style: TS.s14w600(colorGreen900),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CourtSearch()),
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_forward),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 50),
+          //Container(height: 10, color: colorGray300),
+          const SizedBox(height: 10),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -88,7 +99,7 @@ class _UserHomeState extends State<UserHome> {
               children: [
                 const Text(
                   '원하는 코트 찾아보기',
-                  style: TS.s14w600(colorGreen900),
+                  style: TS.s16w600(colorGreen900),
                 ),
                 IconButton(
                   onPressed: () {
@@ -98,19 +109,19 @@ class _UserHomeState extends State<UserHome> {
                     );
                   },
                   icon: const Icon(Icons.arrow_forward),
+                  color: colorGreen900,
                 ),
               ],
             ),
           ),
-
-          const SizedBox(height: 10), // 텍스트와 그리드 사이의 간격
+          const SizedBox(height: 10),
           SizedBox(
-            height: 150, // 그리드의 높이 조정
+            height: 150,
             child: GridView.builder(
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, // 행의 수
-                childAspectRatio: 1, // 항목의 가로 세로 비율
+                crossAxisCount: 1,
+                childAspectRatio: 1,
               ),
               itemCount: modelCourts.length,
               itemBuilder: (context, index) {
@@ -118,7 +129,10 @@ class _UserHomeState extends State<UserHome> {
                   onTap: () async {
                     final watchModelCourt = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CourtInformation(courtId: modelCourts[index].id,)),
+                      MaterialPageRoute(
+                          builder: (context) => CourtInformation(
+                            courtId: modelCourts[index].id,
+                          )),
                     );
 
                     if (watchModelCourt != null) {
@@ -130,9 +144,8 @@ class _UserHomeState extends State<UserHome> {
                   child: Container(
                     margin: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8)
+                      borderRadius: BorderRadius.circular(8),
                     ),
-
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -163,54 +176,154 @@ class _UserHomeState extends State<UserHome> {
               },
             ),
           ),
+
+          const SizedBox(height: 30),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                const Text(
+                  '우리동네 코트 찾기',
+                  style: TS.s16w600(colorGreen900),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 40,
+            child: ListView.builder(
+              padding: EdgeInsets.zero, // 원 사이의 간격 없애기
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                String courtName = '';
+                if (index == 0) {
+                  courtName = '서울';
+                } else if (index == 1) {
+                  courtName = '경기';
+                } else if (index == 2) {
+                  courtName = '인천';
+                }
+                return GestureDetector(
+                  onTap: () {
+                    if (index == 0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CourtSeoul()),
+                      );
+                    } else if (index == 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CourtKyungki()),
+                      );
+                    } else if (index == 2) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CourtIncheon()),
+                      );
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4), // 각 원의 간격
+                    width: 100,
+                    height: 20,
+                    decoration: BoxDecoration(
+
+                      borderRadius: BorderRadius.circular(120), // 원 모양으로 설정
+                      color: colorWhite,
+                      border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
+                    ),
+                    child: Center(
+                      child: Text(
+                        courtName,
+                        style: TS.s14w400(colorGreen900),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+
+          const SizedBox(height: 30),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      '내 주변 코트 추천',
+                      style: TS.s16w600(colorGreen900),
+                    ),
+                  ],
+                ),
+
+                SizedBox(
+                  height: 200,
+                  width: 1600,
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(vertical: 5), // 원 사이의 간격 없애기
+                    scrollDirection: Axis.vertical,
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      String courtName = '';
+                      if (index == 0) {
+                        courtName = '서울 \n 올림픽공원';
+                      } else if (index == 1) {
+                        courtName = '경기';
+                      } else if (index == 2) {
+                        courtName = '인천';
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          if (index == 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CourtSeoul()),
+                            );
+                          } else if (index == 1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CourtKyungki()),
+                            );
+                          } else if (index == 2) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CourtIncheon()),
+                            );
+                          }
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10), // 각 원의 간격
+                          width: 200,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5), // 원 모양으로 설정
+                            color: colorWhite,
+                            border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
+                          ),
+                          child: Center(
+                            child: Text(
+                              courtName,
+                              style: TS.s16w400(colorGreen900),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
-
-/*
-
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home_filled),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.search_rounded),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite_border_rounded),
-            label: 'Like',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
-            label: 'My',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        unselectedItemColor: const Color(0xffd2c6c0),
-        selectedItemColor: colorGreen900,
-        onTap: _onItemTapped,
-      ),
-
- */
-
-      //endDrawer: DrawerMenu(),
     );
   }
 }
-
-/*
-
-            ValueListenableBuilder(
-              valueListenable: userNotifier,
-              builder: (context, userMe, child) => Column(
-                children: [
-                  Text('My email : ${userMe!.email}', style: TS.s15w500(colorGray900)),
-                  if (userMe.isAdmin) const Text('admin만 보임', style: TS.s15w500(colorGray900)),
-                ],
-              ),
-            ),
-
- */

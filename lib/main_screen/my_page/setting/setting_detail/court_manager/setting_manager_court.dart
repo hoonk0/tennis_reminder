@@ -47,6 +47,10 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
         actions: [
           IconButton(
             onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=>NewCourtRegister()),
+              );
             },
             icon: const Icon(Icons.edit),
           ),
