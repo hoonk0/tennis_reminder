@@ -16,7 +16,6 @@ class CourtInformation extends StatefulWidget {
 }
 
 class _CourtInformationState extends State<CourtInformation> {
-
   Future<ModelCourt?> _fetchCourtDetails() async {
     try {
       DocumentSnapshot doc = await FirebaseFirestore.instance.collection('court').doc(widget.courtId).get();
@@ -52,38 +51,29 @@ class _CourtInformationState extends State<CourtInformation> {
               padding: EdgeInsets.all(8.0),
               child: Column(
                 children: [
-
-                  //if (_imagePath.isNotEmpty)
-                    /*Image.file(
-                      File(_imagePath),
+                  if (court.imagePath.isNotEmpty)
+                    Image.network(
+                      court.imagePath,
                       height: 200,
                       width: 200,
                       fit: BoxFit.cover,
                     ),
-                     */
-
                   const SizedBox(height: 16),
-
                   const Text('테니스장명', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(court.name, style: TS.s14w400(colorBlack)),
                   const SizedBox(height: 8),
-
                   const Text('주소', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(court.location, style: TS.s14w400(colorBlack)),
                   const SizedBox(height: 8),
-
                   const Text('전화번호', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(court.phone, style: TS.s14w400(colorBlack)),
                   const SizedBox(height: 8),
-
                   const Text('예약사이트 바로가기', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(court.website, style: TS.s14w400(colorBlack)),
                   const SizedBox(height: 8),
-
                   const Text('안내사항', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(court.notice, style: TS.s14w400(colorBlack)),
                   const SizedBox(height: 8),
-
                   const Text('코트 정보', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(court.information, style: TS.s14w400(colorBlack)),
                 ],

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:uuid/uuid.dart';
 import '../../model/model_member.dart';
-
 
 class NewMember extends StatefulWidget {
   const NewMember({super.key});
@@ -134,7 +134,6 @@ class _NewMemberState extends State<NewMember> {
                   ),
                 ),
                 const SizedBox(width: 8),
-
                 ElevatedButton(
                   onPressed: _checkIdDuplicate,
                   style: ElevatedButton.styleFrom(
@@ -282,24 +281,20 @@ class _NewMemberState extends State<NewMember> {
                 color: Color(0xff87857a),
               ),
             ),
-            Row(
-              children: [
-                TextField(
-                  controller: _emailEditingController,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  onChanged: (_) => _checkFields(),
-                  decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xffe6e3dd), // 변경하려는 색상
-                      ),
-                    ),
+            TextField(
+              controller: _emailEditingController,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+              onChanged: (_) => _checkFields(),
+              decoration: const InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xffe6e3dd), // 변경하려는 색상
                   ),
                 ),
-              ],
+              ),
             ),
             Expanded(
               child: Align(

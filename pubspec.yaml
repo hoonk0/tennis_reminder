@@ -41,6 +41,8 @@ dependencies:
   firebase_auth: ^4.4.3
   fluttertoast: ^8.2.5
   image_picker: ^1.1.1
+  firebase_storage: ^11.0.14
+  sizer: ^2.0.15
 
 
 dev_dependencies:

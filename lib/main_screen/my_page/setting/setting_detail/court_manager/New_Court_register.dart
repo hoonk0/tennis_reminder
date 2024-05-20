@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tennisreminder/model/model_court.dart';
+import 'package:tennisreminder/service/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../const/color.dart';
@@ -25,6 +27,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
   TextEditingController tecInformation = TextEditingController();
   TextEditingController tecName = TextEditingController();
   bool _areAllFieldsFilled = false;
+  XFile? selectedXFile;
   String _imagePath = '';
 
   @override
@@ -51,11 +54,11 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    selectedXFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedImage != null) {
+    if (selectedXFile != null) {
       setState(() {
-        _imagePath = pickedImage.path;
+        _imagePath = selectedXFile!.path;
       });
     }
   }
@@ -86,7 +89,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
               TextField(
                 controller: tecName,
                 style: TS.s14w400(colorBlack),
-              ),// 선택된 이미지 미리보기
+              ), // 선택된 이미지 미리보기
 
               const Text('주소'), // 제목 입력 레이블
               TextField(
@@ -124,6 +127,14 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 onPressed: () async {
                   if (_areAllFieldsFilled) {
                     final id = const Uuid().v4();
+                    debugPrint("11");
+                    final List<String> listImgUrl = await Utils.getImgUrlXFile([selectedXFile]);
+                    debugPrint("listImgUrl ${listImgUrl}");
+                    if (listImgUrl.isEmpty) {
+                      Fluttertoast.showToast(msg: '사진을 선택하세요');
+                      return;
+                    }
+
                     ModelCourt modelCourt = ModelCourt(
                       id: id,
                       name: tecName.text,
@@ -132,11 +143,12 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                       phone: tecPhone.text,
                       notice: tecNotice.text,
                       website: tecWebsite.text,
-                      imagePath: _imagePath,
+                      imagePath: listImgUrl.first,
                     );
+
                     await FirebaseFirestore.instance.collection('court').doc(modelCourt.id).set(modelCourt.toJson());
                     Navigator.pop(context, modelCourt);
-                  }else{
+                  } else {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -157,7 +169,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                   }
                 },
               ),
-              ],
+            ],
           ),
         ),
       ),
@@ -174,5 +186,4 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
     tecLocation.dispose();
     super.dispose();
   }
-
 }

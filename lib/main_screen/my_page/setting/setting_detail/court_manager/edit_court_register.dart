@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,11 @@ import 'package:tennisreminder/model/model_court.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../const/text_style.dart';
+import '../../../../../service/utils/utils.dart';
 
 class EditCourtRegister extends StatefulWidget {
   final ModelCourt modelCourt;
+
   const EditCourtRegister({super.key, required this.modelCourt});
 
   @override
@@ -43,7 +46,6 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice = TextEditingController(text: widget.modelCourt.notice);
     tecInformation = TextEditingController(text: widget.modelCourt.information);
     tecName = TextEditingController(text: widget.modelCourt.name);
-
   }
 
   void _checkFields() {
@@ -59,11 +61,12 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
+      final List<String> listImgUrl = await Utils.getImgUrlXFile([pickedImage]);
       setState(() {
-        _imagePath = pickedImage.path;
+        _imagePath = listImgUrl.first;
       });
     }
   }
@@ -83,8 +86,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
                 child: const Text('Select Image'), // 이미지 선택 버튼
               ),
               if (_imagePath.isNotEmpty)
-                Image.file(
-                  File(_imagePath),
+                Image.network(
+                  _imagePath,
                   height: 200,
                   width: 200,
                   fit: BoxFit.cover,
@@ -94,7 +97,7 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
               TextField(
                 controller: tecName,
                 style: TS.s14w400(colorBlack),
-              ),// 선택된 이미지 미리보기
+              ), // 선택된 이미지 미리보기
 
               const Text('주소'), // 제목 입력 레이블
               TextField(
@@ -144,7 +147,6 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
                   Navigator.pop(context);
                 },
               ),
-
             ],
           ),
         ),
@@ -162,5 +164,4 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecLocation.dispose();
     super.dispose();
   }
-
 }

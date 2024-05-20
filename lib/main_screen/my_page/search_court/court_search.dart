@@ -82,26 +82,29 @@ class _CourtSearchState extends State<CourtSearch> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _filteredCourts.length, // 필터링된 코트의 개수
-              itemBuilder: (context, index) {
-                ModelCourt court = _filteredCourts[index];
-                // location 문자열을 공백을 기준으로 두 단어까지만 출력
-                List<String> locationWords = court.location.split(' ');
-                String shortLocation = locationWords.length > 1
-                    ? locationWords.sublist(0, 2).join(' ')
-                    : court.location;
-                return ListTile(
-                  title: Text(court.name),
-                  subtitle: Text(shortLocation),
-                  onTap: () async {
-                    final watchModelCourt = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CourtInformation(courtId: _filteredCourts[index].id,)),
-                    );
-                  },
-                );
-              },
+            child: Transform.translate(
+              offset: Offset(0, -20),
+              child: ListView.builder(
+                itemCount: _filteredCourts.length, // 필터링된 코트의 개수
+                itemBuilder: (context, index) {
+                  ModelCourt court = _filteredCourts[index];
+                  // location 문자열을 공백을 기준으로 두 단어까지만 출력
+                  List<String> locationWords = court.location.split(' ');
+                  String shortLocation = locationWords.length > 1
+                      ? locationWords.sublist(0, 2).join(' ')
+                      : court.location;
+                  return ListTile(
+                    title: Text(court.name),
+                    subtitle: Text(shortLocation),
+                    onTap: () async {
+                      final watchModelCourt = await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CourtInformation(courtId: _filteredCourts[index].id,)),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],

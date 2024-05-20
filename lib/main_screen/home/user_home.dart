@@ -30,8 +30,7 @@ class _UserHomeState extends State<UserHome> {
   }
 
   Future<void> _fetchCourtData() async {
-    final courtSnapshot =
-    await FirebaseFirestore.instance.collection('court').get();
+    final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedOuterModels = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
@@ -48,7 +47,7 @@ class _UserHomeState extends State<UserHome> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: colorWhite,
-        title: Text(
+        title: const Text(
           'COURT VIBE',
           style: TS.s20w700(colorGreen900),
         ),
@@ -57,7 +56,7 @@ class _UserHomeState extends State<UserHome> {
             onPressed: () async {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context)=>CourtSearch()),
+                MaterialPageRoute(builder: (context) => const CourtSearch()),
               );
             },
             icon: const Icon(Icons.search_rounded),
@@ -67,7 +66,7 @@ class _UserHomeState extends State<UserHome> {
             onPressed: () async {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context)=>UserAlarm()),
+                MaterialPageRoute(builder: (context) => const UserAlarm()),
               );
             },
             icon: const Icon(Icons.notifications),
@@ -77,14 +76,13 @@ class _UserHomeState extends State<UserHome> {
             onPressed: () async {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context)=>CourtFavorite()),
+                MaterialPageRoute(builder: (context) => const CourtFavorite()),
               );
             },
             icon: const Icon(Icons.favorite_border_rounded),
             color: colorGreen900,
           ),
         ],
-
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -105,7 +103,7 @@ class _UserHomeState extends State<UserHome> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CourtSearch()),
+                      MaterialPageRoute(builder: (context) => const CourtSearch()),
                     );
                   },
                   icon: const Icon(Icons.arrow_forward),
@@ -131,8 +129,8 @@ class _UserHomeState extends State<UserHome> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => CourtInformation(
-                            courtId: modelCourts[index].id,
-                          )),
+                                courtId: modelCourts[index].id,
+                              )),
                     );
 
                     if (watchModelCourt != null) {
@@ -151,10 +149,10 @@ class _UserHomeState extends State<UserHome> {
                       children: [
                         Expanded(
                           child: modelCourts[index].imagePath.isNotEmpty
-                              ? Image.file(
-                            File(modelCourts[index].imagePath),
-                            fit: BoxFit.cover,
-                          )
+                              ? Image.network(
+                                  modelCourts[index].imagePath,
+                                  fit: BoxFit.cover,
+                                )
                               : const Icon(Icons.image),
                         ),
                         Padding(
@@ -179,11 +177,11 @@ class _UserHomeState extends State<UserHome> {
 
           const SizedBox(height: 30),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                const Text(
+                Text(
                   '우리동네 코트 찾기',
                   style: TS.s16w600(colorGreen900),
                 ),
@@ -211,26 +209,26 @@ class _UserHomeState extends State<UserHome> {
                     if (index == 0) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CourtSeoul()),
+                        MaterialPageRoute(builder: (context) => const CourtSeoul()),
                       );
                     } else if (index == 1) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CourtKyungki()),
+                        MaterialPageRoute(builder: (context) => const CourtKyungki()),
                       );
                     } else if (index == 2) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CourtIncheon()),
+                        MaterialPageRoute(builder: (context) => const CourtIncheon()),
                       );
                     }
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4), // 각 원의 간격
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    // 각 원의 간격
                     width: 100,
                     height: 20,
                     decoration: BoxDecoration(
-
                       borderRadius: BorderRadius.circular(120), // 원 모양으로 설정
                       color: colorWhite,
                       border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
@@ -238,7 +236,7 @@ class _UserHomeState extends State<UserHome> {
                     child: Center(
                       child: Text(
                         courtName,
-                        style: TS.s14w400(colorGreen900),
+                        style: const TS.s14w400(colorGreen900),
                       ),
                     ),
                   ),
@@ -247,79 +245,79 @@ class _UserHomeState extends State<UserHome> {
             ),
           ),
 
-
           const SizedBox(height: 30),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      '내 주변 코트 추천',
-                      style: TS.s16w600(colorGreen900),
-                    ),
-                  ],
-                ),
-
-                SizedBox(
-                  height: 200,
-                  width: 1600,
-                  child: ListView.builder(
-                    padding: EdgeInsets.symmetric(vertical: 5), // 원 사이의 간격 없애기
-                    scrollDirection: Axis.vertical,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      String courtName = '';
-                      if (index == 0) {
-                        courtName = '서울 \n 올림픽공원';
-                      } else if (index == 1) {
-                        courtName = '경기';
-                      } else if (index == 2) {
-                        courtName = '인천';
-                      }
-                      return GestureDetector(
-                        onTap: () {
-                          if (index == 0) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => CourtSeoul()),
-                            );
-                          } else if (index == 1) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => CourtKyungki()),
-                            );
-                          } else if (index == 2) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => CourtIncheon()),
-                            );
-                          }
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10), // 각 원의 간격
-                          width: 200,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5), // 원 모양으로 설정
-                            color: colorWhite,
-                            border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
-                          ),
-                          child: Center(
-                            child: Text(
-                              courtName,
-                              style: TS.s16w400(colorGreen900),
+// 1. Expanded 무조건 컬럼이나 로우 안에쓴다
+// 2. Expanded를 쓰면 그 부모위젯이 또 위(조부모)에 컬럼이 있다면 그 부모위젯도 Expanded를 쓴다.
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Row(
+                    children: [
+                      Text(
+                        '내 주변 코트 추천',
+                        style: TS.s16w600(colorGreen900),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 5), // 원 사이의 간격 없애기
+                      scrollDirection: Axis.vertical,
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        String courtName = '';
+                        if (index == 0) {
+                          courtName = '서울 \n 올림픽공원';
+                        } else if (index == 1) {
+                          courtName = '경기';
+                        } else if (index == 2) {
+                          courtName = '인천';
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            if (index == 0) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const CourtSeoul()),
+                              );
+                            } else if (index == 1) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const CourtKyungki()),
+                              );
+                            } else if (index == 2) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const CourtIncheon()),
+                              );
+                            }
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            // 각 원의 간격
+                            width: 200,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5), // 원 모양으로 설정
+                              color: colorWhite,
+                              border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
+                            ),
+                            child: Center(
+                              child: Text(
+                                courtName,
+                                style: const TS.s16w400(colorGreen900),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
