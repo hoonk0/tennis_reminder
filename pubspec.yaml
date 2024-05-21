@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^1.1.1
   firebase_storage: ^11.0.14
   sizer: ^2.0.15
+  url_launcher: ^6.0.20
 
 
 dev_dependencies:

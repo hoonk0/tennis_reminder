@@ -23,19 +23,18 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
     _fetchCourtData(); // Firestore에서 데이터 가져오기
   }
 
-  // Firestore에서 데이터를 가져와서 outerModels에 저장하는 메서드
-  //이해 잘 안감
   Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
-    final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
+    final List<ModelCourt> fetchedmodelCourts = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
     }).toList();
 
     setState(() {
-      modelCourts = fetchedModelCourts;
+      modelCourts = fetchedmodelCourts;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +84,8 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
                 children: [
                   Expanded(
                     child: modelCourts[index].imagePath.isNotEmpty
-                        ? Image.file(
-                      File(modelCourts[index].imagePath),
+                        ? Image.network(
+                      modelCourts[index].imagePath,
                       fit: BoxFit.cover,
                     )
                         : const Icon(Icons.image),

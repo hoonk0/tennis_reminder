@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
@@ -37,7 +38,12 @@ class ListSettingUser extends StatelessWidget {
               // 로그인 화면 구현
             },
           ),
-          const Divider(),
+          const SizedBox(height: 5),
+          Container(
+            height: 10,
+            color: colorGreen900,
+          ),
+          const SizedBox(height: 5),
 
           ListTile(
             leading: const Icon(Icons.person, color: colorGreen900),
@@ -52,7 +58,13 @@ class ListSettingUser extends StatelessWidget {
 
             */
           ),
-          const Divider(),
+          const SizedBox(height: 5),
+          Container(
+            height: 2,
+            width: 100.w,
+            color: colorGray600,
+          ),
+          const SizedBox(height: 5),
           ListTile(
             leading: const Icon(Icons.notifications, color: colorGreen900),
             title: const Text('공지사항'),
@@ -63,7 +75,13 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
+          const SizedBox(height: 5),
+          Container(
+            height: 2,
+            width: 100.w,
+            color: colorGray600,
+          ),
+          const SizedBox(height: 5),
           ListTile(
             leading: const Icon(Icons.contact_support_rounded, color: colorGreen900),
             title: const Text('고객센터'),
@@ -74,7 +92,13 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
+          const SizedBox(height: 5),
+          Container(
+            height: 2,
+            width: 100.w,
+            color: colorGray600,
+          ),
+          const SizedBox(height: 5),
           ListTile(
             leading: const Icon(Icons.logout, color: colorGreen900),
             title: const Text('로그아웃'),
@@ -152,7 +176,13 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
+          const SizedBox(height: 5),
+          Container(
+            height: 2,
+            width: 100.w,
+            color: colorGray600,
+          ),
+          const SizedBox(height: 5),
           ListTile(
             leading: const Icon(Icons.admin_panel_settings, color: colorGreen900),
             title: const Text('관리자 페이지'),
@@ -163,7 +193,13 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
+          const SizedBox(height: 5),
+          Container(
+            height: 2,
+            width: 100.w,
+            color: colorGray600,
+          ),
+          const SizedBox(height: 5),
         ],
       ),
     );

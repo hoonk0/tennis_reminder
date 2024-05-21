@@ -113,12 +113,16 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
               const Text('안내사항'), // 내용 입력 레이블
               TextField(
                 controller: tecNotice,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
                 style: TS.s14w400(colorBlack),
               ),
 
               const Text('코트 정보'), // 내용 입력 레이블
               TextField(
                 controller: tecInformation,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
                 style: TS.s14w400(colorBlack),
               ),
 

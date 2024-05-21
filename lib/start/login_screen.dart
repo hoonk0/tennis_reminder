@@ -66,23 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    /*
-                    SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 32, top: 96),
-                        child: const Text(
-                          '테니스 알리미',
-                          style: TextStyle(
-                            color: colorGreen900,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-        */
                     const SizedBox(height: 30),
                     Image.asset(
                       fit: BoxFit.fill,

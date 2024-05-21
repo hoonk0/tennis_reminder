@@ -31,13 +31,13 @@ class _UserHomeState extends State<UserHome> {
 
   Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
-    final List<ModelCourt> fetchedOuterModels = courtSnapshot.docs.map((doc) {
+    final List<ModelCourt> fetchedmodelCourts = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
     }).toList();
 
     setState(() {
-      modelCourts = fetchedOuterModels;
+      modelCourts = fetchedmodelCourts;
     });
   }
 
