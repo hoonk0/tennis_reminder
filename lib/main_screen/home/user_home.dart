@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../const/color.dart';
 import '../../const/text_style.dart';
 import '../../model/model_court.dart';
+import '../../start/map_screen.dart';
 import '../my_page/search_court/court_information.dart';
 import '../my_page/search_court/court_search.dart';
 
@@ -217,10 +218,7 @@ class _UserHomeState extends State<UserHome> {
                         MaterialPageRoute(builder: (context) => const CourtKyungki()),
                       );
                     } else if (index == 2) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CourtIncheon()),
-                      );
+
                     }
                   },
                   child: Container(
@@ -289,10 +287,7 @@ class _UserHomeState extends State<UserHome> {
                                 MaterialPageRoute(builder: (context) => const CourtKyungki()),
                               );
                             } else if (index == 2) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const CourtIncheon()),
-                              );
+
                             }
                           },
                           child: Container(

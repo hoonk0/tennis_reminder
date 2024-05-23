@@ -7,6 +7,7 @@ class ModelMember {
   final String location;
   final String email;
   final bool isAdmin;
+  final List<String> favorites;
 
   // 생성자
   ModelMember({
@@ -18,6 +19,7 @@ class ModelMember {
     required this.location,
     required this.email,
     this.isAdmin = false,
+    this.favorites = const [],
   });
 
   Map<String, dynamic> toJson() {
@@ -30,6 +32,7 @@ class ModelMember {
       'location': location,
       'email': email,
       'isAdmin': isAdmin,
+      'favorites': favorites,
     };
   }
 
@@ -43,6 +46,7 @@ class ModelMember {
       location: json['location'],
       email: json['email'],
       isAdmin: json['isAdmin'] ?? false,
+      favorites: List<String>.from(json['favorites'] ?? []),
     );
   }
 }

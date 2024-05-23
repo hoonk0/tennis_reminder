@@ -1,15 +1,13 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/model/model_court.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../const/text_style.dart';
-import '../../../const/gaps.dart';
+import '../my_location.dart';
+
 
 class CourtInformation extends StatefulWidget {
   final String courtId;
@@ -21,6 +19,14 @@ class CourtInformation extends StatefulWidget {
 }
 
 class _CourtInformationState extends State<CourtInformation> {
+  bool _isFavorited = false;
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorited = !_isFavorited;
+    });
+  }
+
   Future<ModelCourt?> _fetchCourtDetails() async {
     try {
       DocumentSnapshot doc = await FirebaseFirestore.instance.collection('court').doc(widget.courtId).get();
@@ -28,12 +34,14 @@ class _CourtInformationState extends State<CourtInformation> {
         return ModelCourt.fromJson(doc.data() as Map<String, dynamic>);
       }
     } catch (e) {
-      print("Error fetching court details: $e");
+      if (kDebugMode) {
+        print("Error fetching court details: $e");
+      }
     }
     return null;
   }
 
-  //주소 앞에 2단어만 나오게 하는 코드
+  // 주소 앞에 2단어만 나오게 하는 코드
   String _getFirstTwoWords(String input) {
     List<String> words = input.split(' ');
     if (words.length >= 2) {
@@ -45,7 +53,7 @@ class _CourtInformationState extends State<CourtInformation> {
     }
   }
 
-  //url 아이콘 기능
+  // url 아이콘 기능
   Future<void> _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -54,7 +62,7 @@ class _CourtInformationState extends State<CourtInformation> {
     }
   }
 
-  //전화번호 연결 아이콘 기능
+  // 전화번호 연결 아이콘 기능
   Future<void> _makePhoneCall(String phoneNumber) async {
     final String url = 'tel:$phoneNumber';
     if (await canLaunch(url)) {
@@ -88,7 +96,7 @@ class _CourtInformationState extends State<CourtInformation> {
           ModelCourt court = snapshot.data!;
           return SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   if (court.imagePath.isNotEmpty)
@@ -103,8 +111,23 @@ class _CourtInformationState extends State<CourtInformation> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(court.name, style: TS.s20w600(colorGreen900))),
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          Text(court.name, style: const TS.s20w600(colorGreen900)),
+                             Transform.translate(
+                               offset: const Offset(-10, 0),
+                               child: IconButton(
+                                onPressed: _toggleFavorite,
+                                icon: Icon(
+                                  _isFavorited ? Icons.star : Icons.star_border_purple500_sharp,
+                                  color: _isFavorited ? colorPrimary200 : colorGreen900,
+                                ),
+                               ),
+                             ),
+                        ],
+                      ),
+                    ),
                   ),
 
                   Padding(
@@ -113,7 +136,7 @@ class _CourtInformationState extends State<CourtInformation> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         _getFirstTwoWords(court.location),
-                        style: TS.s14w400(colorGray600),
+                        style: const TS.s14w400(colorGray600),
                       ),
                     ),
                   ),
@@ -132,7 +155,7 @@ class _CourtInformationState extends State<CourtInformation> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         court.notice,
-                        style: TS.s14w400(colorBlack),
+                        style: const TS.s14w400(colorBlack),
                       ),
                     ),
                   ),
@@ -145,11 +168,12 @@ class _CourtInformationState extends State<CourtInformation> {
                   ),
                   const SizedBox(height: 15),
 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
                     child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('📰 기본정보', style: TS.s16w400(colorBlack))),
+                      alignment: Alignment.centerLeft,
+                      child: Text('📰 기본정보', style: TS.s16w400(colorBlack)),
+                    ),
                   ),
 
                   Padding(
@@ -158,10 +182,10 @@ class _CourtInformationState extends State<CourtInformation> {
                       children: [
                         const Text('전화번호', style: TS.s14w400(colorBlack)),
                         IconButton(
-                          onPressed: () async{
+                          onPressed: () async {
                             await _makePhoneCall(court.phone);
                           },
-                          icon: const Icon(Icons.phone)
+                          icon: const Icon(Icons.phone),
                         ),
 
                         const Text('예약사이트', style: TS.s14w400(colorBlack)),
@@ -181,16 +205,32 @@ class _CourtInformationState extends State<CourtInformation> {
                     child: Row(
                       children: [
                         const Text('주소', style: TS.s14w400(colorBlack)),
-
-                        Text(
-                          court.location,
-                          style: TS.s14w400(colorBlack),
+                        IconButton(
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context)=> const MyLocation())
+                            );
+                          },
+                          icon: const Icon(Icons.location_on_sharp),
                         ),
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        court.location,
+                        style: const TS.s14w400(colorGray600),
+                      ),
+                    ),
+                  ),
+
                 ],
               ),
+
             ),
           );
         },
