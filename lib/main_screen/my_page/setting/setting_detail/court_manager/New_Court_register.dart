@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tennisreminder/model/model_court.dart';
@@ -26,6 +27,8 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
   TextEditingController tecNotice = TextEditingController();
   TextEditingController tecInformation = TextEditingController();
   TextEditingController tecName = TextEditingController();
+  TextEditingController tecLat = TextEditingController();
+  TextEditingController tecLng = TextEditingController();
   bool _areAllFieldsFilled = false;
   XFile? selectedXFile;
   String _imagePath = '';
@@ -39,6 +42,8 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
     tecNotice.addListener(_checkFields);
     tecInformation.addListener(_checkFields);
     tecName.addListener(_checkFields);
+    tecLat.addListener(_checkFields);
+    tecLng.addListener(_checkFields);
   }
 
   void _checkFields() {
@@ -48,7 +53,9 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
           tecName.text.isNotEmpty &&
           tecWebsite.text.isNotEmpty &&
           tecNotice.text.isNotEmpty &&
-          tecInformation.text.isNotEmpty;
+          tecInformation.text.isNotEmpty &&
+      tecLng.text.isNotEmpty &&
+      tecLat.text.isNotEmpty;
     });
   }
 
@@ -126,6 +133,22 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 style: TS.s14w400(colorBlack),
               ),
 
+              const Text('위도'), // 내용 입력 레이블
+              TextField(
+                controller: tecLat,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: TS.s14w400(colorBlack),
+              ),
+
+              const Text('경도'), // 내용 입력 레이블
+              TextField(
+                controller: tecLng,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: TS.s14w400(colorBlack),
+              ),
+
               IconButton(
                 icon: const Icon(Icons.save),
                 onPressed: () async {
@@ -148,6 +171,8 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                       notice: tecNotice.text,
                       website: tecWebsite.text,
                       imagePath: listImgUrl.first,
+                      courtLng: tecLng.text,
+                      courtLat: tecLat.text,
                     );
 
                     await FirebaseFirestore.instance.collection('court').doc(modelCourt.id).set(modelCourt.toJson());
@@ -188,6 +213,8 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
     tecNotice.dispose();
     tecPhone.dispose();
     tecLocation.dispose();
+    tecLng.dispose();
+    tecLat.dispose();
     super.dispose();
   }
 }

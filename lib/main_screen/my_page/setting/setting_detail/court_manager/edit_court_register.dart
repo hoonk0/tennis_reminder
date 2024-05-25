@@ -27,6 +27,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
   TextEditingController tecNotice = TextEditingController();
   TextEditingController tecInformation = TextEditingController();
   TextEditingController tecName = TextEditingController();
+  TextEditingController tecLat = TextEditingController();
+  TextEditingController tecLng = TextEditingController();
   bool _areAllFieldsFilled = false;
   String _imagePath = '';
 
@@ -39,6 +41,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice.addListener(_checkFields);
     tecInformation.addListener(_checkFields);
     tecName.addListener(_checkFields);
+    tecLat.addListener(_checkFields);
+    tecLng.addListener(_checkFields);
 
     tecLocation = TextEditingController(text: widget.modelCourt.location);
     tecPhone = TextEditingController(text: widget.modelCourt.phone);
@@ -46,6 +50,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice = TextEditingController(text: widget.modelCourt.notice);
     tecInformation = TextEditingController(text: widget.modelCourt.information);
     tecName = TextEditingController(text: widget.modelCourt.name);
+    tecLat = TextEditingController(text: widget.modelCourt.courtLat);
+    tecLng = TextEditingController(text: widget.modelCourt.courtLng);
   }
 
   void _checkFields() {
@@ -55,7 +61,9 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
           tecName.text.isNotEmpty &&
           tecWebsite.text.isNotEmpty &&
           tecNotice.text.isNotEmpty &&
-          tecInformation.text.isNotEmpty;
+          tecInformation.text.isNotEmpty &&
+          tecLng.text.isNotEmpty &&
+          tecLat.text.isNotEmpty;
     });
   }
 
@@ -134,6 +142,22 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
                 style: TS.s14w400(colorBlack),
               ),
 
+              const Text('위도'), // 내용 입력 레이블
+              TextField(
+                controller: tecLat,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: TS.s14w400(colorBlack),
+              ),
+
+              const Text('경도'), // 내용 입력 레이블
+              TextField(
+                controller: tecLng,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: TS.s14w400(colorBlack),
+              ),
+
               IconButton(
                 icon: const Icon(Icons.save),
                 onPressed: () async {
@@ -146,6 +170,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
                     notice: tecNotice.text,
                     website: tecWebsite.text,
                     imagePath: widget.modelCourt.imagePath,
+                    courtLng: tecLng.text,
+                    courtLat: tecLat.text,
                   );
                   await FirebaseFirestore.instance.collection('court').doc(widget.modelCourt.id).update(updatedCourt.toJson());
                   Navigator.pop(context);
@@ -166,6 +192,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice.dispose();
     tecPhone.dispose();
     tecLocation.dispose();
+    tecLng.dispose();
+    tecLat.dispose();
     super.dispose();
   }
 }

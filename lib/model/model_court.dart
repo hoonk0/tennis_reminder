@@ -7,6 +7,8 @@ class ModelCourt {
   final String website;
   final String notice;
   final String information;
+  final String courtLat;
+  final String courtLng;
 
   // 생성자
   ModelCourt({
@@ -18,6 +20,8 @@ class ModelCourt {
     required this.website,
     required this.notice,
     required this.information,
+    required this.courtLat,
+    required this.courtLng,
   });
 
   Map<String, dynamic> toJson() {
@@ -30,7 +34,8 @@ class ModelCourt {
       'website': website,
       'notice': notice,
       'information': information,
-
+      'courtLat': courtLat,
+      'courtLng': courtLng
     };
   }
 
@@ -44,6 +49,8 @@ class ModelCourt {
       website: json['website'],
       notice: json['notice'],
       information: json['information'],
+      courtLat: json['courtLat'],
+      courtLng: json['courLng']
     );
   }
 }
