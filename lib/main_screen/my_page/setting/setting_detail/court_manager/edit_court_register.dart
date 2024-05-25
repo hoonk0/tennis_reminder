@@ -1,12 +1,8 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/model/model_court.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../../const/text_style.dart';
 import '../../../../../service/utils/utils.dart';
@@ -174,7 +170,7 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
                     courtLat: tecLat.text,
                   );
                   await FirebaseFirestore.instance.collection('court').doc(widget.modelCourt.id).update(updatedCourt.toJson());
-                  Navigator.pop(context);
+                  Navigator.pop(context, updatedCourt);
                 },
               ),
             ],

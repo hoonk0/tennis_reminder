@@ -49,8 +49,8 @@ class ModelCourt {
       website: json['website'],
       notice: json['notice'],
       information: json['information'],
-      courtLat: json['courtLat'],
-      courtLng: json['courLng']
+      courtLat: json['courtLat'] ?? '20',
+      courtLng: json['courLng'] ?? '20'
     );
   }
 }

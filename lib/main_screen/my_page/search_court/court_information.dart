@@ -3,11 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/const/color.dart';
+import 'package:tennisreminder/const/key.dart';
 import 'package:tennisreminder/model/model_court.dart';
+import 'package:tennisreminder/service/provider/providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../const/text_style.dart';
 import '../my_location.dart';
-
 
 class CourtInformation extends StatefulWidget {
   final String courtId;
@@ -19,13 +20,8 @@ class CourtInformation extends StatefulWidget {
 }
 
 class _CourtInformationState extends State<CourtInformation> {
-  bool _isFavorited = false;
-
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorited = !_isFavorited;
-    });
-  }
+  //bool _isFavorited = false;
+  final ValueNotifier<bool> vnIsFavorite = ValueNotifier(false);
 
   Future<ModelCourt?> _fetchCourtDetails() async {
     try {
@@ -105,9 +101,7 @@ class _CourtInformationState extends State<CourtInformation> {
                       fit: BoxFit.cover,
                       width: 100.w,
                     ),
-
                   const SizedBox(height: 20),
-
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Align(
@@ -115,21 +109,39 @@ class _CourtInformationState extends State<CourtInformation> {
                       child: Row(
                         children: [
                           Text(court.name, style: const TS.s20w600(colorGreen900)),
-                             Transform.translate(
-                               offset: const Offset(-10, 0),
-                               child: IconButton(
-                                onPressed: _toggleFavorite,
-                                icon: Icon(
-                                  _isFavorited ? Icons.star : Icons.star_border_purple500_sharp,
-                                  color: _isFavorited ? colorPrimary200 : colorGreen900,
-                                ),
-                               ),
-                             ),
+                          Transform.translate(
+                            offset: const Offset(-10, 0),
+                            child: IconButton(
+                              onPressed: () {
+                                // 서버 데이터를 바꿔주는 함수
+                                // 이미 포함되어 있는 경우 --> 빼준다
+                                if (userNotifier.value!.favorites.contains(widget.courtId)) {
+                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                    keyFavorites: FieldValue.arrayRemove([widget.courtId])
+                                  });
+                                } else {
+                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                    keyFavorites: FieldValue.arrayUnion([widget.courtId])
+                                  });
+                                }
+                              },
+                              icon: ValueListenableBuilder(
+                                valueListenable: userNotifier,
+                                builder: (context, userMe, child) {
+                                  // userNotifier.value
+                                  final isMyCourt = userMe!.favorites.contains(widget.courtId);
+                                  return Icon(
+                                    isMyCourt ? Icons.star : Icons.star_border_purple500_sharp,
+                                    color: isMyCourt ? colorPrimary200 : colorGreen900,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Align(
@@ -140,7 +152,6 @@ class _CourtInformationState extends State<CourtInformation> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 15),
                   Container(
                     height: 1,
@@ -148,7 +159,6 @@ class _CourtInformationState extends State<CourtInformation> {
                     color: colorGreen900,
                   ),
                   const SizedBox(height: 15),
-
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Align(
@@ -159,7 +169,6 @@ class _CourtInformationState extends State<CourtInformation> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 15),
                   Container(
                     height: 1,
@@ -167,7 +176,6 @@ class _CourtInformationState extends State<CourtInformation> {
                     color: colorGreen900,
                   ),
                   const SizedBox(height: 15),
-
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: Align(
@@ -175,7 +183,6 @@ class _CourtInformationState extends State<CourtInformation> {
                       child: Text('📰 기본정보', style: TS.s16w400(colorBlack)),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Row(
@@ -187,7 +194,6 @@ class _CourtInformationState extends State<CourtInformation> {
                           },
                           icon: const Icon(Icons.phone),
                         ),
-
                         const Text('예약사이트', style: TS.s14w400(colorBlack)),
                         IconButton(
                           onPressed: () async {
@@ -199,7 +205,6 @@ class _CourtInformationState extends State<CourtInformation> {
                       ],
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Row(
@@ -207,10 +212,7 @@ class _CourtInformationState extends State<CourtInformation> {
                         const Text('주소', style: TS.s14w400(colorBlack)),
                         IconButton(
                           onPressed: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context)=> const MyLocation())
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const MyLocation()));
                           },
                           icon: const Icon(Icons.location_on_sharp),
                         ),
@@ -227,10 +229,8 @@ class _CourtInformationState extends State<CourtInformation> {
                       ),
                     ),
                   ),
-
                 ],
               ),
-
             ),
           );
         },

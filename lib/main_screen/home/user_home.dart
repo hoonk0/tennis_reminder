@@ -1,15 +1,16 @@
-import 'dart:io';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/home/user_alarm.dart';
 import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
-import 'package:tennisreminder/main_screen/my_town_court/court_incheon.dart';
 import 'package:tennisreminder/main_screen/my_town_court/court_kyungki.dart';
 import 'package:tennisreminder/main_screen/my_town_court/court_seoul.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tennisreminder/model/model_member.dart';
+import 'package:tennisreminder/service/provider/providers.dart';
 import '../../const/color.dart';
 import '../../const/text_style.dart';
 import '../../model/model_court.dart';
-import '../../start/map_screen.dart';
 import '../my_page/search_court/court_information.dart';
 import '../my_page/search_court/court_search.dart';
 
@@ -22,12 +23,22 @@ class UserHome extends StatefulWidget {
 
 class _UserHomeState extends State<UserHome> {
   late List<ModelCourt> modelCourts;
+  StreamSubscription? streamSub;
 
   @override
   void initState() {
     super.initState();
     modelCourts = []; // 데이터를 담을 리스트 초기화
     _fetchCourtData(); // Firestore에서 데이터 가져오기
+    streamMe();
+  }
+
+  Future<void> streamMe() async {
+    streamSub = FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).snapshots().listen((event) {
+      final ModelMember newModelMember = ModelMember.fromJson(event.data()!);
+      userNotifier.value = newModelMember;
+      debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
+    });
   }
 
   Future<void> _fetchCourtData() async {
@@ -40,6 +51,13 @@ class _UserHomeState extends State<UserHome> {
     setState(() {
       modelCourts = fetchedmodelCourts;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    streamSub?.cancel();
   }
 
   @override
@@ -99,6 +117,12 @@ class _UserHomeState extends State<UserHome> {
                 const Text(
                   '원하는 코트 찾아보기',
                   style: TS.s16w600(colorGreen900),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    debugPrint("유저정보 ${userNotifier.value?.toJson()}");
+                  },
+                  child: Text("테스트"),
                 ),
                 IconButton(
                   onPressed: () {
@@ -217,9 +241,7 @@ class _UserHomeState extends State<UserHome> {
                         context,
                         MaterialPageRoute(builder: (context) => const CourtKyungki()),
                       );
-                    } else if (index == 2) {
-
-                    }
+                    } else if (index == 2) {}
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -286,9 +308,7 @@ class _UserHomeState extends State<UserHome> {
                                 context,
                                 MaterialPageRoute(builder: (context) => const CourtKyungki()),
                               );
-                            } else if (index == 2) {
-
-                            }
+                            } else if (index == 2) {}
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
