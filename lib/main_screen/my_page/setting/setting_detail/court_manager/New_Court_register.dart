@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tennisreminder/model/model_court.dart';
@@ -95,26 +93,26 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
               const Text('테니스장명'), // 제목 입력 레이블
               TextField(
                 controller: tecName,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ), // 선택된 이미지 미리보기
 
               const Text('주소'), // 제목 입력 레이블
               TextField(
                 controller: tecLocation,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ), // 제목 입력 필드
 
               const Text('전화번호'), // 가격 입력 레이블
               TextField(
                 controller: tecPhone,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
                 keyboardType: TextInputType.number, // 숫자 키패드 활성화
               ),
 
-              Text('예약사이트 바로가기'), // 제목 입력 레이블
+              const Text('예약사이트 바로가기'), // 제목 입력 레이블
               TextField(
                 controller: tecWebsite,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ), // 제목 입력 필드// 가격 입력 필드
 
               const Text('안내사항'), // 내용 입력 레이블
@@ -122,7 +120,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 controller: tecNotice,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ),
 
               const Text('코트 정보'), // 내용 입력 레이블
@@ -130,7 +128,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 controller: tecInformation,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ),
 
               const Text('위도'), // 내용 입력 레이블
@@ -138,7 +136,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 controller: tecLat,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ),
 
               const Text('경도'), // 내용 입력 레이블
@@ -146,7 +144,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 controller: tecLng,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ),
 
               IconButton(
@@ -156,7 +154,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                     final id = const Uuid().v4();
                     debugPrint("11");
                     final List<String> listImgUrl = await Utils.getImgUrlXFile([selectedXFile]);
-                    debugPrint("listImgUrl ${listImgUrl}");
+                    debugPrint("listImgUrl $listImgUrl");
                     if (listImgUrl.isEmpty) {
                       Fluttertoast.showToast(msg: '사진을 선택하세요');
                       return;
@@ -171,8 +169,8 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                       notice: tecNotice.text,
                       website: tecWebsite.text,
                       imagePath: listImgUrl.first,
-                      courtLng: tecLng.text,
-                      courtLat: tecLat.text,
+                      courtLng: double.parse(tecLng.text),
+                      courtLat: double.parse(tecLat.text),
                     );
 
                     await FirebaseFirestore.instance.collection('court').doc(modelCourt.id).set(modelCourt.toJson());

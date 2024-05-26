@@ -7,8 +7,8 @@ class ModelCourt {
   final String website;
   final String notice;
   final String information;
-  final String courtLat;
-  final String courtLng;
+  final double courtLat;
+  final double courtLng;
 
   // 생성자
   ModelCourt({
@@ -35,22 +35,23 @@ class ModelCourt {
       'notice': notice,
       'information': information,
       'courtLat': courtLat,
-      'courtLng': courtLng
+      'courtLng': courtLng,
     };
   }
 
   factory ModelCourt.fromJson(Map<String, dynamic> json) {
     return ModelCourt(
-      id: json['id'],
-      name: json['name'],
-      imagePath: json['imagePath'],
-      location: json['location'],
-      phone: json['phone'],
-      website: json['website'],
-      notice: json['notice'],
-      information: json['information'],
-      courtLat: json['courtLat'] ?? '20',
-      courtLng: json['courLng'] ?? '20'
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      imagePath: json['imagePath'] ?? '',
+      location: json['location'] ?? '',
+      phone: json['phone'] ?? '',
+      website: json['website'] ?? '',
+      notice: json['notice'] ?? '',
+      information: json['information'] ?? '',
+      courtLat: json['courtLat'] != null ? double.parse(json['courtLat'].toString()) : 0.0,
+      courtLng: json['courtLng'] != null ? double.parse(json['courtLng'].toString()) : 0.0,
     );
   }
+
 }

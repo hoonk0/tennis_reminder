@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/start/login_screen.dart';
 import 'firebase_options.dart';

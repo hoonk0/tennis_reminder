@@ -38,18 +38,21 @@ class _UserHomeState extends State<UserHome> {
       final ModelMember newModelMember = ModelMember.fromJson(event.data()!);
       userNotifier.value = newModelMember;
       debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
+
+      final ModelCourt newModelCourt = ModelCourt.fromJson(event.data()!);
+
     });
   }
 
   Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
-    final List<ModelCourt> fetchedmodelCourts = courtSnapshot.docs.map((doc) {
-      final data = doc.data();
+    final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
       return ModelCourt.fromJson(data);
     }).toList();
 
     setState(() {
-      modelCourts = fetchedmodelCourts;
+      modelCourts = fetchedModelCourts;
     });
   }
 
@@ -118,12 +121,7 @@ class _UserHomeState extends State<UserHome> {
                   '원하는 코트 찾아보기',
                   style: TS.s16w600(colorGreen900),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    debugPrint("유저정보 ${userNotifier.value?.toJson()}");
-                  },
-                  child: Text("테스트"),
-                ),
+
                 IconButton(
                   onPressed: () {
                     Navigator.push(

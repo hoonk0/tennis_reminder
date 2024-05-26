@@ -37,8 +37,6 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice.addListener(_checkFields);
     tecInformation.addListener(_checkFields);
     tecName.addListener(_checkFields);
-    tecLat.addListener(_checkFields);
-    tecLng.addListener(_checkFields);
 
     tecLocation = TextEditingController(text: widget.modelCourt.location);
     tecPhone = TextEditingController(text: widget.modelCourt.phone);
@@ -46,8 +44,10 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice = TextEditingController(text: widget.modelCourt.notice);
     tecInformation = TextEditingController(text: widget.modelCourt.information);
     tecName = TextEditingController(text: widget.modelCourt.name);
-    tecLat = TextEditingController(text: widget.modelCourt.courtLat);
-    tecLng = TextEditingController(text: widget.modelCourt.courtLng);
+    double tecLat = widget.modelCourt.courtLat;
+    double tecLng = widget.modelCourt.courtLng;
+
+
   }
 
   void _checkFields() {
@@ -166,8 +166,8 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
                     notice: tecNotice.text,
                     website: tecWebsite.text,
                     imagePath: widget.modelCourt.imagePath,
-                    courtLng: tecLng.text,
-                    courtLat: tecLat.text,
+                    courtLng: double.parse(tecLng.text),
+                    courtLat: double.parse(tecLat.text),
                   );
                   await FirebaseFirestore.instance.collection('court').doc(widget.modelCourt.id).update(updatedCourt.toJson());
                   Navigator.pop(context, updatedCourt);

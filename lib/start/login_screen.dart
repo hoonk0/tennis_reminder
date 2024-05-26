@@ -28,10 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     tecId.addListener(_validateInput);
     tecPw.addListener(_validateInput);
-
+/*
     WidgetsBinding.instance.endOfFrame.then((value) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)));
     });
+
+ */
 //디버깅용 로그인 화면 스킵 코드
   }
 

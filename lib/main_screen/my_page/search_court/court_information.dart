@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/const/key.dart';
@@ -8,7 +9,7 @@ import 'package:tennisreminder/model/model_court.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../const/text_style.dart';
-import '../my_location.dart';
+import 'court_location.dart';
 
 class CourtInformation extends StatefulWidget {
   final String courtId;
@@ -20,7 +21,6 @@ class CourtInformation extends StatefulWidget {
 }
 
 class _CourtInformationState extends State<CourtInformation> {
-  //bool _isFavorited = false;
   final ValueNotifier<bool> vnIsFavorite = ValueNotifier(false);
 
   Future<ModelCourt?> _fetchCourtDetails() async {
@@ -113,8 +113,6 @@ class _CourtInformationState extends State<CourtInformation> {
                             offset: const Offset(-10, 0),
                             child: IconButton(
                               onPressed: () {
-                                // 서버 데이터를 바꿔주는 함수
-                                // 이미 포함되어 있는 경우 --> 빼준다
                                 if (userNotifier.value!.favorites.contains(widget.courtId)) {
                                   FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
                                     keyFavorites: FieldValue.arrayRemove([widget.courtId])
@@ -128,7 +126,6 @@ class _CourtInformationState extends State<CourtInformation> {
                               icon: ValueListenableBuilder(
                                 valueListenable: userNotifier,
                                 builder: (context, userMe, child) {
-                                  // userNotifier.value
                                   final isMyCourt = userMe!.favorites.contains(widget.courtId);
                                   return Icon(
                                     isMyCourt ? Icons.star : Icons.star_border_purple500_sharp,
@@ -212,9 +209,18 @@ class _CourtInformationState extends State<CourtInformation> {
                         const Text('주소', style: TS.s14w400(colorBlack)),
                         IconButton(
                           onPressed: () async {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const MyLocation()));
+                            final CameraPosition initialPosition = CameraPosition(
+                              target: LatLng(court.courtLat, court.courtLng),
+                              zoom: 15,
+                            );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CourtLocation(initialPosition: initialPosition),
+                              ),
+                            );
                           },
-                          icon: const Icon(Icons.location_on_sharp),
+                          icon: const Icon(Icons.location_on),
                         ),
                       ],
                     ),
@@ -225,7 +231,7 @@ class _CourtInformationState extends State<CourtInformation> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         court.location,
-                        style: const TS.s14w400(colorGray600),
+                        style: const TS.s14w400(colorBlack),
                       ),
                     ),
                   ),

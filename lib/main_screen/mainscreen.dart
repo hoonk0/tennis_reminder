@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
             label: 'SEARCH',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_rounded),
+            icon: Icon(Icons.star_border_outlined),
             label: 'LIKE',
           ),
           BottomNavigationBarItem(
