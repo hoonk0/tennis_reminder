@@ -37,7 +37,7 @@ class _CourtFavoriteState extends State<CourtFavorite> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorite Courts'),
+        title: const Text('즐겨찾기 코트'),
       ),
       body: ValueListenableBuilder(
         valueListenable: vnListModelCourt,
@@ -62,13 +62,19 @@ class _CourtFavoriteState extends State<CourtFavorite> {
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: colorGreen900, width: 2),
-                        borderRadius: BorderRadius.circular(8)
+                        borderRadius: BorderRadius.circular(8),
+                      boxShadow: [BoxShadow(
+                        color: Colors.black.withOpacity(0.3), // 검정색 그림자 및 투명도 설정
+                        spreadRadius: 1, // 그림자의 확장 범위 설정
+                        blurRadius: 3, // 그림자의 흐릿한 정도 설정
+                        offset: Offset(0, 1), // 그림자의 위치 설정 (가로: 0, 세로: 3)
+                      )]
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
+                          /*
                           Container(
                             width: 50,
                             height: 50,
@@ -79,6 +85,7 @@ class _CourtFavoriteState extends State<CourtFavorite> {
                               ),
                             ),
                           ),
+                           */
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
@@ -91,7 +98,7 @@ class _CourtFavoriteState extends State<CourtFavorite> {
                                 const SizedBox(height: 4),
                                 Text(
                                   listModelCourt[index].location,
-                                  style: TS.s15w500(colorGray500),
+                                  style: TS.s12w400(colorGray500),
                                 ),
                               ],
                             ),

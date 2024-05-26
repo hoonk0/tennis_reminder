@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/home/user_alarm.dart';
 import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
-import 'package:tennisreminder/main_screen/my_town_court/court_kyungki.dart';
+import 'package:tennisreminder/main_screen/my_town_court/court_gyeonggido.dart';
 import 'package:tennisreminder/main_screen/my_town_court/court_seoul.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tennisreminder/model/model_member.dart';
@@ -11,8 +10,10 @@ import 'package:tennisreminder/service/provider/providers.dart';
 import '../../const/color.dart';
 import '../../const/text_style.dart';
 import '../../model/model_court.dart';
+import '../../start/near_by_court.dart';
 import '../my_page/search_court/court_information.dart';
 import '../my_page/search_court/court_search.dart';
+import '../my_page/setting/setting_page.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class _UserHomeState extends State<UserHome> {
     modelCourts = []; // 데이터를 담을 리스트 초기화
     _fetchCourtData(); // Firestore에서 데이터 가져오기
     streamMe();
+    _loadNearbyCourts(); // 근처 코트 데이터 로드
   }
 
   Future<void> streamMe() async {
@@ -54,6 +56,11 @@ class _UserHomeState extends State<UserHome> {
     setState(() {
       modelCourts = fetchedModelCourts;
     });
+  }
+
+  Future<void> _loadNearbyCourts() async {
+    // TODO: 근처 코트 데이터를 로드하고 화면에 표시하는 기능 구현
+    // 여기에 코드를 추가하세요.
   }
 
   @override
@@ -101,15 +108,16 @@ class _UserHomeState extends State<UserHome> {
                 MaterialPageRoute(builder: (context) => const CourtFavorite()),
               );
             },
-            icon: const Icon(Icons.favorite_border_rounded),
+            icon: const Icon(Icons.star_border_outlined),
             color: colorGreen900,
           ),
         ],
       ),
+
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          //Container(height: 10, color: colorGray300),////
           const SizedBox(height: 10),
 
           Padding(
@@ -152,8 +160,8 @@ class _UserHomeState extends State<UserHome> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => CourtInformation(
-                                courtId: modelCourts[index].id,
-                              )),
+                            courtId: modelCourts[index].id,
+                          )),
                     );
 
                     if (watchModelCourt != null) {
@@ -173,9 +181,9 @@ class _UserHomeState extends State<UserHome> {
                         Expanded(
                           child: modelCourts[index].imagePath.isNotEmpty
                               ? Image.network(
-                                  modelCourts[index].imagePath,
-                                  fit: BoxFit.cover,
-                                )
+                            modelCourts[index].imagePath,
+                            fit: BoxFit.cover,
+                          )
                               : const Icon(Icons.image),
                         ),
                         Padding(
@@ -237,7 +245,7 @@ class _UserHomeState extends State<UserHome> {
                     } else if (index == 1) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const CourtKyungki()),
+                        MaterialPageRoute(builder: (context) => const CourtGyeonggido()),
                       );
                     } else if (index == 2) {}
                   },
@@ -247,9 +255,14 @@ class _UserHomeState extends State<UserHome> {
                     width: 100,
                     height: 20,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(120), // 원 모양으로 설정
-                      color: colorWhite,
-                      border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
+                        color: colorGray200,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [BoxShadow(
+                          color: Colors.black.withOpacity(0.3), // 검정색 그림자 및 투명도 설정
+                          spreadRadius: 1, // 그림자의 확장 범위 설정
+                          blurRadius: 3, // 그림자의 흐릿한 정도 설정
+                          offset: Offset(0, 1), // 그림자의 위치 설정 (가로: 0, 세로: 3)
+                        )]
                     ),
                     child: Center(
                       child: Text(
@@ -264,77 +277,62 @@ class _UserHomeState extends State<UserHome> {
           ),
 
           const SizedBox(height: 30),
-// 1. Expanded 무조건 컬럼이나 로우 안에쓴다
-// 2. Expanded를 쓰면 그 부모위젯이 또 위(조부모)에 컬럼이 있다면 그 부모위젯도 Expanded를 쓴다.
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      Text(
-                        '내 주변 코트 추천',
-                        style: TS.s16w600(colorGreen900),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(vertical: 5), // 원 사이의 간격 없애기
-                      scrollDirection: Axis.vertical,
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        String courtName = '';
-                        if (index == 0) {
-                          courtName = '서울 \n 올림픽공원';
-                        } else if (index == 1) {
-                          courtName = '경기';
-                        } else if (index == 2) {
-                          courtName = '인천';
-                        }
-                        return GestureDetector(
-                          onTap: () {
-                            if (index == 0) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const CourtSeoul()),
-                              );
-                            } else if (index == 1) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const CourtKyungki()),
-                              );
-                            } else if (index == 2) {}
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                            // 각 원의 간격
-                            width: 200,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5), // 원 모양으로 설정
-                              color: colorWhite,
-                              border: Border.all(color: colorGreen900, width: 2), // 테두리 색상 및 두께 지정
-                            ),
-                            child: Center(
-                              child: Text(
-                                courtName,
-                                style: const TS.s16w400(colorGreen900),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Text(
+                  '근처 10km 코트 찾기',
+                  style: TS.s16w600(colorGreen900),
+                ),
+              ],
             ),
           ),
+
+          ElevatedButton(onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=>NearbyCourts())
+            );
+          }, child: Text('조회'),),
+
+
+
+          ElevatedButton(onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=>SettingPage())
+            );
+          }, child: Text('테스트'),),
+
+/*
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '근처 코트',
+                  style: TS.s16w600(colorGreen900),
+                ),
+                const SizedBox(height: 10),
+                // 근처 코트 데이터 표시
+                Expanded(
+                  child: NearbyCourts(), // 이 부분에 NearbyCourts 위젯을 추가합니다.
+                ),
+              ],
+            ),
+          ),
+
+ */
+
+
+
         ],
       ),
+
     );
   }
 }
+

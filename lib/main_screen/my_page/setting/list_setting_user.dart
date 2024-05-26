@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
-import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/start/login_screen.dart';
