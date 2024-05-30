@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/list_setting_user.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_page.dart';
 
 
 
@@ -97,7 +98,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ListSettingUser()),
+                  MaterialPageRoute(builder: (context) => SettingPage()),
                 );
               },
             ),

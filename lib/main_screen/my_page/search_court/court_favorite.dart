@@ -37,7 +37,12 @@ class _CourtFavoriteState extends State<CourtFavorite> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('즐겨찾기 코트'),
+        backgroundColor: const Color(0xff719a93),
+        centerTitle: true,
+        title: const Text(
+          'Favorite Court',
+          style: TS.s20w700(colorGreen900),
+        ),
       ),
       body: ValueListenableBuilder(
         valueListenable: vnListModelCourt,
@@ -61,7 +66,7 @@ class _CourtFavoriteState extends State<CourtFavorite> {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color:  const Color(0xffe8e8e8),
                         borderRadius: BorderRadius.circular(8),
                       boxShadow: [BoxShadow(
                         color: Colors.black.withOpacity(0.3), // 검정색 그림자 및 투명도 설정

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/home/user_alarm.dart';
 import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
 import 'package:tennisreminder/main_screen/my_town_court/court_gyeonggido.dart';
+import 'package:tennisreminder/main_screen/my_town_court/court_incheon.dart';
 import 'package:tennisreminder/main_screen/my_town_court/court_seoul.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tennisreminder/model/model_member.dart';
@@ -13,10 +14,9 @@ import '../../model/model_court.dart';
 import '../../start/near_by_court.dart';
 import '../my_page/search_court/court_information.dart';
 import '../my_page/search_court/court_search.dart';
-import '../my_page/setting/setting_page.dart';
 
 class UserHome extends StatefulWidget {
-  const UserHome({Key? key}) : super(key: key);
+  const UserHome({super.key});
 
   @override
   State<UserHome> createState() => _UserHomeState();
@@ -41,7 +41,6 @@ class _UserHomeState extends State<UserHome> {
       userNotifier.value = newModelMember;
       debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
 
-      final ModelCourt newModelCourt = ModelCourt.fromJson(event.data()!);
 
     });
   }
@@ -49,7 +48,7 @@ class _UserHomeState extends State<UserHome> {
   Future<void> _fetchCourtData() async {
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       return ModelCourt.fromJson(data);
     }).toList();
 
@@ -75,7 +74,7 @@ class _UserHomeState extends State<UserHome> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: colorWhite,
+        backgroundColor:  const Color(0xffe8e8e8),
         title: const Text(
           'COURT VIBE',
           style: TS.s20w700(colorGreen900),
@@ -118,6 +117,85 @@ class _UserHomeState extends State<UserHome> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+
+
+
+          const SizedBox(height: 30),
+
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Text(
+                  '우리동네 코트 찾기',
+                  style: TS.s16w600(colorGreen900),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          SizedBox(
+            height: 40,
+            child: ListView.builder(
+              padding: EdgeInsets.zero, // 원 사이의 간격 없애기
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                String courtName = '';
+                if (index == 0) {
+                  courtName = '서울';
+                } else if (index == 1) {
+                  courtName = '경기';
+                } else if (index == 2) {
+                  courtName = '인천';
+                }
+                return GestureDetector(
+                  onTap: () {
+                    if (index == 0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CourtSeoul()),
+                      );
+                    } else if (index == 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CourtGyeonggido()),
+                      );
+                    } else if (index == 2) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CourtIncheon()),
+                      );
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    // 각 원의 간격
+                    width: 100,
+                    height: 20,
+                    decoration: BoxDecoration(
+                        color: colorGray200,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [BoxShadow(
+                          color: Colors.black.withOpacity(0.3), // 검정색 그림자 및 투명도 설정
+                          spreadRadius: 1, // 그림자의 확장 범위 설정
+                          blurRadius: 3, // 그림자의 흐릿한 정도 설정
+                          offset: const Offset(0, 1), // 그림자의 위치 설정 (가로: 0, 세로: 3)
+                        )]
+                    ),
+                    child: Center(
+                      child: Text(
+                        courtName,
+                        style: const TS.s14w400(colorGreen900),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
           const SizedBox(height: 10),
 
           Padding(
@@ -206,75 +284,6 @@ class _UserHomeState extends State<UserHome> {
             ),
           ),
 
-          const SizedBox(height: 30),
-
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Text(
-                  '우리동네 코트 찾기',
-                  style: TS.s16w600(colorGreen900),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              padding: EdgeInsets.zero, // 원 사이의 간격 없애기
-              scrollDirection: Axis.horizontal,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                String courtName = '';
-                if (index == 0) {
-                  courtName = '서울';
-                } else if (index == 1) {
-                  courtName = '경기';
-                } else if (index == 2) {
-                  courtName = '인천';
-                }
-                return GestureDetector(
-                  onTap: () {
-                    if (index == 0) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CourtSeoul()),
-                      );
-                    } else if (index == 1) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CourtGyeonggido()),
-                      );
-                    } else if (index == 2) {}
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    // 각 원의 간격
-                    width: 100,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        color: colorGray200,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [BoxShadow(
-                          color: Colors.black.withOpacity(0.3), // 검정색 그림자 및 투명도 설정
-                          spreadRadius: 1, // 그림자의 확장 범위 설정
-                          blurRadius: 3, // 그림자의 흐릿한 정도 설정
-                          offset: Offset(0, 1), // 그림자의 위치 설정 (가로: 0, 세로: 3)
-                        )]
-                    ),
-                    child: Center(
-                      child: Text(
-                        courtName,
-                        style: const TS.s14w400(colorGreen900),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
 
           const SizedBox(height: 30),
 
@@ -295,16 +304,7 @@ class _UserHomeState extends State<UserHome> {
               context,
               MaterialPageRoute(builder: (context)=>NearbyCourts())
             );
-          }, child: Text('조회'),),
-
-
-
-          ElevatedButton(onPressed: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context)=>SettingPage())
-            );
-          }, child: Text('테스트'),),
+          }, child: const Text('조회'),),
 
 /*
           Padding(

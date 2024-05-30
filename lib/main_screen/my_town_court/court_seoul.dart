@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/model/model_court.dart';
-
+import '../../const/text_style.dart';
 import '../my_page/search_court/court_information.dart';
-
 
 class CourtSeoul extends StatefulWidget {
   const CourtSeoul({Key? key}) : super(key: key);
@@ -37,21 +36,42 @@ class _CourtSeoulState extends State<CourtSeoul> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('서울시 코트'),
+        backgroundColor:  const Color(0xffe8e8e8),
+        centerTitle: true,
+        title: const Text(
+          '서울 코트',
+          style: TS.s20w700(colorGreen900),
+        ),
       ),
       body: ListView.builder(
         itemCount: _courts.length,
         itemBuilder: (context, index) {
           ModelCourt court = _courts[index];
-          return ListTile(
-            title: Text(court.name),
-            subtitle: Text(court.location),
+          return GestureDetector(
             onTap: () async {
               final watchModelCourt = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => CourtInformation(courtId: _courts[index].id)),
               );
             },
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xff719a93),
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListTile(
+                title: Text(
+                  court.name,
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: Text(
+                  court.location,
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+            ),
           );
         },
       ),

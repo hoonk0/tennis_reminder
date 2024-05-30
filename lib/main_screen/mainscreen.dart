@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/home/user_home.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_page.dart';
 import '../const/color.dart';
 import 'my_page/search_court/court_favorite.dart';
 import 'my_page/search_court/court_search.dart';
@@ -37,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
           ? const UserHome()
           : (_selectedIndex == 1 ? CourtSearch() :
       (_selectedIndex == 2 ? const CourtFavorite() :
-      const ListSettingUser()
+      SettingPage()
       )
       ),
 
