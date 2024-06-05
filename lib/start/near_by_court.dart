@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../model/model_court.dart';
-import '../../../const/color.dart';  // 색상 상수 파일 경로에 따라 수정
+import '../../../const/color.dart';
+import '../const/text_style.dart';  // 색상 상수 파일 경로에 따라 수정
 
 class NearbyCourts extends StatefulWidget {
   @override
@@ -51,11 +52,14 @@ class _NearbyCourtsState extends State<NearbyCourts> {
     for (final doc in snapshot.docs) {
       final ModelCourt court = ModelCourt.fromJson(doc.data() as Map<String, dynamic>);
       final double distance = _calculateDistance(latitude, longitude, court.courtLat, court.courtLng);
-      // 10킬로미터 이내의 코트만 추가합니다.
-      if (distance <= 10) {
+      if (distance <= 100) { //10으로 수정필요
         courts.add(court);
       }
     }
+
+    // 거리에 따라 정렬하여 가까운 코트를 맨 위에 표시
+    courts.sort((a, b) => _calculateDistance(latitude, longitude, a.courtLat, a.courtLng)
+        .compareTo(_calculateDistance(latitude, longitude, b.courtLat, b.courtLng)));
 
     setState(() {
       _nearbyCourts = courts;
@@ -81,43 +85,56 @@ class _NearbyCourtsState extends State<NearbyCourts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Nearby Courts'),
-      ),
       body: _currentLocation != null
           ? ListView.builder(
         itemCount: _nearbyCourts.length,
         itemBuilder: (context, index) {
           ModelCourt court = _nearbyCourts[index];
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: colorGreen900, width: 2),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(16),
-                title: Text(
-                  court.name,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          final double distance = _calculateDistance(
+            _currentLocation!.latitude!,
+            _currentLocation!.longitude!,
+            court.courtLat,
+            court.courtLng,
+          );
+
+          return Column(
+            children: [
+              if (index == 0)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Divider(color: colorGray400),
                 ),
-                subtitle: Text(court.location),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    minTileHeight: 10,
+                    title: Text(
+                      court.name,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          court.location,
+                          style: TS.s12w400(colorGray600),
+                        ),
+                        SizedBox(height: 6),
+                        Text('${distance.toStringAsFixed(2)} km'),
+                      ],
+                    ),
+                  ),
               ),
-            ),
+              if (index < _nearbyCourts.length - 1)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Divider(color: colorGray400),
+                ),
+            ],
           );
         },
       )
-          : const Center(child: CircularProgressIndicator()),
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }

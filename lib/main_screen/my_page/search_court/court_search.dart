@@ -6,7 +6,7 @@ import 'package:tennisreminder/model/model_court.dart';
 import 'court_information.dart';
 
 class CourtSearch extends StatefulWidget {
-  const CourtSearch({super.key});
+  const CourtSearch({Key? key}) : super(key: key);
 
   @override
   _CourtSearchState createState() => _CourtSearchState();
@@ -73,8 +73,8 @@ class _CourtSearchState extends State<CourtSearch> {
                   ),
                 ),
                 suffixIcon: Icon(Icons.search),
-                filled: true,
-                fillColor: colorWhite, // 배경색 추가
+
+                fillColor: Colors.white, // 검색창 배경색 변경
               ),
               onChanged: (query) {
                 _filterCourts(query); // 검색어가 변경될 때마다 필터링
