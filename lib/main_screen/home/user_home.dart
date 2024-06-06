@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/main_screen/home/user_alarm.dart';
 import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
-import 'package:tennisreminder/main_screen/my_town_court/court_gyeonggido.dart';
-import 'package:tennisreminder/main_screen/my_town_court/court_incheon.dart';
-import 'package:tennisreminder/main_screen/my_town_court/court_seoul.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tennisreminder/model/model_member.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
@@ -73,13 +71,14 @@ class _UserHomeState extends State<UserHome> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xffe8e8e8),
-        title: const Text(
+        title: Text(
           'COURT VIBE',
-          style: TextStyle(
-            fontFamily: 'Single Day',
-            fontWeight: FontWeight.w700,
-            color: colorGreen900,
-            fontSize: 24,
+          style: GoogleFonts.anton(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: colorGreen900,
+              fontSize: 24,
+            ),
           ),
         ),
         actions: [

@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^2.30.0
   cloud_firestore: ^4.17.0
   uuid: ^4.4.0
-  firebase_auth: ^4.4.3
+  firebase_auth: ^4.20.0
   fluttertoast: ^8.2.5
   image_picker: ^1.1.1
   firebase_storage: ^11.0.14
@@ -50,6 +50,8 @@ dependencies:
   geolocator: ^12.0.0
   location: ^6.0.2
   google_fonts: ^6.2.1
+  google_sign_in: ^6.2.1
+  kakao_flutter_sdk_user: ^1.9.2
 
 
 dev_dependencies:
@@ -77,6 +79,8 @@ flutter:
     - assets/home/logo_courtvibe.png
     - assets/home/logo_main.png
     - assets/home/logo_only.png
+    - assets/home/google_login.png
+    - assets/home/kakao_login_large_wide.png
 
 
   # To add assets to your application, add an assets section, like this:

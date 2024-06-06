@@ -5,9 +5,11 @@ import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../model/model_court.dart';
 import '../../../const/color.dart';
-import '../const/text_style.dart';  // 색상 상수 파일 경로에 따라 수정
+import '../const/text_style.dart';
 
 class NearbyCourts extends StatefulWidget {
+  const NearbyCourts({Key? key}) : super(key: key);
+
   @override
   _NearbyCourtsState createState() => _NearbyCourtsState();
 }
@@ -22,12 +24,6 @@ class _NearbyCourtsState extends State<NearbyCourts> {
   void initState() {
     super.initState();
     _initCurrentLocation();
-  }
-
-  @override
-  void dispose() {
-    _locationSubscription?.cancel();
-    super.dispose();
   }
 
   Future<void> _initCurrentLocation() async {
@@ -52,12 +48,11 @@ class _NearbyCourtsState extends State<NearbyCourts> {
     for (final doc in snapshot.docs) {
       final ModelCourt court = ModelCourt.fromJson(doc.data() as Map<String, dynamic>);
       final double distance = _calculateDistance(latitude, longitude, court.courtLat, court.courtLng);
-      if (distance <= 100) { //10으로 수정필요
+      if (distance <= 100) {
         courts.add(court);
       }
     }
 
-    // 거리에 따라 정렬하여 가까운 코트를 맨 위에 표시
     courts.sort((a, b) => _calculateDistance(latitude, longitude, a.courtLat, a.courtLng)
         .compareTo(_calculateDistance(latitude, longitude, b.courtLat, b.courtLng)));
 
@@ -100,41 +95,49 @@ class _NearbyCourtsState extends State<NearbyCourts> {
           return Column(
             children: [
               if (index == 0)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Divider(color: colorGray400),
                 ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    minTileHeight: 10,
-                    title: Text(
-                      court.name,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          court.location,
-                          style: TS.s12w400(colorGray600),
-                        ),
-                        SizedBox(height: 6),
-                        Text('${distance.toStringAsFixed(2)} km'),
-                      ],
-                    ),
+                child: ListTile(
+                  minTileHeight: 10,
+                  title: Text(
+                    court.name,
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        court.location,
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: colorGray600),
+                      ),
+                      const SizedBox(height: 6),
+                      Text('${distance.toStringAsFixed(2)} km'),
+                    ],
+                  ),
+                ),
               ),
               if (index < _nearbyCourts.length - 1)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Divider(color: colorGray400),
                 ),
             ],
           );
         },
       )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
     );
+
   }
+
+  @override
+  void dispose() {
+    _locationSubscription?.cancel();
+    super.dispose();
+  }
+
 }

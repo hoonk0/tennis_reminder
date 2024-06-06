@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/const/text_style.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
@@ -27,8 +28,10 @@ class SettingPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'COURT VIBE 방문을 환영합니다.',
-                        style: TS.s18w500(colorWhite), // 텍스트 색상을 흰색으로 설정
+                        'LET\'S VIBE',
+                        style: GoogleFonts.anton(
+                          textStyle: TS.s24w500(colorWhite),
+                        ), // 텍스트 색상을 흰색으로 설정
                       ),
                     ),
                   ),
@@ -38,27 +41,27 @@ class SettingPage extends StatelessWidget {
 
             Container(
               color: const Color(0xfff2efef),
-              height: 50,
+              height: 20,
             ),
+
 
             Row(
               children: [
                 Expanded(
                   child: Container(
-                    color: const Color(0xfff2efef),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Notification',
-                              style: TS.s24w700(colorGreen900),
-                            ),
+                    color: Color(0xfff2efef),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
+                            'Notice',
+                            style: GoogleFonts.anton(
+                              textStyle: TS.s24w500(colorGreen900),
+                            ), // 텍스트 색상을 흰색으로 설정
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -78,10 +81,10 @@ class SettingPage extends StatelessWidget {
                     child: Container(
                       color: const Color(0xffe8e8e8),
                       child: const Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(16),
                         child: Text(
                           '공지사항',
-                          style: TS.s20w500(colorGreen900),
+                          style: TS.s16w500(colorGreen900),
                         ),
                       ),
                     ),
@@ -103,10 +106,10 @@ class SettingPage extends StatelessWidget {
                     child: Container(
                       color: const Color(0xfff2efef),
                       child: const Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(16),
                         child: Text(
                           '고객센터',
-                          style: TS.s20w500(colorGreen900),
+                          style: TS.s16w500(colorGreen900),
                         ),
                       ),
                     ),
@@ -115,24 +118,28 @@ class SettingPage extends StatelessWidget {
               ),
             ),
 
+            Container(
+              color: const Color(0xffe8e8e8),
+              height: 20,
+            ),
+
             Row(
               children: [
                 Expanded(
                   child: Container(
                     color: const Color(0xffe8e8e8),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              '\n Account',
-                              style: TS.s24w700(colorGreen900),
-                            ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
+                            'Account',
+                            style: GoogleFonts.anton(
+                              textStyle: TS.s24w500(colorGreen900),
+                            ), // 텍스트 색상을 흰색으로 설정
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -147,10 +154,10 @@ class SettingPage extends StatelessWidget {
                     child: Container(
                       color: const Color(0xfff2efef),
                       child: const Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(16),
                         child: Text(
                           '개인정보',
-                          style: TS.s20w500(colorGreen900),
+                          style: TS.s16w500(colorGreen900),
                         ),
                       ),
                     ),
@@ -239,10 +246,10 @@ class SettingPage extends StatelessWidget {
                     child: Container(
                       color: const Color(0xffe8e8e8),
                       child: const Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(16),
                         child: Text(
                           '로그아웃',
-                          style: TS.s20w500(colorGreen900),
+                          style: TS.s16w500(colorGreen900),
                         ),
 
                       ),
@@ -265,12 +272,12 @@ class SettingPage extends StatelessWidget {
                     child: Container(
                       color: const Color(0xfff2efef),
                       child: const Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(16),
                         child: Row(
                           children: [
                             Text(
                               '관리자 페이지',
-                              style: TS.s20w500(colorGreen900),
+                              style: TS.s16w500(colorGreen900),
                             ),
                           ],
                         ),

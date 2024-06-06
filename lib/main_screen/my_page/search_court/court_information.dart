@@ -126,13 +126,18 @@ class _CourtInformationState extends State<CourtInformation> {
                               icon: ValueListenableBuilder(
                                 valueListenable: userNotifier,
                                 builder: (context, userMe, child) {
-                                  final isMyCourt = userMe!.favorites.contains(widget.courtId);
+                                  if (userMe == null) {
+                                    // userMe가 null인 경우 처리
+                                    return Container(); // 예시: 빈 Container를 반환하거나 원하는 처리를 수행하세요.
+                                  }
+                                  final isMyCourt = userMe.favorites.contains(widget.courtId);
                                   return Icon(
                                     isMyCourt ? Icons.star : Icons.star_border_purple500_sharp,
                                     color: isMyCourt ? colorPrimary200 : colorGreen900,
                                   );
                                 },
                               ),
+
                             ),
                           ),
                         ],

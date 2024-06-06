@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 import '../../../const/color.dart';
 import '../../../const/text_style.dart';
@@ -39,9 +40,15 @@ class _CourtFavoriteState extends State<CourtFavorite> {
         automaticallyImplyLeading: false,
         backgroundColor:  const Color(0xffe8e8e8),
         centerTitle: true,
-        title: const Text(
-          'Favorite Court',
-          style: TS.s20w700(colorGreen900),
+        title: Text(
+          'FAVORITE COURT',
+          style: GoogleFonts.anton(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: colorGreen900,
+              fontSize: 24,
+            ),
+          ),
         ),
       ),
       body:
