@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao_user;
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/main_screen/home/user_home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -59,11 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공');
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => MainScreen(selectedIndex: 0),
-          ),
-        );
+        await _handleKakaoLogin();
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
 
@@ -76,11 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           await UserApi.instance.loginWithKakaoAccount();
           print('카카오계정으로 로그인 성공');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => MainScreen(selectedIndex: 0),
-            ),
-          );
+          await _handleKakaoLogin();
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
         }
@@ -89,35 +82,66 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await UserApi.instance.loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공');
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => MainScreen(selectedIndex: 0),
-          ),
-        );
+        await _handleKakaoLogin();
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
       }
     }
   }
 
+  Future<void> _handleKakaoLogin() async {
+    // 사용자 정보 가져오기
+    User user = await UserApi.instance.me();
+    String email = user.kakaoAccount?.email ?? '';
+    String nickname = user.kakaoAccount?.profile?.nickname ?? '';
+
+    // ModelMember 생성 및 Firestore에 저장
+    ModelMember newUser = ModelMember(
+      id: user.id.toString(),
+      memberid: email,
+      pw: '', // 카카오톡 로그인에서는 pw 사용하지 않음
+      name: nickname,
+      phone: '',
+      location: '',
+      email: email,
+    );
+    await _saveUserToFirestore(newUser);
+    userNotifier.value = newUser;
+
+    // 화면 전환
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => MainScreen(selectedIndex: 0),
+      ),
+    );
+  }
+
+  Future<void> _saveUserToFirestore(ModelMember user) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    await firestore.collection('member').doc(user.id).set(user.toJson());
+  }
+
+/*
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+*/
   @override
   Widget build(BuildContext context) {
-    Future<UserCredential> signInWithGoogle() async {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    }
 
     return GestureDetector(
       onTap: () {
@@ -242,15 +266,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
             GestureDetector(
               onTap: () {
-                signInWithGoogle();
+                //signInWithGoogle();
               },
               child: Column(
                 children: [
                   Image.asset(
                     'assets/home/google_login.png',
                     fit: BoxFit.fill,
+                    height: 12.w,
                     width: 50.w,
-                    height: 50,
                   ),
                 ],
               ),
@@ -267,8 +291,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.asset(
                     'assets/home/kakao_login_large_wide.png',
                     fit: BoxFit.fill,
-                    width: 90.w,
-                    height: 50,
+                    height: 12.w,
+                    width: 50.w,
                   ),
                 ],
               ),

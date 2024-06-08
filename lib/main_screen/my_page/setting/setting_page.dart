@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/const/color.dart';
@@ -7,9 +9,47 @@ import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
 
+import '../../../model/model_member.dart';
 import '../../../start/login_screen.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  bool _isAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfAdmin();
+  }
+
+  Future<void> _checkIfAdmin() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('member')
+          .doc(currentUser.uid)
+          .get();
+      if (userDoc.exists) { // 문서가 존재하는지 확인
+        ModelMember user = ModelMember.fromJson(userDoc.data() as Map<String, dynamic>);
+        setState(() {
+          _isAdmin = user.isAdmin; // isAdmin 속성을 사용하여 관리자 여부를 확인합니다.
+        });
+      } else {
+        // 문서가 존재하지 않는 경우 처리
+        print('사용자 문서가 존재하지 않습니다.');
+      }
+    } else {
+      // 현재 사용자가 없는 경우 처리
+      print('현재 사용자가 없습니다.');
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -259,34 +299,38 @@ class SettingPage extends StatelessWidget {
               ),
             ),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
-                );
-              },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: const Color(0xfff2efef),
-                      child: const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Text(
-                              '관리자 페이지',
-                              style: TS.s16w500(colorGreen900),
-                            ),
-                          ],
+// 다른 메뉴나 설정 항목들과 동일한 위치에 추가
+            if (_isAdmin==true) // 관리자 여부를 확인하여 관리자인 경우에만 보여줍니다.
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        color: const Color(0xfff2efef),
+                        child: const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Text(
+                                '관리자 페이지',
+                                style: TS.s16w500(colorGreen900),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+
+
 
             Expanded(
               child: Container(
