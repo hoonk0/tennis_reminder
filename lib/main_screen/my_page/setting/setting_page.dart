@@ -33,10 +33,12 @@ class _SettingPageState extends State<SettingPage> {
           .collection('member')
           .doc(currentUser.uid)
           .get();
+      debugPrint(" userid1 : $currentUser.uid   ");
       if (userDoc.exists) { // 문서가 존재하는지 확인
         ModelMember user = ModelMember.fromJson(userDoc.data() as Map<String, dynamic>);
         setState(() {
-          _isAdmin = user.isAdmin; // isAdmin 속성을 사용하여 관리자 여부를 확인합니다.
+          _isAdmin = user.isAdmin;
+          debugPrint(" isadmin1 : $_isAdmin");// isAdmin 속성을 사용하여 관리자 여부를 확인합니다.
         });
       } else {
         // 문서가 존재하지 않는 경우 처리
@@ -52,6 +54,7 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(" isadmin2 : $_isAdmin");
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
