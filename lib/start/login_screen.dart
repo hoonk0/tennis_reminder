@@ -1,20 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao_user;
 import 'package:sizer/sizer.dart';
-import 'package:tennisreminder/main_screen/home/user_home.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tennisreminder/main_screen/mainscreen.dart';
+  import 'package:tennisreminder/main_screen/mainscreen.dart';
 import 'package:tennisreminder/model/model_member.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 import '../const/color.dart';
 import '../const/gaps.dart';
-import '../const/text_style.dart';
 import 'login/new_member.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -34,11 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     tecId.addListener(_validateInput);
     tecPw.addListener(_validateInput);
-/*
+
     WidgetsBinding.instance.endOfFrame.then((value) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)));
     });
-*/
+
 //디버깅용 로그인 화면 스킵 코드
   }
 
@@ -59,10 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (await isKakaoTalkInstalled()) {
       try {
         await UserApi.instance.loginWithKakaoTalk();
-        print('카카오톡으로 로그인 성공');
         await _handleKakaoLogin();
       } catch (error) {
-        print('카카오톡으로 로그인 실패 $error');
 
         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -72,24 +64,21 @@ class _LoginScreenState extends State<LoginScreen> {
         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
         try {
           await UserApi.instance.loginWithKakaoAccount();
-          print('카카오계정으로 로그인 성공');
           await _handleKakaoLogin();
         } catch (error) {
-          print('카카오계정으로 로그인 실패 $error');
         }
       }
     } else {
       try {
         await UserApi.instance.loginWithKakaoAccount();
-        print('카카오계정으로 로그인 성공');
         await _handleKakaoLogin();
       } catch (error) {
-        print('카카오계정으로 로그인 실패 $error');
       }
     }
   }
-ㅎㅎ
+
   Future<void> _handleKakaoLogin() async {
+
     // 사용자 정보 가져오기
     User user = await UserApi.instance.me();
     String email = user.kakaoAccount?.email ?? '';
@@ -111,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // 화면 전환
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => MainScreen(selectedIndex: 0),
+        builder: (context) => const MainScreen(selectedIndex: 0),
       ),
     );
   }
@@ -248,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   alignment: Alignment.center,
                   child: RichText(
-                    text: TextSpan(
+                    text: const TextSpan(
                       text: '로그인 없이 둘러보기',
                       style: TextStyle(
                         fontSize: 16,
@@ -299,7 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
 
 
-            Container(
+            SizedBox(
               height: 20.w,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -331,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
-            Container(
+            SizedBox(
               height: 20.w,
               child: Row(
                 children: [
