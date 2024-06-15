@@ -66,7 +66,7 @@ class _SettingNoticeState extends State<SettingNotice> {
             icon: const Icon(Icons.add),
           ),
 
-          //관리자만
+          //관리자만 접근가능으로 세팅 필요
         ],
       ),
       body: Column(
