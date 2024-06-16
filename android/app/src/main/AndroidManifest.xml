@@ -1,12 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tennisreminder"> <!-- 여기에 패키지 이름을 지정 -->
+    package="com.example.tennisreminder">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="tennisreminder"> <!-- cleartext 트래픽을 사용할 수 있도록 설정 -->
+        android:label="tennisreminder"
+        android:usesCleartextTraffic="true">
 
         <!-- Google Maps API Key -->
         <meta-data
@@ -48,7 +49,7 @@
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data />
+            <data android:mimeType="text/plain"/>
         </intent>
     </queries>
 </manifest>

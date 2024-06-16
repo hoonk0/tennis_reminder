@@ -39,7 +39,7 @@ dependencies:
   cloud_firestore: ^4.17.0
   uuid: ^4.4.0
   firebase_auth: ^4.20.0
-  fluttertoast: ^8.2.5
+  fluttertoast: ^8.2.6
   image_picker: ^1.1.1
   firebase_storage: ^11.0.14
   sizer: ^2.0.15
@@ -52,6 +52,8 @@ dependencies:
   google_fonts: ^6.2.1
   google_sign_in: ^6.2.1
   kakao_flutter_sdk_user: ^1.9.2
+  url_strategy: ^0.2.0
+  shared_preferences: ^2.2.3
 
 
 dev_dependencies:

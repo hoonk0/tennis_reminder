@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-  import 'package:tennisreminder/main_screen/mainscreen.dart';
+import 'package:tennisreminder/main_screen/mainscreen.dart';
 import 'package:tennisreminder/model/model_member.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
+import 'package:tennisreminder/start/login_tool/google.dart';
 import '../const/color.dart';
 import '../const/gaps.dart';
 import 'login/new_member.dart';
@@ -54,10 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> signInWithKakao() async {
     if (await isKakaoTalkInstalled()) {
       try {
+        debugPrint("카카오 로그인 0");
         await UserApi.instance.loginWithKakaoTalk();
+        debugPrint("카카오 로그인 1");
         await _handleKakaoLogin();
       } catch (error) {
-
         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
         if (error is PlatformException && error.code == 'CANCELED') {
@@ -67,39 +70,45 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           await UserApi.instance.loginWithKakaoAccount();
           await _handleKakaoLogin();
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     } else {
       try {
         await UserApi.instance.loginWithKakaoAccount();
         await _handleKakaoLogin();
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   }
 
   Future<void> _handleKakaoLogin() async {
-
     // 사용자 정보 가져오기
     User user = await UserApi.instance.me();
     String email = user.kakaoAccount?.email ?? '';
     String nickname = user.kakaoAccount?.profile?.nickname ?? '';
-
-    // ModelMember 생성 및 Firestore에 저장
-    ModelMember newUser = ModelMember(
-      id: user.id.toString(),
-      memberid: email,
-      pw: '', // 카카오톡 로그인에서는 pw 사용하지 않음
-      name: nickname,
-      phone: '',
-      location: '',
-      email: email,
-    );
-    await _saveUserToFirestore(newUser);
-    userNotifier.value = newUser;
-
-    // 화면 전환
+    final userId = user.id;
+    final userDs = await FirebaseFirestore.instance.collection('member').doc(userId.toString()).get();
+    // 이미 회원인 경우
+    if (!userDs.exists) {
+      // ModelMember 생성 및 Firestore에 저장
+      ModelMember newUser = ModelMember(
+        id: user.id.toString(),
+        memberid: email,
+        pw: '',
+        // 카카오톡 로그인에서는 pw 사용하지 않음
+        name: nickname,
+        phone: '',
+        location: '',
+        email: email,
+      );
+      await _saveUserToFirestore(newUser);
+      userNotifier.value = newUser;
+    }
+    // 이미 회원인 경우
+    else {
+      userNotifier.value = ModelMember.fromJson(userDs.data()!);
+    }
+    final pref = await SharedPreferences.getInstance();
+    pref.setString('uid', userId.toString());
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const MainScreen(selectedIndex: 0),
@@ -133,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
 */
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -252,12 +260,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-
             Gaps.v20,
-
             GestureDetector(
-              onTap: () {
-                //signInWithGoogle();
+              onTap: () async {
+                /*final userCredential = await UtilsLogin.onGoogleTap();
+                debugPrint("구글 로그인 성공 ${userCredential!.user!.uid}");
+                final modelMember = ModelMember(
+                  id: userCredential.user!.uid,
+                  memberid: ,
+                  pw: pw,
+                  name: name,
+                  phone: phone,
+                  location: location,
+                  email: userCredential.user!.email!,);
+                FirebaseFirestore.instance.collection('member').doc(modelMember.id).set(modelMember.toJson());*/
               },
               child: Column(
                 children: [
@@ -270,9 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-
             Gaps.v10,
-
             GestureDetector(
               onTap: () {
                 signInWithKakao();
@@ -288,8 +302,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-
-
             SizedBox(
               height: 20.w,
               child: Padding(
@@ -321,7 +333,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-
             SizedBox(
               height: 20.w,
               child: Row(

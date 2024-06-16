@@ -8,53 +8,16 @@ import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_
 
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
+import 'package:tennisreminder/service/provider/providers.dart';
 
 import '../../../model/model_member.dart';
 import '../../../start/login_screen.dart';
 
-class SettingPage extends StatefulWidget {
-  @override
-  State<SettingPage> createState() => _SettingPageState();
-}
-
-class _SettingPageState extends State<SettingPage> {
-  bool _isAdmin = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkIfAdmin();
-  }
-
-  Future<void> _checkIfAdmin() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('member')
-          .doc(currentUser.uid)
-          .get();
-      debugPrint(" userid1 : $currentUser.uid   ");
-      if (userDoc.exists) { // 문서가 존재하는지 확인
-        ModelMember user = ModelMember.fromJson(userDoc.data() as Map<String, dynamic>);
-        setState(() {
-          _isAdmin = user.isAdmin;
-          debugPrint(" isadmin1 : $_isAdmin");// isAdmin 속성을 사용하여 관리자 여부를 확인합니다.
-        });
-      } else {
-        // 문서가 존재하지 않는 경우 처리
-        print('사용자 문서가 존재하지 않습니다.');
-      }
-    } else {
-      // 현재 사용자가 없는 경우 처리
-      print('현재 사용자가 없습니다.');
-    }
-  }
-
-
+class SettingPage extends StatelessWidget {
+  const SettingPage();
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(" isadmin2 : $_isAdmin");
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -86,7 +49,6 @@ class _SettingPageState extends State<SettingPage> {
               color: const Color(0xfff2efef),
               height: 20,
             ),
-
 
             Row(
               children: [
@@ -190,7 +152,6 @@ class _SettingPageState extends State<SettingPage> {
             ),
 
             GestureDetector(
-
               child: Row(
                 children: [
                   Expanded(
@@ -247,9 +208,13 @@ class _SettingPageState extends State<SettingPage> {
                                     Navigator.of(context).pop();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    foregroundColor: colorWhite, backgroundColor: colorGray300, // 텍스트 색상
-                                    textStyle: const TextStyle(fontSize: 16), // 텍스트 스타일
-                                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60), // 버튼 내부 패딩
+                                    foregroundColor: colorWhite,
+                                    backgroundColor: colorGray300,
+                                    // 텍스트 색상
+                                    textStyle: const TextStyle(fontSize: 16),
+                                    // 텍스트 스타일
+                                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60),
+                                    // 버튼 내부 패딩
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8), // 버튼의 모서리를 둥글게 만듦
                                     ),
@@ -265,9 +230,13 @@ class _SettingPageState extends State<SettingPage> {
                                     // 로그아웃 처리
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    foregroundColor: colorWhite, backgroundColor: colorGreen900, // 텍스트 색상
-                                    textStyle: const TextStyle(fontSize: 16), // 텍스트 스타일
-                                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60), // 버튼 내부 패딩
+                                    foregroundColor: colorWhite,
+                                    backgroundColor: colorGreen900,
+                                    // 텍스트 색상
+                                    textStyle: const TextStyle(fontSize: 16),
+                                    // 텍스트 스타일
+                                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60),
+                                    // 버튼 내부 패딩
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8), // 버튼의 모서리를 둥글게 만듦
                                     ),
@@ -294,7 +263,6 @@ class _SettingPageState extends State<SettingPage> {
                           '로그아웃',
                           style: TS.s16w500(colorGreen900),
                         ),
-
                       ),
                     ),
                   ),
@@ -303,37 +271,43 @@ class _SettingPageState extends State<SettingPage> {
             ),
 
 // 다른 메뉴나 설정 항목들과 동일한 위치에 추가
-            if (_isAdmin==true) // 관리자 여부를 확인하여 관리자인 경우에만 보여줍니다.
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
-                  );
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        color: const Color(0xfff2efef),
-                        child: const Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              Text(
-                                '관리자 페이지',
-                                style: TS.s16w500(colorGreen900),
+            ValueListenableBuilder(
+              valueListenable: userNotifier,
+              builder: (context, userMe, child) {
+                if (userMe!.isAdmin) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SettingManagerCourt()),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: const Color(0xfff2efef),
+                            child: const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '관리자 페이지',
+                                    style: TS.s16w500(colorGreen900),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-
-
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
 
             Expanded(
               child: Container(

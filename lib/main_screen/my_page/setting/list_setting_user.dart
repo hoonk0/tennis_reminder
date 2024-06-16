@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tennisreminder/main_screen/home/splash_screen.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
@@ -8,7 +9,6 @@ import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/start/login_screen.dart';
 
 import '../../../const/text_style.dart';
-
 
 class ListSettingUser extends StatelessWidget {
   const ListSettingUser({super.key});
@@ -43,7 +43,6 @@ class ListSettingUser extends StatelessWidget {
             color: colorGreen900,
           ),
           const SizedBox(height: 5),
-
           ListTile(
             leading: const Icon(Icons.person, color: colorGreen900),
             title: const Text('개인정보'),
@@ -134,13 +133,19 @@ class ListSettingUser extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
+                                onPressed: () async {
+                                  final pref = await SharedPreferences.getInstance();
+                                  pref.remove('uid');
+                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => RouteSplash()), (route) => false);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  foregroundColor: colorWhite, backgroundColor: colorGray300, // 텍스트 색상
-                                  textStyle: const TextStyle(fontSize: 16), // 텍스트 스타일
-                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60), // 버튼 내부 패딩
+                                  foregroundColor: colorWhite,
+                                  backgroundColor: colorGray300,
+                                  // 텍스트 색상
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  // 텍스트 스타일
+                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60),
+                                  // 버튼 내부 패딩
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8), // 버튼의 모서리를 둥글게 만듦
                                   ),
@@ -156,9 +161,13 @@ class ListSettingUser extends StatelessWidget {
                                   // 로그아웃 처리
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  foregroundColor: colorWhite, backgroundColor: colorGreen900, // 텍스트 색상
-                                  textStyle: const TextStyle(fontSize: 16), // 텍스트 스타일
-                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60), // 버튼 내부 패딩
+                                  foregroundColor: colorWhite,
+                                  backgroundColor: colorGreen900,
+                                  // 텍스트 색상
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  // 텍스트 스타일
+                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 60),
+                                  // 버튼 내부 패딩
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8), // 버튼의 모서리를 둥글게 만듦
                                   ),

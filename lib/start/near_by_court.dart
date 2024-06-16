@@ -8,7 +8,7 @@ import '../../../const/color.dart';
 import '../const/text_style.dart';
 
 class NearbyCourts extends StatefulWidget {
-  const NearbyCourts({Key? key}) : super(key: key);
+  const NearbyCourts({super.key});
 
   @override
   _NearbyCourtsState createState() => _NearbyCourtsState();
