@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/const/color.dart';
+import 'package:tennisreminder/const/enums.dart';
 import 'package:tennisreminder/const/text_style.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 
 import '../../../model/model_member.dart';
@@ -100,11 +102,46 @@ class SettingPage extends StatelessWidget {
 
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ContactManager()),
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      backgroundColor: Color(0xffe8e8e8),
+                      title: Container(
+                        child: const Text(
+                          'Contact us',
+                            style:
+                            TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                              color: colorGreen900,
+                            )
+                        ),
+                      ),
+                      content: const Text(
+                        'Please contact us\ncourtvibemem@gmail.com',
+                        style: TS.s14w400(colorGreen900)
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            '확인',
+                            style: TS.s14w700(colorGreen900)
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
+
               child: Row(
                 children: [
                   Expanded(
@@ -152,6 +189,9 @@ class SettingPage extends StatelessWidget {
             ),
 
             GestureDetector(
+              onTap: () {
+
+              },
               child: Row(
                 children: [
                   Expanded(
@@ -274,7 +314,7 @@ class SettingPage extends StatelessWidget {
             ValueListenableBuilder(
               valueListenable: userNotifier,
               builder: (context, userMe, child) {
-                if (userMe!.isAdmin) {
+                if (userMe != null && userMe.userGrade == UserGrade.admin) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(

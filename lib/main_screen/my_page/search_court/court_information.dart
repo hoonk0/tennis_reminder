@@ -72,6 +72,7 @@ class _CourtInformationState extends State<CourtInformation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xffe8e8e8),
         centerTitle: true,
         title: const Text(
           '코트 정보',
@@ -99,7 +100,7 @@ class _CourtInformationState extends State<CourtInformation> {
                     Image.network(
                       court.imagePath,
                       fit: BoxFit.cover,
-                      width: 100.w,
+                      height: 30.h,
                     ),
                   const SizedBox(height: 20),
                   Padding(

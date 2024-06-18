@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/main_screen/home/splash_screen.dart';
-import 'package:tennisreminder/start/login_screen.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';

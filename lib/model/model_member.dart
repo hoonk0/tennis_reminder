@@ -1,3 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../const/enums.dart';
+
 class ModelMember {
   final String id;
   final String memberid;
@@ -6,8 +10,9 @@ class ModelMember {
   final String phone;
   final String location;
   final String email;
-  final bool isAdmin;
+ final bool isAdmin;
   final List<String> favorites;
+  final UserGrade userGrade;
 
   // 생성자
   ModelMember({
@@ -20,6 +25,7 @@ class ModelMember {
     required this.email,
     this.isAdmin = false,
     this.favorites = const [],
+    this.userGrade = UserGrade.guest,
   });
 
   Map<String, dynamic> toJson() {
@@ -33,6 +39,7 @@ class ModelMember {
       'email': email,
       'isAdmin': isAdmin,
       'favorites': favorites,
+      'userGrade': userGrade.name,
     };
   }
 
@@ -47,6 +54,8 @@ class ModelMember {
       email: json['email'],
       isAdmin: json['isAdmin'] ?? false,
       favorites: List<String>.from(json['favorites'] ?? []),
+      userGrade: UserGrade.values
+          .firstWhere((userGrade) => userGrade.name == json['userGrade'] ),
     );
   }
 }

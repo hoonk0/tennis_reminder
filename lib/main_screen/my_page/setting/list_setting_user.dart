@@ -1,4 +1,6 @@
+/*
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/main_screen/home/splash_screen.dart';
@@ -80,16 +82,31 @@ class ListSettingUser extends StatelessWidget {
             color: colorGray600,
           ),
           const SizedBox(height: 5),
+
           ListTile(
-            leading: const Icon(Icons.contact_support_rounded, color: colorGreen900),
+            leading: const Icon(Icons.contact_support_rounded, color: Colors.green),
             title: const Text('고객센터'),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ContactManager()),
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('고객센터'),
+                    content: const Text('연락하세요'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('확인'),
+                      ),
+                    ],
+                  );
+                },
               );
             },
           ),
+
           const SizedBox(height: 5),
           Container(
             height: 2,
@@ -98,7 +115,6 @@ class ListSettingUser extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           ListTile(
-            leading: const Icon(Icons.logout, color: colorGreen900),
             title: const Text('로그아웃'),
             onTap: () {
               showModalBottomSheet(
@@ -184,6 +200,7 @@ class ListSettingUser extends StatelessWidget {
               );
             },
           ),
+
           const SizedBox(height: 5),
           Container(
             height: 2,
@@ -213,3 +230,4 @@ class ListSettingUser extends StatelessWidget {
     );
   }
 }
+*/

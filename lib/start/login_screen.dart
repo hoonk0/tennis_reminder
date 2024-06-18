@@ -150,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: colorWhite,
         body: Column(
           children: [
-            Gaps.v20,
+            const SizedBox(height: 100),
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -163,6 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       'assets/home/logo_main.png',
                       width: 60.w,
                     ),
+
+                    /*
                     Container(
                       margin: const EdgeInsets.only(left: 24),
                       child: Column(
@@ -230,11 +233,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 100),
+                  */
+
+
                   ],
                 ),
               ),
             ),
+
+
+
+            /*
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -260,6 +269,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            */
+
             Gaps.v20,
             GestureDetector(
               onTap: () async {
@@ -302,6 +313,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
+
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: RichText(
+                    text: const TextSpan(
+                      text: '로그인 없이 둘러보기',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: colorGreen900,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 100),
+
+/*
             SizedBox(
               height: 20.w,
               child: Padding(
@@ -333,6 +374,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            */
+
+            /*
             SizedBox(
               height: 20.w,
               child: Row(
@@ -394,6 +438,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
+            */
           ],
         ),
       ),

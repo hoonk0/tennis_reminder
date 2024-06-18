@@ -5,6 +5,8 @@ import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/const/text_style.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice_detail.dart';
 import 'package:tennisreminder/model/model_notice.dart';
+import '../../../../../const/enums.dart';
+import '../../../../../service/provider/providers.dart';
 import 'new_notice.dart';
 
 class SettingNotice extends StatefulWidget {
@@ -50,9 +52,10 @@ class _SettingNoticeState extends State<SettingNotice> {
             ),
           ),
         ),
-        automaticallyImplyLeading: false,
+
         centerTitle: true,
         actions: [
+          /*
           IconButton(
             onPressed: () async {
               final result = await Navigator.push(
@@ -64,6 +67,28 @@ class _SettingNoticeState extends State<SettingNotice> {
               }
             },
             icon: const Icon(Icons.add),
+          ),*/
+
+          ValueListenableBuilder(
+            valueListenable: userNotifier,
+            builder: (context, userMe, child) {
+              if (userMe != null && userMe.userGrade == UserGrade.admin) {
+                return IconButton(
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const NewNoticeRegister()),
+                    );
+                    if (result == true) {
+                      _fetchModelNotice();
+                    }
+                  },
+                  icon: const Icon(Icons.add),
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
 
           //관리자만 접근가능으로 세팅 필요
