@@ -8,7 +8,7 @@ import 'my_page/search_court/court_favorite.dart';
 import 'my_page/search_court/court_search.dart';
 import 'my_page/setting/list_setting_user.dart';
 
-
+//
 class MainScreen extends StatefulWidget {
   final int selectedIndex; // 선택된 인덱스를 저장하기 위한 변수
 
