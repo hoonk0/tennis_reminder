@@ -27,34 +27,12 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
   TextEditingController tecName = TextEditingController();
   TextEditingController tecLat = TextEditingController();
   TextEditingController tecLng = TextEditingController();
-  bool _areAllFieldsFilled = false;
   XFile? selectedXFile;
   String _imagePath = '';
 
   @override
   void initState() {
     super.initState();
-    tecLocation.addListener(_checkFields);
-    tecPhone.addListener(_checkFields);
-    tecWebsite.addListener(_checkFields);
-    tecNotice.addListener(_checkFields);
-    tecInformation.addListener(_checkFields);
-    tecName.addListener(_checkFields);
-    tecLat.addListener(_checkFields);
-    tecLng.addListener(_checkFields);
-  }
-
-  void _checkFields() {
-    setState(() {
-      _areAllFieldsFilled = tecLocation.text.isNotEmpty &&
-          tecPhone.text.isNotEmpty &&
-          tecName.text.isNotEmpty &&
-          tecWebsite.text.isNotEmpty &&
-          tecNotice.text.isNotEmpty &&
-          tecInformation.text.isNotEmpty &&
-      tecLng.text.isNotEmpty &&
-      tecLat.text.isNotEmpty;
-    });
   }
 
   Future<void> _pickImage() async {
@@ -135,7 +113,7 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
               TextField(
                 controller: tecLat,
                 maxLines: null,
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.number,
                 style: const TS.s14w400(colorBlack),
               ),
 
@@ -143,57 +121,37 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
               TextField(
                 controller: tecLng,
                 maxLines: null,
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.number,
                 style: const TS.s14w400(colorBlack),
               ),
 
               IconButton(
                 icon: const Icon(Icons.save),
                 onPressed: () async {
-                  if (_areAllFieldsFilled) {
-                    final id = const Uuid().v4();
-                    debugPrint("11");
-                    final List<String> listImgUrl = await Utils.getImgUrlXFile([selectedXFile]);
+                  final id = const Uuid().v4();
+                  List<String> listImgUrl = [];
+
+                  // 이미지가 선택된 경우에만 업로드
+                  if (selectedXFile != null) {
+                    listImgUrl = await Utils.getImgUrlXFile([selectedXFile]);
                     debugPrint("listImgUrl $listImgUrl");
-                    if (listImgUrl.isEmpty) {
-                      Fluttertoast.showToast(msg: '사진을 선택하세요');
-                      return;
-                    }
-
-                    ModelCourt modelCourt = ModelCourt(
-                      id: id,
-                      name: tecName.text,
-                      location: tecLocation.text,
-                      information: tecInformation.text,
-                      phone: tecPhone.text,
-                      notice: tecNotice.text,
-                      website: tecWebsite.text,
-                      imagePath: listImgUrl.first,
-                      courtLng: double.parse(tecLng.text),
-                      courtLat: double.parse(tecLat.text),
-                    );
-
-                    await FirebaseFirestore.instance.collection('court').doc(modelCourt.id).set(modelCourt.toJson());
-                    Navigator.pop(context, modelCourt);
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('입력 오류'),
-                          content: const Text('모든 필드를 작성해주세요.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('확인'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
                   }
+
+                  ModelCourt modelCourt = ModelCourt(
+                    id: id,
+                    name: tecName.text,
+                    location: tecLocation.text,
+                    information: tecInformation.text,
+                    phone: tecPhone.text,
+                    notice: tecNotice.text,
+                    website: tecWebsite.text,
+                    imagePath: listImgUrl.isNotEmpty ? listImgUrl.first : '', // 이미지 경로 설정
+                    courtLng: double.tryParse(tecLng.text) ?? 0.0,
+                    courtLat: double.tryParse(tecLat.text) ?? 0.0,
+                  );
+
+                  await FirebaseFirestore.instance.collection('court').doc(modelCourt.id).set(modelCourt.toJson());
+                  Navigator.pop(context, modelCourt);
                 },
               ),
             ],

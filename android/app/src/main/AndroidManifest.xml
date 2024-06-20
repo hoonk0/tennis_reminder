@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- 알림 예약 및 재부팅 후 알림 복원 권한 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:label="tennisreminder"
         android:usesCleartextTraffic="true">
@@ -36,6 +39,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            android: hardwareAccelerated="true"
+            android: windowSoftInputMode="adjustResize"
+            android: showWhenLocked="true"
+            android: turnScreenOn="true">
+
+
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
@@ -44,6 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
     </application>
 
     <queries>

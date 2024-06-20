@@ -5,22 +5,25 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tennisreminder/example/notification_button.dart';
 import 'package:tennisreminder/main_screen/mainscreen.dart';
+import 'package:tennisreminder/main_screen/my_page/search_court/court_search.dart';
 import 'package:tennisreminder/model/model_member.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 import 'package:tennisreminder/start/login_tool/google.dart';
 import '../const/color.dart';
 import '../const/gaps.dart';
+import '../example/notification.dart';
 import 'login/new_member.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+    _LoginScreenState createState() => _LoginScreenState();
+  }
 
-class _LoginScreenState extends State<LoginScreen> {
+  class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController tecId = TextEditingController();
   final TextEditingController tecPw = TextEditingController();
   bool _isInputValid = false;
@@ -30,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     tecId.addListener(_validateInput);
     tecPw.addListener(_validateInput);
+
 /*
     WidgetsBinding.instance.endOfFrame.then((value) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)));
@@ -272,8 +276,22 @@ class _LoginScreenState extends State<LoginScreen> {
             */
 
             Gaps.v20,
+
+            Center(
+              child: TextButton(
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NotificationButton()),
+                  );
+                },
+                child: const Text("알림"),
+              ),
+            ),
+
             GestureDetector(
               onTap: () async {
+                UtilsLogin.onGoogleTap(context);
                 /*final userCredential = await UtilsLogin.onGoogleTap();
                 debugPrint("구글 로그인 성공 ${userCredential!.user!.uid}");
                 final modelMember = ModelMember(
@@ -297,7 +315,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
+
             Gaps.v10,
+
             GestureDetector(
               onTap: () {
                 signInWithKakao();
