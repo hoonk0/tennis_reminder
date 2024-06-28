@@ -5,7 +5,6 @@ import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../model/model_court.dart';
 import '../../../const/color.dart';
-import '../const/text_style.dart';
 
 class NearbyCourts extends StatefulWidget {
   const NearbyCourts({super.key});
@@ -48,7 +47,7 @@ class _NearbyCourtsState extends State<NearbyCourts> {
     for (final doc in snapshot.docs) {
       final ModelCourt court = ModelCourt.fromJson(doc.data() as Map<String, dynamic>);
       final double distance = _calculateDistance(latitude, longitude, court.courtLat, court.courtLng);
-      if (distance <= 100) {
+      if (distance <= 10) { // 여기에 거리 수정하기
         courts.add(court);
       }
     }
@@ -115,7 +114,7 @@ class _NearbyCourtsState extends State<NearbyCourts> {
                         style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: colorGray600),
                       ),
                       const SizedBox(height: 6),
-                      Text('${distance.toStringAsFixed(2)} km'),
+                      Text('${distance.toStringAsFixed(1)} km'),
                     ],
                   ),
                 ),

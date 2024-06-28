@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/const/color.dart';
-import 'package:tennisreminder/const/text_style.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice_detail.dart';
 import 'package:tennisreminder/model/model_notice.dart';
 import '../../../../../const/enums.dart';

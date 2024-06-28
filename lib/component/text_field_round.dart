@@ -36,7 +36,7 @@ class TextFieldRound extends StatelessWidget {
   final TextInputAction? textInputAction;
 
   const TextFieldRound({
-    Key? key,
+    super.key,
     this.controller,
     this.onChanged,
     this.hintText,
@@ -66,7 +66,7 @@ class TextFieldRound extends StatelessWidget {
     this.suffixIcon,
     this.isCounterShow = false,
     this.textInputAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

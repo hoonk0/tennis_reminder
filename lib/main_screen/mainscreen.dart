@@ -6,7 +6,6 @@ import 'package:tennisreminder/main_screen/my_page/setting/setting_page.dart';
 import '../const/color.dart';
 import 'my_page/search_court/court_favorite.dart';
 import 'my_page/search_court/court_search.dart';
-import 'my_page/setting/list_setting_user.dart';
 
 //
 class MainScreen extends StatefulWidget {
@@ -15,6 +14,7 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key, required this.selectedIndex});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MainScreenState createState() => _MainScreenState();
 }
 
@@ -38,9 +38,9 @@ class _MainScreenState extends State<MainScreen> {
       // _selectedIndex가 0이 아닌 경우 앱바를 숨김
       body: _selectedIndex == 0
           ? const UserHome()
-          : (_selectedIndex == 1 ? CourtSearch() :
+          : (_selectedIndex == 1 ? const CourtSearch() :
       (_selectedIndex == 2 ? const CourtFavorite() :
-      SettingPage()
+      const SettingPage()
       )
       ),
 

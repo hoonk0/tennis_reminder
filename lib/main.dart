@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:sizer/sizer.dart';
-import 'package:tennisreminder/example/notification.dart';
 import 'package:tennisreminder/main_screen/home/splash_screen.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
@@ -28,7 +27,7 @@ void main() async {
   runApp(
     Sizer(
       builder: (context, orientation, deviceType) => MaterialApp(
-        home: RouteSplash(),
+        home: const RouteSplash(),
         theme: ThemeData(
           textTheme: GoogleFonts.nanumGothicTextTheme(
             Theme.of(context).textTheme,

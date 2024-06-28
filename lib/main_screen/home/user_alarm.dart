@@ -7,7 +7,7 @@ class UserAlarm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('알람'),
+        title: const Text('알람'),
       ),
     );
   }

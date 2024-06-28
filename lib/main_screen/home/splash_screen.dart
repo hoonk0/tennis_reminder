@@ -28,8 +28,10 @@ class _RouteSplashState extends State<RouteSplash> {
     final pref = await SharedPreferences.getInstance();
     final uid = pref.getString('uid');
     if (uid == null) {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainScreen(selectedIndex: 0)));
       final userDs = await FirebaseFirestore.instance.collection('member').doc(uid).get();
       userNotifier.value = ModelMember.fromJson(userDs.data()!);

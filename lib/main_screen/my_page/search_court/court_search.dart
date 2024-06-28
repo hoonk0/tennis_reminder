@@ -5,6 +5,7 @@ import 'package:tennisreminder/model/model_court.dart';
 
 import 'court_information.dart';
 
+
 class CourtSearch extends StatefulWidget {
   const CourtSearch({Key? key}) : super(key: key);
 
@@ -97,10 +98,8 @@ class _CourtSearchState extends State<CourtSearch> {
                     title: Text(court.name),
                     subtitle: Text(shortLocation),
                     onTap: () async {
-                      final watchModelCourt = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CourtInformation(courtId: _filteredCourts[index].id,)),
-                      );
+
+
                     },
                   );
                 },

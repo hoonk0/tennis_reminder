@@ -74,7 +74,7 @@ class _UserHomeState extends State<UserHome> {
         title: Text(
           'COURT VIBE',
           style: GoogleFonts.anton(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontWeight: FontWeight.w400,
               color: colorGreen900,
               fontSize: 24,
@@ -141,118 +141,6 @@ class _UserHomeState extends State<UserHome> {
               ],
             ),
           ),
-          /*
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: [
-
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      // 모든 코트를 표시하기 위해 초기 데이터로 설정
-                      _fetchCourtData();
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 80,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: colorGray400),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: const Text(
-                      '전체',
-                      style: TS.s14w600(colorBlack),
-                    ),
-                  ),
-                ),
-
-                SizedBox(width: 8),
-
-                GestureDetector(
-                  onTap: () async {
-                    // 서울시 코트만 필터링하여 표시
-                    setState(() {
-                      modelCourts = modelCourts.where((court) => court.location.startsWith('서울시')).toList();
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 80,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white, // 완전한 흰색 배경
-                      border: Border.all(color: colorGray400), // 회색 테두리
-                      borderRadius: BorderRadius.circular(100), // 10의 반지름을 가진 둥근 테두리
-                    ),
-                    child: Text(
-                      '서울',
-                      style: TS.s14w600(colorBlack),
-                    ),
-                  ),
-                ),
-
-                SizedBox(width: 8), // 각 컨테이너 사이의 간격
-
-                GestureDetector(
-                  onTap: () async {
-                    // 경기도 코트만 필터링하여 표시
-                    setState(() {
-                      modelCourts = modelCourts.where((court) => court.location.startsWith('경기도')).toList();
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 80,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white, // 완전한 흰색 배경
-                      border: Border.all(color: colorGray400), // 회색 테두리
-                      borderRadius: BorderRadius.circular(100), // 10의 반지름을 가진 둥근 테두리
-                    ),
-                    child: Text(
-                      '경기',
-                      style: TS.s14w600(colorBlack),
-                    ),
-                  ),
-                ),
-
-
-                SizedBox(width: 8),
-
-                GestureDetector(
-                  onTap: () async {
-                    // 서울시 코트만 필터링하여 표시
-                    setState(() {
-                      modelCourts = modelCourts.where((court) => court.location.startsWith('인천시')).toList();
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 80,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white, // 완전한 흰색 배경
-                      border: Border.all(color: colorGray400), // 회색 테두리
-                      borderRadius: BorderRadius.circular(100), // 10의 반지름을 가진 둥근 테두리
-                    ),
-                    child: Text(
-                      '인천',
-                      style: TS.s14w600(colorBlack),
-                    ),
-                  ),
-                ),
-
-
-                SizedBox(width: 8),
-
-              ],
-            ),
-          ),
-                */
 
           const SizedBox(height: 10),
           SizedBox(
@@ -330,32 +218,9 @@ class _UserHomeState extends State<UserHome> {
               ],
             ),
           ),
-          Expanded(
-            child: Container(
-              child: NearbyCourts(),
-            ),
+          const Expanded(
+            child: NearbyCourts(),
           ),
-
-/*
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  '근처 코트',
-                  style: TS.s16w600(colorGreen900),
-                ),
-                const SizedBox(height: 10),
-                // 근처 코트 데이터 표시
-                Expanded(
-                  child: NearbyCourts(), // 이 부분에 NearbyCourts 위젯을 추가합니다.
-                ),
-              ],
-            ),
-          ),
-
- */
         ],
       ),
     );

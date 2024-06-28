@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/const/color.dart';
@@ -8,15 +6,12 @@ import 'package:tennisreminder/const/text_style.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
-import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
-import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 
-import '../../../model/model_member.dart';
 import '../../../start/login_screen.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage();
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +26,14 @@ class SettingPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    color: Color(0xff719a93), // 주변색을 초록색으로 설정
+                    color: const Color(0xff719a93), // 주변색을 초록색으로 설정
                     height: 50,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'LET\'S VIBE',
                         style: GoogleFonts.anton(
-                          textStyle: TS.s24w500(colorWhite),
+                          textStyle: const TS.s24w500(colorWhite),
                         ), // 텍스트 색상을 흰색으로 설정
                       ),
                     ),
@@ -56,15 +51,15 @@ class SettingPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    color: Color(0xfff2efef),
+                    color: const Color(0xfff2efef),
                     child: Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Text(
                             'Notice',
                             style: GoogleFonts.anton(
-                              textStyle: TS.s24w500(colorGreen900),
+                              textStyle: const TS.s24w500(colorGreen900),
                             ), // 텍스트 색상을 흰색으로 설정
                           ),
                         ),
@@ -109,18 +104,16 @@ class SettingPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6.0),
                       ),
-                      backgroundColor: Color(0xffe8e8e8),
-                      title: Container(
-                        child: const Text(
-                          'Contact us',
-                            style:
-                            TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                              color: colorGreen900,
-                            )
-                        ),
+                      backgroundColor: const Color(0xffe8e8e8),
+                      title: const Text(
+                        'Contact us',
+                          style:
+                          TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: colorGreen900,
+                          )
                       ),
                       content: const Text(
                         'Please contact us\ncourtvibemem@gmail.com',
@@ -173,11 +166,11 @@ class SettingPage extends StatelessWidget {
                     child: Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Text(
                             'Account',
                             style: GoogleFonts.anton(
-                              textStyle: TS.s24w500(colorGreen900),
+                              textStyle: const TS.s24w500(colorGreen900),
                             ), // 텍스트 색상을 흰색으로 설정
                           ),
                         ),

@@ -13,7 +13,6 @@ class CourtLocation extends StatefulWidget {
 }
 
 class _CourtLocationState extends State<CourtLocation> {
-  GoogleMapController? _mapController;
   final Set<Marker> _markers = {};
 
   @override
@@ -54,7 +53,6 @@ class _CourtLocationState extends State<CourtLocation> {
           Expanded(
             child: GoogleMap(
               onMapCreated: (controller) {
-                _mapController = controller;
               },
               markers: _markers,
               initialCameraPosition: widget.initialPosition,

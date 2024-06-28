@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'notification.dart';
 
 class NotificationButton extends StatefulWidget {
-  const NotificationButton({Key? key}) : super(key: key);
+  const NotificationButton({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _NotificationButtonState createState() => _NotificationButtonState();
 }
 

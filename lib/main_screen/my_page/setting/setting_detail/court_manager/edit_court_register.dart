@@ -13,30 +13,23 @@ class EditCourtRegister extends StatefulWidget {
   const EditCourtRegister({super.key, required this.modelCourt});
 
   @override
-  State<EditCourtRegister> createState() => _NewCourtRegisterState();
+  State<EditCourtRegister> createState() => _EditCourtRegisterState();
 }
 
-class _NewCourtRegisterState extends State<EditCourtRegister> {
-  TextEditingController tecLocation = TextEditingController();
-  TextEditingController tecPhone = TextEditingController();
-  TextEditingController tecWebsite = TextEditingController();
-  TextEditingController tecNotice = TextEditingController();
-  TextEditingController tecInformation = TextEditingController();
-  TextEditingController tecName = TextEditingController();
-  TextEditingController tecLat = TextEditingController();
-  TextEditingController tecLng = TextEditingController();
-  bool _areAllFieldsFilled = false;
+class _EditCourtRegisterState extends State<EditCourtRegister> {
+  late TextEditingController tecLocation;
+  late TextEditingController tecPhone;
+  late TextEditingController tecWebsite;
+  late TextEditingController tecNotice;
+  late TextEditingController tecInformation;
+  late TextEditingController tecName;
+  late TextEditingController tecLat;
+  late TextEditingController tecLng;
   String _imagePath = '';
 
   @override
   void initState() {
     super.initState();
-    tecLocation.addListener(_checkFields);
-    tecPhone.addListener(_checkFields);
-    tecWebsite.addListener(_checkFields);
-    tecNotice.addListener(_checkFields);
-    tecInformation.addListener(_checkFields);
-    tecName.addListener(_checkFields);
 
     tecLocation = TextEditingController(text: widget.modelCourt.location);
     tecPhone = TextEditingController(text: widget.modelCourt.phone);
@@ -44,23 +37,24 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
     tecNotice = TextEditingController(text: widget.modelCourt.notice);
     tecInformation = TextEditingController(text: widget.modelCourt.information);
     tecName = TextEditingController(text: widget.modelCourt.name);
-    double tecLat = widget.modelCourt.courtLat;
-    double tecLng = widget.modelCourt.courtLng;
+    tecLat = TextEditingController(text: widget.modelCourt.courtLat.toString());
+    tecLng = TextEditingController(text: widget.modelCourt.courtLng.toString());
 
+    tecLocation.addListener(_checkFields);
+    tecPhone.addListener(_checkFields);
+    tecWebsite.addListener(_checkFields);
+    tecNotice.addListener(_checkFields);
+    tecInformation.addListener(_checkFields);
+    tecName.addListener(_checkFields);
+    tecLat.addListener(_checkFields);
+    tecLng.addListener(_checkFields);
 
+    // Initialize _imagePath with the current image path from modelCourt
+    _imagePath = widget.modelCourt.imagePath;
   }
 
   void _checkFields() {
-    setState(() {
-      _areAllFieldsFilled = tecLocation.text.isNotEmpty &&
-          tecPhone.text.isNotEmpty &&
-          tecName.text.isNotEmpty &&
-          tecWebsite.text.isNotEmpty &&
-          tecNotice.text.isNotEmpty &&
-          tecInformation.text.isNotEmpty &&
-          tecLng.text.isNotEmpty &&
-          tecLat.text.isNotEmpty;
-    });
+    setState(() {});
   }
 
   Future<void> _pickImage() async {
@@ -79,7 +73,7 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('코트 정보 수'), // 앱바 제목
+        title: const Text('코트 정보 수정'), // 앱바 제목 수정
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -87,7 +81,7 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
             children: [
               ElevatedButton(
                 onPressed: _pickImage,
-                child: const Text('Select Image'), // 이미지 선택 버튼
+                child: const Text('이미지 선택'), // 이미지 선택 버튼
               ),
               if (_imagePath.isNotEmpty)
                 Image.network(
@@ -100,82 +94,114 @@ class _NewCourtRegisterState extends State<EditCourtRegister> {
               const Text('테니스장명'), // 제목 입력 레이블
               TextField(
                 controller: tecName,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ), // 선택된 이미지 미리보기
 
               const Text('주소'), // 제목 입력 레이블
               TextField(
                 controller: tecLocation,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ), // 제목 입력 필드
 
-              const Text('전화번호'), // 가격 입력 레이블
+              const Text('전화번호'), // 전화번호 입력 레이블
               TextField(
                 controller: tecPhone,
-                style: TS.s14w400(colorBlack),
-                keyboardType: TextInputType.number, // 숫자 키패드 활성화
+                style: const TS.s14w400(colorBlack),
+                keyboardType: TextInputType.phone, // 숫자 키패드 활성화
               ),
 
-              Text('예약사이트 바로가기'), // 제목 입력 레이블
+              const Text('예약사이트 바로가기'), // 웹사이트 입력 레이블
               TextField(
                 controller: tecWebsite,
-                style: TS.s14w400(colorBlack),
-              ), // 제목 입력 필드// 가격 입력 필드
+                style: const TS.s14w400(colorBlack),
+              ), // 웹사이트 입력 필드
 
-              const Text('안내사항'), // 내용 입력 레이블
+              const Text('안내사항'), // 안내사항 입력 레이블
               TextField(
                 controller: tecNotice,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ),
 
-              const Text('코트 정보'), // 내용 입력 레이블
+              const Text('코트 정보'), // 코트 정보 입력 레이블
               TextField(
                 controller: tecInformation,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                style: const TS.s14w400(colorBlack),
               ),
 
-              const Text('위도'), // 내용 입력 레이블
+              const Text('위도'), // 위도 입력 레이블
               TextField(
                 controller: tecLat,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                keyboardType: TextInputType.numberWithOptions(decimal: true), // 숫자 키패드 활성화
+                style: const TS.s14w400(colorBlack),
               ),
 
-              const Text('경도'), // 내용 입력 레이블
+              const Text('경도'), // 경도 입력 레이블
               TextField(
                 controller: tecLng,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                style: TS.s14w400(colorBlack),
+                keyboardType: TextInputType.numberWithOptions(decimal: true), // 숫자 키패드 활성화
+                style: const TS.s14w400(colorBlack),
               ),
 
-              IconButton(
+              ElevatedButton.icon(
                 icon: const Icon(Icons.save),
+                label: const Text('저장'), // 저장 버튼 텍스트 추가
                 onPressed: () async {
-                  ModelCourt updatedCourt = ModelCourt(
-                    id: widget.modelCourt.id,
-                    name: tecName.text,
-                    location: tecLocation.text,
-                    information: tecInformation.text,
-                    phone: tecPhone.text,
-                    notice: tecNotice.text,
-                    website: tecWebsite.text,
-                    imagePath: widget.modelCourt.imagePath,
-                    courtLng: double.parse(tecLng.text),
-                    courtLat: double.parse(tecLat.text),
-                  );
-                  await FirebaseFirestore.instance.collection('court').doc(widget.modelCourt.id).update(updatedCourt.toJson());
-                  Navigator.pop(context, updatedCourt);
+                  if (_validateInputs()) {
+                    ModelCourt updatedCourt = ModelCourt(
+                      id: widget.modelCourt.id,
+                      name: tecName.text,
+                      location: tecLocation.text,
+                      information: tecInformation.text,
+                      phone: tecPhone.text,
+                      notice: tecNotice.text,
+                      website: tecWebsite.text,
+                      imagePath: _imagePath, // 업데이트된 이미지 경로 사용
+                      courtLng: double.parse(tecLng.text),
+                      courtLat: double.parse(tecLat.text),
+                    );
+                    await FirebaseFirestore.instance
+                        .collection('court')
+                        .doc(widget.modelCourt.id)
+                        .update(updatedCourt.toJson());
+                    Navigator.pop(context, updatedCourt);
+                  } else {
+                    _showErrorDialog();
+                  }
                 },
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  bool _validateInputs() {
+    try {
+      double.parse(tecLat.text);
+      double.parse(tecLng.text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('입력 오류'),
+        content: const Text('위도와 경도는 숫자여야 합니다.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('확인'),
+          ),
+        ],
       ),
     );
   }

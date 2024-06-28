@@ -8,7 +8,7 @@ import '../../../model/model_court.dart';
 import 'court_information.dart';
 
 class CourtFavorite extends StatefulWidget {
-  const CourtFavorite({Key? key}) : super(key: key);
+  const CourtFavorite({super.key});
 
   @override
   State<CourtFavorite> createState() => _CourtFavoriteState();
@@ -43,7 +43,7 @@ class _CourtFavoriteState extends State<CourtFavorite> {
         title: Text(
           'FAVORITE COURT',
           style: GoogleFonts.anton(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontWeight: FontWeight.w400,
               color: colorGreen900,
               fontSize: 24,
@@ -86,12 +86,12 @@ class _CourtFavoriteState extends State<CourtFavorite> {
                                 children: [
                                   Text(
                                     listModelCourt[index].name,
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     listModelCourt[index].location,
-                                    style: TS.s12w400(colorGray600),
+                                    style: const TS.s12w400(colorGray600),
                                   ),
                                 ],
                               ),

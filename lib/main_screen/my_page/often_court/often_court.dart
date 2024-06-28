@@ -7,7 +7,7 @@ class OftenCourt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('often court'),
+        title: const Text('often court'),
       ),
     );
   }
