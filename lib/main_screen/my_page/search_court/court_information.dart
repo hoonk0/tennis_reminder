@@ -110,6 +110,7 @@ class _CourtInformationState extends State<CourtInformation> {
                       child: Row(
                         children: [
                           Text(court.name, style: const TS.s20w600(colorGreen900)),
+                          SizedBox(width: 10,),
                           Transform.translate(
                             offset: const Offset(-10, 0),
                             child: IconButton(
@@ -138,9 +139,40 @@ class _CourtInformationState extends State<CourtInformation> {
                                   );
                                 },
                               ),
-
                             ),
                           ),
+
+                          Transform.translate(
+                            offset: const Offset(-10, 0),
+                            child: IconButton(
+                              onPressed: () {
+                                if (userNotifier.value!.notify.contains(widget.courtId)) {
+                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                    'notify': FieldValue.arrayRemove([widget.courtId])
+                                  });
+                                } else {
+                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                    'notify': FieldValue.arrayUnion([widget.courtId])
+                                  });
+                                }
+                              },
+                              icon: ValueListenableBuilder(
+                                valueListenable: userNotifier,
+                                builder: (context, userMe, child) {
+                                  if (userMe == null) {
+                                    // userMe가 null인 경우 처리
+                                    return Container(); // 예시: 빈 Container를 반환하거나 원하는 처리를 수행하세요.
+                                  }
+                                  final isMyCourt = userMe.notify.contains(widget.courtId);
+                                  return Icon(
+                                    isMyCourt ? Icons.notifications : Icons.notifications_none_outlined,
+                                    color: isMyCourt ? colorPrimary200 : colorGreen900,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+
                         ],
                       ),
                     ),

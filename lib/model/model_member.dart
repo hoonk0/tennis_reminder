@@ -11,6 +11,7 @@ class ModelMember {
   final String email;
  final bool isAdmin;
   final List<String> favorites;
+  final List<String> notify;
   final UserGrade userGrade;
 
   // 생성자
@@ -24,6 +25,7 @@ class ModelMember {
     required this.email,
     this.isAdmin = false,
     this.favorites = const [],
+    this.notify = const [],
     this.userGrade = UserGrade.guest,
   });
 
@@ -38,6 +40,7 @@ class ModelMember {
       'email': email,
       'isAdmin': isAdmin,
       'favorites': favorites,
+      'favorites': notify,
       'userGrade': userGrade.name,
     };
   }
@@ -53,6 +56,7 @@ class ModelMember {
       email: json['email'],
       isAdmin: json['isAdmin'] ?? false,
       favorites: List<String>.from(json['favorites'] ?? []),
+      notify: List<String>.from(json['notify'] ?? []),
       userGrade: UserGrade.values
           .firstWhere((userGrade) => userGrade.name == json['userGrade'] ),
     );
