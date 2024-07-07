@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennisreminder/main_screen/home/user_alarm.dart';
 import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,7 +35,11 @@ class _UserHomeState extends State<UserHome> {
   }
 
   Future<void> streamMe() async {
-    streamSub = FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).snapshots().listen((event) {
+    final pref = await SharedPreferences.getInstance();
+    final userId = pref.getString('uid');
+
+    /// 문서가 업데이트 될 때마다 계속 받아옴(일회성으로 받아올 필요가 없다.)
+    streamSub = FirebaseFirestore.instance.collection('member').doc(userId).snapshots().listen((event) {
       final ModelMember newModelMember = ModelMember.fromJson(event.data()!);
       userNotifier.value = newModelMember;
       debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
@@ -42,15 +47,29 @@ class _UserHomeState extends State<UserHome> {
   }
 
   Future<void> _fetchCourtData() async {
+    // 시작시간
+    final now = DateTime.now();
+    debugPrint("시작시간 $now");
     final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
     }).toList();
+    // 경과시간
+    final elapsed = DateTime.now().difference(now);
+    debugPrint("경과시간 $elapsed");
 
-    setState(() {
-      modelCourts = fetchedModelCourts;
-    });
+    // 1. 현재 위젯트리를 dispose 안되게 하는 방법
+    // 2. final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();를 끝마치고서 이 위젯트리로 오게
+    // 3. Widget Tree에 살아있을때만 실행
+    debugPrint("mounted $mounted");
+    if (mounted) {
+      setState(() {
+        modelCourts = fetchedModelCourts;
+      });
+    } else {
+      debugPrint("위젯트리 죽음");
+    }
   }
 
   Future<void> _loadNearbyCourts() async {
@@ -60,6 +79,7 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   void dispose() {
+    debugPrint("UserHome dispose");
     // TODO: implement dispose
     super.dispose();
     streamSub?.cancel();
@@ -118,7 +138,6 @@ class _UserHomeState extends State<UserHome> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -141,7 +160,6 @@ class _UserHomeState extends State<UserHome> {
               ],
             ),
           ),
-
           const SizedBox(height: 10),
           SizedBox(
             height: 150,
@@ -205,8 +223,6 @@ class _UserHomeState extends State<UserHome> {
             ),
           ),
           const SizedBox(height: 30),
-
-
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(

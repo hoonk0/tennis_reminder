@@ -49,7 +49,7 @@ class UtilsLogin {
                 location: '',
                 email: user.email!,
               );
-              await _saveUserToFirestore(newUser);
+              await _saveUserToFirestore(newUser); // 파이어스토어 회원가입 시키기
             }
 
             // SharedPreferences에 UID 저장

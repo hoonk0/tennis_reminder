@@ -110,7 +110,7 @@ class _CourtInformationState extends State<CourtInformation> {
                       child: Row(
                         children: [
                           Text(court.name, style: const TS.s20w600(colorGreen900)),
-                          SizedBox(width: 10,),
+                          SizedBox(width: 10),
                           Transform.translate(
                             offset: const Offset(-10, 0),
                             child: IconButton(
@@ -141,7 +141,6 @@ class _CourtInformationState extends State<CourtInformation> {
                               ),
                             ),
                           ),
-
                           Transform.translate(
                             offset: const Offset(-10, 0),
                             child: IconButton(
@@ -172,7 +171,6 @@ class _CourtInformationState extends State<CourtInformation> {
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/main_screen/home/user_home.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_page.dart';
@@ -30,19 +28,11 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-
-
       // _selectedIndex가 0이 아닌 경우 앱바를 숨김
       body: _selectedIndex == 0
           ? const UserHome()
-          : (_selectedIndex == 1 ? const CourtSearch() :
-      (_selectedIndex == 2 ? const CourtFavorite() :
-      const SettingPage()
-      )
-      ),
+          : (_selectedIndex == 1 ? const CourtSearch() : (_selectedIndex == 2 ? const CourtFavorite() : const SettingPage())),
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: colorGray300,

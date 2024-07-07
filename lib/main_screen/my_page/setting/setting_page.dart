@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennisreminder/const/color.dart';
 import 'package:tennisreminder/const/enums.dart';
 import 'package:tennisreminder/const/text_style.dart';
+import 'package:tennisreminder/main_screen/home/splash_screen.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
@@ -106,36 +108,26 @@ class SettingPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6.0),
                       ),
                       backgroundColor: const Color(0xffe8e8e8),
-                      title: const Text(
-                        'Contact us',
-                          style:
-                          TextStyle(
+                      title: const Text('Contact us',
+                          style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
                             color: colorGreen900,
-                          )
-                      ),
-                      content: const Text(
-                        'Please contact us\ncourtvibemem@gmail.com',
-                        style: TS.s14w400(colorGreen900)
-                      ),
+                          )),
+                      content: const Text('Please contact us\ncourtvibemem@gmail.com', style: TS.s14w400(colorGreen900)),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: const Text(
-                            '확인',
-                            style: TS.s14w700(colorGreen900)
-                          ),
+                          child: const Text('확인', style: TS.s14w700(colorGreen900)),
                         ),
                       ],
                     );
                   },
                 );
               },
-
               child: Row(
                 children: [
                   Expanded(
@@ -259,11 +251,18 @@ class SettingPage extends StatelessWidget {
                                   child: const Text('취소'),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                                    ); // 바텀 시트 닫기
+                                  onPressed: () async {
+                                    /// 로그아웃일 때 해야할 것
+                                    // 1. 로그인 데이터 초기화
+                                    final pref = await SharedPreferences.getInstance();
+                                    pref.remove('uid');
+                                    // 2. Stream 구독 취소
+                                    // pushAndRemoveUntil로 해결
+                                    // 3. userNotifier 초기화.
+                                    userNotifier.value = null;
+
+                                    Navigator.of(context)
+                                        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const RouteSplash()), (route) => false);
                                     // 로그아웃 처리
                                   },
                                   style: ElevatedButton.styleFrom(
