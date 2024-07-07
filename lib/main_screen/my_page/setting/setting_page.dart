@@ -6,6 +6,7 @@ import 'package:tennisreminder/const/text_style.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
+import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_my_page.dart';
 import 'package:tennisreminder/service/provider/providers.dart';
 
 import '../../../start/login_screen.dart';
@@ -183,7 +184,10 @@ class SettingPage extends StatelessWidget {
 
             GestureDetector(
               onTap: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingMyPage()),
+                );
               },
               child: Row(
                 children: [

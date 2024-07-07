@@ -98,8 +98,12 @@ class _CourtSearchState extends State<CourtSearch> {
                     title: Text(court.name),
                     subtitle: Text(shortLocation),
                     onTap: () async {
-
-
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                          builder: (context) => CourtInformation(courtId: _courts[index].id),
+                      ),
+                      );
                     },
                   );
                 },
