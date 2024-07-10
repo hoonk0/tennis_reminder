@@ -64,7 +64,7 @@ class _CourtFavoriteState extends State<CourtFavorite> {
                 }
                 return ListView.separated(
                   itemCount: listModelCourt.length,
-                  separatorBuilder: (context, index) => const Divider(indent: 8,endIndent: 8,color: colorGray400),
+                  separatorBuilder: (context, index) => const Divider(indent: 8,endIndent: 8,color: colorGreen900),
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/const/color.dart';
+import 'package:tennisreminder/main_screen/home/user_alarm.dart';
+import 'package:tennisreminder/main_screen/my_page/search_court/court_favorite.dart';
 
 import '../../../../const/text_style.dart';
 
@@ -11,6 +13,7 @@ class SettingMyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xffe8e8e8),
         automaticallyImplyLeading: false,
         title: Center(
           child: Text(
@@ -31,43 +34,83 @@ class SettingMyPage extends StatelessWidget {
         child: Column(
           children: [
 
-            SizedBox(height: 30),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    '사용자 정보',
-                    style: TS.s18w700(colorGreen900),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 10,),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    '로그인 아이디',
-                    style: TS.s14w400(colorGreen900),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CourtFavorite(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      '선호 코트',
+                      style: GoogleFonts.anton(
+                        textStyle: const TS.s16w500(colorGreen900),
+                      ),
+                    ),
                   ),
                   IconButton(
-                    onPressed: () {
-
+                    onPressed: () async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CourtFavorite(),
+                        ),
+                      );
                     },
-                    icon: const Icon(Icons.arrow_forward),
+                    icon: const Icon(Icons.star_border_purple500_outlined),
                     color: colorGreen900,
                   ),
                 ],
               ),
             ),
 
+
+
+            const Divider(
+              height: 32,
+            thickness: 2,
+            color: colorGreen900,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserAlarm(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      '알림 코트',
+                      style: GoogleFonts.anton(
+                        textStyle: const TS.s16w500(colorGreen900),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserAlarm(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.notifications_none),
+                    color: colorGreen900,
+                  ),
+                ],
+              ),
+            ),
 
 
           ],

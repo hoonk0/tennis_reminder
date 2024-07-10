@@ -41,16 +41,18 @@ class _SettingNoticeState extends State<SettingNotice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xffe8e8e8),
+        automaticallyImplyLeading: false,
         title: Text(
-          '공지사항',
-          style: GoogleFonts.anton(
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: colorGreen900,
-              fontSize: 24,
-            ),
+        'Notice',
+        style: GoogleFonts.anton(
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.w400,
+            color: colorGreen900,
+            fontSize: 24,
           ),
         ),
+      ),
 
         centerTitle: true,
         actions: [
@@ -95,12 +97,7 @@ class _SettingNoticeState extends State<SettingNotice> {
       ),
       body: Column(
         children: [
-          Divider(
-            color: colorGreen900,
-            thickness: 2,
-            indent: 5,
-            endIndent: 5,
-          ),
+
           Expanded(
             child: modelNotices.isEmpty
                 ? const Center(child: CircularProgressIndicator())

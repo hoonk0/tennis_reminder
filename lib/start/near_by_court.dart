@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../model/model_court.dart';
 import '../../../const/color.dart';
+import '../main_screen/my_page/search_court/court_information.dart';
 
 class NearbyCourts extends StatefulWidget {
   const NearbyCourts({super.key});
@@ -112,9 +113,19 @@ class _NearbyCourtsState extends State<NearbyCourts> {
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         minTileHeight: 10,
-                        title: Text(
-                          court.name,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        title: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CourtInformation(courtId: court.id),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            court.name,
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,6 +147,7 @@ class _NearbyCourtsState extends State<NearbyCourts> {
                       ),
                   ],
                 );
+
               },
             )
           : const Center(child: CircularProgressIndicator()),
