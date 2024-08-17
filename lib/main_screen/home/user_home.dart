@@ -144,7 +144,7 @@ class _UserHomeState extends State<UserHome> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'SEARCH COURT',
+                  'ㅇSEARCH COURT',
                   style: TS.s16w900(colorGreen900),
                 ),
                 IconButton(
