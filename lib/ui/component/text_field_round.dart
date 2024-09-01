@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../const/color.dart';
 import '../../../const/text_style.dart';
+import '../../const/value/colors.dart';
 
 
 

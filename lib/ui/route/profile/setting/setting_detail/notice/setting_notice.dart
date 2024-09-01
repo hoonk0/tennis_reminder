@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tennisreminder/ui/route/profile/setting/setting_detail/notice/setting_notice_detail.dart';
-import '../../../../../../../../const/enums.dart';
 import '../../../../../../../../const/model/model_notice.dart';
 import '../../../../../../../../const/service/provider/providers.dart';
 import '../../../../../../../../const/value/colors.dart';
+import '../../../../../../const/value/enum.dart';
 import 'new_notice.dart';
 
 class SettingNotice extends StatefulWidget {

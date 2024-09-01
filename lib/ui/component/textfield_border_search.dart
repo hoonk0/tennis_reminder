@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../const/color.dart';
 import '../../../const/text_style.dart';
+import '../../const/value/colors.dart';
 
 class TextFieldBorderSearch extends TextField {
   TextFieldBorderSearch({

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+
+final colorGrayShadow70 = const Color(0xFF000000).withOpacity(0.7);
 /* Basic Color */
 const colorWhite = Color(0xFFFFFFFF);
 const colorBlack = Color(0xFF000000);
-const colorFavorite = Color(0xFFFF3C3C);
+const colorRed = Color(0xFFFF3C3C);
 const colorPrimary = Color(0xff9e8477);
 
 /* Gray Scale */

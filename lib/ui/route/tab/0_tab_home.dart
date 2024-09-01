@@ -4,12 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennisreminder/ui/route/search/neartby_courts_map.dart';
-
-import '../../../const/color.dart';
-import '../../../const/gaps.dart';
 import '../../../const/model/model_court.dart';
 import '../../../const/model/model_member.dart';
 import '../../../const/service/provider/providers.dart';
+import '../../../const/value/colors.dart';
+import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
 import '../auth/start/near_by_court.dart';
 import '../profile/search_court/court_information.dart';

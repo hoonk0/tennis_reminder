@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tennisreminder/ui/component/custom_divider.dart';
-import '../../../../const/color.dart';
 import '../../../../const/model/model_court.dart';
-import '../../../const/text_style.dart';
+import '../../../const/value/colors.dart';
+import '../../../const/value/text_style.dart';
 import '../profile/search_court/court_information.dart';
 
 class NearbyCourtsMap extends StatefulWidget {

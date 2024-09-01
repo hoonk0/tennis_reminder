@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:tennisreminder/const/color.dart';
+import '../../const/value/colors.dart';
 
 class CustomDivider extends StatelessWidget {
   final double height;

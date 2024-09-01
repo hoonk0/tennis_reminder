@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tennisreminder/const/value/sizes.dart';
 
-import '../size.dart';
 
 class Gaps {
   /// Vertical Gaps
@@ -35,6 +35,7 @@ class Gaps {
   static const v40 = SizedBox(height: Sizes.size40);
   static const v44 = SizedBox(height: Sizes.size44);
   static const v45 = SizedBox(height: Sizes.size45);
+  static const v46 = SizedBox(height: Sizes.size46);
   static const v48 = SizedBox(height: Sizes.size48);
   static const v50 = SizedBox(height: Sizes.size50);
   static const v52 = SizedBox(height: Sizes.size52);

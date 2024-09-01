@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tennisreminder/const/value/sizes.dart';
 
-import '../size.dart';
 
 class TS extends TextStyle {
   /// size30, w700

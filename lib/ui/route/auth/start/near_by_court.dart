@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../../const/color.dart';
 import '../../../../const/model/model_court.dart';
+import '../../../../const/value/colors.dart';
 import '../../profile/search_court/court_information.dart';
 
 class NearbyCourts extends StatefulWidget {
@@ -141,8 +141,8 @@ class _NearbyCourtsState extends State<NearbyCourts> {
                       ),
                     ),
                     if (index < _nearbyCourts.length - 1)
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Divider(color: colorGray900),
                       ),
                   ],

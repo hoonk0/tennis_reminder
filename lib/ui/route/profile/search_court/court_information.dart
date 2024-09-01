@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../../../const/key.dart';
 import '../../../../../../const/model/model_court.dart';
 import '../../../../../../const/service/provider/providers.dart';
 import '../../../../../../const/value/colors.dart';
 import '../../../../../../const/value/text_style.dart';
+import '../../../../const/value/keys.dart';
 import 'court_location.dart';
 
 class CourtInformation extends StatefulWidget {

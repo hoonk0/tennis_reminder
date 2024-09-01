@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tennisreminder/ui/route/tab/0_tab_home.dart';
 import 'package:tennisreminder/ui/route/tab/1_tab_favorite.dart';
-import 'package:tennisreminder/ui/route/tab/3_tab_profile.dart';
+import 'package:tennisreminder/ui/route/tab/2_tab_profile.dart';
 
-import '../../const/color.dart';
+import '../../const/value/colors.dart';
 import '../../const/value/gaps.dart';
 
 class RouteMain extends StatefulWidget {

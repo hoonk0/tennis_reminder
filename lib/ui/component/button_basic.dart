@@ -1,45 +1,38 @@
-
 import 'package:flutter/material.dart';
-import 'package:tennisreminder/const/color.dart';
+import '../../const/value/colors.dart';
 
-
-
-class PurpleButton extends StatelessWidget {
+class ButtonBasic extends StatelessWidget {
   final String title;
   final Color colorBg;
   final Color titleColorBg;
   final double titleFontSize;
   final double width;
+  final Color borderColor; // 테두리 색을 위한 필드 추가
   final void Function()? onTap;
-  final EdgeInsets? padding;
-  final EdgeInsets? margin;
 
-  const PurpleButton({
+  const ButtonBasic({
     required this.title,
-    this.colorBg = colorGreen600,
+    this.colorBg = colorRed,
     this.width = double.infinity,
     this.titleColorBg = colorWhite,
     this.titleFontSize = 18,
+    this.borderColor = colorWhite, // 기본 테두리 색을 빨간색으로 설정
     required this.onTap,
-    this.padding,
-    this.margin,
     super.key,
   });
-
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: padding,
-        margin: margin,
-        height: 48,
+        height: 56,
         width: width,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: colorBg,
+          border: Border.all(color: borderColor), // 테두리 색 설정
         ),
         child: Center(
           child: Text(
@@ -47,9 +40,8 @@ class PurpleButton extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: titleFontSize,
-              color: titleColorBg
-            )
-
+              color: titleColorBg,
+            ),
           ),
         ),
       ),
