@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tennisreminder/ui/route/profile/setting/setting_detail/court_manager/setting_manager_court.dart';
 
 import '../../../const/service/utils/utils.dart';
 import '../../../const/value/colors.dart';
@@ -115,7 +116,10 @@ class TabProfile extends StatelessWidget {
 
                 CustomContainerProfileList(title: "개인정보처리방침 및 이용약관", onTap: (){Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => RouteProfilePrivate()));}),
-                CustomContainerProfileList(title: "앱 버전", onTap: (){}),
+                CustomContainerProfileList(title: "관리자화면", onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SettingManagerCourt()));
+                }),
                 CustomContainerProfileList(title: "로그아웃", onTap: (){showLogoutModalBottomSheet(context);}), // Changed '로그아웃'
                 CustomContainerProfileList(title: "회원탈퇴", onTap: (){showMemberOutModalBottomSheet(context);}), // Changed '회원탈퇴'
               ],
