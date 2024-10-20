@@ -84,8 +84,8 @@ class _RouteMainState extends State<RouteMain> {
                         index == 0
                             ? '홈'
                             : index == 1
-                            ? '마케팅'
-                            : '사용자 정보',
+                            ? '선호 코트'
+                            : '프로필',
                         style: TextStyle(
                           color: vnTabIndex.value == index ? colorGreen900 : colorGray900,
                           fontWeight: FontWeight.w400,

@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -69,7 +70,9 @@ class _RouteAuthProfileState extends State<RouteAuthProfile> {
     final condition3 = experienceMonth != null;
     final condition4 = vnXFile.value != null;
     debugPrint(" condition1 : $condition1 , condition2 : $condition2 , condition3 : $condition3");
-    return condition1 && condition2 && condition3 /*&& condition4*/;
+    return condition1 && condition2 && condition3 */
+/*&& condition4*//*
+;
   }
 
   @override
@@ -315,10 +318,12 @@ class _RouteAuthProfileState extends State<RouteAuthProfile> {
                     titleColorBg: isCheckAllComplete ? colorWhite : colorGray500,
                     colorBg: isCheckAllComplete ? colorGreen600 : colorGray200,
                     onTap: () async {
-                      /*if (vnXFile.value == null) {
+                      */
+/*if (vnXFile.value == null) {
                         Utils.toast(desc: '프로필 사진을 등록해주세요.');
                         return;
-                      }*/
+                      }*//*
+
                       if (vnSelectedSex.value == null) {
                         Utils.toast(desc: '성별을 선택해주세요.');
                         return;
@@ -387,3 +392,4 @@ class _RouteAuthProfileState extends State<RouteAuthProfile> {
     }
   }
 }
+*/

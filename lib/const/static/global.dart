@@ -2,9 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/model_user.dart';
+
 class Global {
   /// uid
   static final ValueNotifier<String?> vnUidUser = ValueNotifier(null);
+
+  static ValueNotifier<ModelUser?> userNotifier = ValueNotifier(null);
 
   /// Main Tab Index
   static final ValueNotifier<int> vnIndexMainTab = ValueNotifier(0);

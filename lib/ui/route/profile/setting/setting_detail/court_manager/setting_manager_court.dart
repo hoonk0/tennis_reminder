@@ -40,7 +40,6 @@ class _SettingManagerCourtState extends State<SettingManagerCourt> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('코트 등록 현황'),
-        automaticallyImplyLeading: false,
         centerTitle: true,
         actions: [
           IconButton(

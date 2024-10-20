@@ -103,7 +103,7 @@ class _RouteAuthSignUpEmailState extends State<RouteAuthSignUpEmail> {
                     return ButtonBasic(
                       title: '다음',
                       titleColorBg: isButtonEnabled ? colorWhite : colorGray500,
-                      colorBg: isButtonEnabled ? colorGreen600 : colorGray200,
+                      colorBg: isButtonEnabled ? colorGreen900 : colorGray200,
                       onTap: isButtonEnabled
                           ? () {
                               Navigator.of(context).push(MaterialPageRoute(
