@@ -92,3 +92,9 @@ const colorPrimary1 = Color(0xFFFFD361);
 const colorPrimary2 = Color(0xFFF4D15D);
 const colorPrimary3 = Color(0xFFC6A43B);
 const colorPrimary4 = Color(0xFFA37A10);
+
+
+/*point color*/
+const colorPoint600 = Color(0xFFF7F8FA);
+const colorPoint700 = Color(0xFFB4BBCB);
+const colorPoint900 = Color(0xFF4D5661);

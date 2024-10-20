@@ -1,5 +1,6 @@
 
-import '../enums.dart';
+
+import '../value/enum.dart';
 
 class ModelMember {
   final String id;

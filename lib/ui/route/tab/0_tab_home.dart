@@ -10,7 +10,7 @@ import '../../../const/service/provider/providers.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
-import '../auth/start/near_by_court.dart';
+import '../search/near_by_court.dart';
 import '../profile/search_court/court_information.dart';
 import '../profile/search_court/court_search.dart';
 
@@ -33,18 +33,33 @@ class _TabHomeState extends State<TabHome> {
     streamMe();
     _loadNearbyCourts(); // 근처 코트 데이터 로드
   }
-
   Future<void> streamMe() async {
     final pref = await SharedPreferences.getInstance();
     final userId = pref.getString('uid');
 
-    /// 문서가 업데이트 될 때마다 계속 받아옴(일회성으로 받아올 필요가 없다.)
-    streamSub = FirebaseFirestore.instance.collection('member').doc(userId).snapshots().listen((event) {
-      final ModelMember newModelMember = ModelMember.fromJson(event.data()!);
-      userNotifier.value = newModelMember;
-      debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
+    if (userId == null) {
+      debugPrint("userId가 null입니다.");
+      return; // null이면 바로 종료
+    }
+
+    streamSub = FirebaseFirestore.instance
+        .collection('member')
+        .doc(userId)
+        .snapshots()
+        .listen((event) {
+      final data = event.data();
+      if (data != null) {
+        final ModelMember newModelMember = ModelMember.fromJson(data);
+        userNotifier.value = newModelMember;
+        debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
+      } else {
+        debugPrint("Firestore 문서 데이터가 null입니다.");
+      }
+    }, onError: (error) {
+      debugPrint("Firestore 오류 발생: $error");
     });
   }
+
 
   Future<void> _fetchCourtData() async {
     // 시작시간

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
   /// uid
@@ -19,4 +20,9 @@ class Global {
 
   /// 선택한 갤러리폴더
   static ValueNotifier<String> vnGallerySelected = ValueNotifier(Platform.isIOS ? 'Recents' : 'Recent');
+
+  static String? uid;
+
+  static String? googlePhoneVerificationId;
 }
+SharedPreferences? pref;

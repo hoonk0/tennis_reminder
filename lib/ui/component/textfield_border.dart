@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../const/text_style.dart';
 import '../../const/value/colors.dart';
+import '../../const/value/text_style.dart';
 
 
 
@@ -33,14 +33,14 @@ class TextFieldBorder extends TextField {
     EdgeInsetsGeometry contentPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     TextStyle? errorTextStyle = const TS.s12w500(colorVolcano500),
     TextAlignVertical super.textAlignVertical = TextAlignVertical.center,
-    Color colorBorder = colorGreen600,
-    Color colorFocused = colorGray50,
+    Color colorBorder = colorGray500,
+    Color colorFocused = colorGreen900,
     Color colorBorderError = const Color(0xFFDDE1E6),
     double circularNumber = 10,
     super.key,
   }) : super(
           style: textStyle,
-          cursorColor: colorGreen600,
+          cursorColor: colorGreen900,
           decoration: InputDecoration(
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,

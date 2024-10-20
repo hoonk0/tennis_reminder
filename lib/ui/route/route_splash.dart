@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
+import 'package:tennisreminder/ui/route/auth/route_auth_login.dart';
 
 import '../../const/static/global.dart';
-import 'auth/route_auth_login.dart';
+import 'auth/route_auth_login(not use).dart';
 
 class RouteSplash extends StatefulWidget {
   const RouteSplash({super.key});
@@ -19,7 +20,9 @@ class _RouteSplashState extends State<RouteSplash> {
     Future.delayed(const Duration(milliseconds: 2000), () {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => const RouteAuthLogin(),
+          builder: (context) =>
+          ///const RouteAuthLogin(),
+          const RouteAuthLogin(), // sns 연결 스터디중
         ),
       );
     });
@@ -33,6 +36,7 @@ class _RouteSplashState extends State<RouteSplash> {
 
   @override
   Widget build(BuildContext context) {
+    Global.contextSplash = context;
     return Scaffold(
       body: Center(
         child: SizedBox(

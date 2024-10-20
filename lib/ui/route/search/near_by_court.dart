@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../../const/model/model_court.dart';
-import '../../../../const/value/colors.dart';
-import '../../profile/search_court/court_information.dart';
+import '../../../const/model/model_court.dart';
+import '../../../const/value/colors.dart';
+import '../profile/search_court/court_information.dart';
 
 class NearbyCourts extends StatefulWidget {
   const NearbyCourts({super.key});

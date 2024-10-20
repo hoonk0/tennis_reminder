@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tennisreminder/ui/route/auth/route_auth_login.dart';
 import 'package:tennisreminder/ui/route/profile/setting/setting_detail/court_manager/setting_manager_court.dart';
-
 import '../../../const/service/utils/utils.dart';
+import '../../../const/static/global.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
+import '../../../const/value/keys.dart';
 import '../../../const/value/text_style.dart';
 import '../../component/custom_container_profile_list.dart';
 import '../../component/button_basic.dart';
-import '../auth/route_auth_login.dart';
+import '../auth/route_auth_login(not use).dart';
 import '../profile/route_profile_edit_my_info_sns.dart';
 import '../profile/route_profile_privacy_policy.dart';
+import '../route_splash.dart';
 
 
 class TabProfile extends StatelessWidget {
@@ -122,6 +125,12 @@ class TabProfile extends StatelessWidget {
                 }),
                 CustomContainerProfileList(title: "로그아웃", onTap: (){showLogoutModalBottomSheet(context);}), // Changed '로그아웃'
                 CustomContainerProfileList(title: "회원탈퇴", onTap: (){showMemberOutModalBottomSheet(context);}), // Changed '회원탈퇴'
+
+/*
+                ElevatedButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Test()));
+                }, child: Text('test'))a*/
               ],
             ),
           ),
@@ -131,16 +140,14 @@ class TabProfile extends StatelessWidget {
   void showLogoutModalBottomSheet(BuildContext contextMain) {
     showModalBottomSheet(
       context: contextMain,
-
       builder: (BuildContext context) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(12.0),
             ),
           ),
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -150,7 +157,7 @@ class TabProfile extends StatelessWidget {
               Container(
                 width: 44,
                 height: 4,
-                margin: EdgeInsets.only(top: 12.0),
+                margin: const EdgeInsets.only(top: 12.0),
                 decoration: BoxDecoration(
                   color: colorGray300,
                   borderRadius: BorderRadius.circular(10.0),
@@ -171,9 +178,12 @@ class TabProfile extends StatelessWidget {
                       title: '로그아웃',
                       colorBg: colorRed,
                       titleColorBg: colorGray500,
-                      onTap: () {
+                      onTap: () async {
                         Navigator.of(context).pop();
                         Utils.toast(desc: '정상적으로 로그아웃 되었습니다..');
+                        pref!.remove(keyUid);
+                        //Utils.initProvider();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const RouteSplash()), (route) => false);
                       },
                     ),
                   ),
@@ -201,20 +211,19 @@ class TabProfile extends StatelessWidget {
   void showMemberOutModalBottomSheet(BuildContext contextMain) {
     showModalBottomSheet(
       context: contextMain,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(12.0),
         ),
       ),
       builder: (BuildContext context) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(12.0),
             ),
           ),
-
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -223,7 +232,7 @@ class TabProfile extends StatelessWidget {
               Container(
                 width: 44,
                 height: 4,
-                margin: EdgeInsets.only(top: 12.0),
+                margin: const EdgeInsets.only(top: 12.0),
                 decoration: BoxDecoration(
                   color: colorGray300,
                   borderRadius: BorderRadius.circular(10.0),
@@ -247,13 +256,10 @@ class TabProfile extends StatelessWidget {
                   Expanded(
                       child: ButtonBasic(
                         title: '회원 탈퇴',
-                        colorBg: colorRed,
+                        colorBg: colorBlack,
                         titleColorBg: colorGray500,
                         onTap: () {
-
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RouteAuthLogin()));
-
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthLogin()));
 
                           Utils.toast(desc: '정상적으로 탈퇴되었습니다.');
                         },
@@ -275,9 +281,7 @@ class TabProfile extends StatelessWidget {
             ],
           ),
         );
-        ;
       },
     );
   }
-
 }
