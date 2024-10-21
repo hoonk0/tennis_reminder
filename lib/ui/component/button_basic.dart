@@ -26,7 +26,7 @@ class ButtonBasic extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 56,
+        height: 50,
         width: width,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(

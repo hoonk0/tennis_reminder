@@ -36,53 +36,40 @@ class RouteAuthSignUpNickname extends StatefulWidget {
 class _RouteAuthSignUpNicknameState extends State<RouteAuthSignUpNickname> {
   final TextEditingController tecNickname = TextEditingController();
   final ValueNotifier<bool> vnSignUpButtonEnabled = ValueNotifier(false);
-  bool isCheckingNickname = false;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     initNickname();
   }
 
   Future<void> initNickname() async {
-    if (widget.nickname?.isNotEmpty ?? false) {
-      tecNickname.text = widget.nickname!;
-      await checkNickname(true); // 초깃값으로 중복 확인 호출
+    if (widget.nickname != null) {
+      checkNickname(true);
     }
   }
 
   Future<void> checkNickname(bool isInit) async {
-    final nickname = tecNickname.text.trim();
-
-    if (nickname.isEmpty) {
-      Utils.toast(desc: '닉네임을 입력해주세요.');
-      return;
-    }
-
-    try {
-      final userQs = await FirebaseFirestore.instance
-          .collection(keyUser)
-          .where(keyNickname, isEqualTo: nickname)
-          .get();
-
-      if (userQs.docs.isEmpty) {
-        Utils.toast(desc: '닉네임 중복 확인이 완료되었습니다.');
-        vnSignUpButtonEnabled.value = true;
-      } else {
-        vnSignUpButtonEnabled.value = false;
-        Utils.toast(desc: '닉네임이 이미 사용 중입니다.');
+    final nickname = tecNickname.text;
+    final userQs = await FirebaseFirestore.instance.collection(keyUser).where(keyNickname, isEqualTo: nickname).get();
+    if (userQs.docs.isEmpty) {
+      Utils.toast(desc: '닉네임 중복 확인이 완료되었습니다.');
+      if (isInit) {
+        tecNickname.text = widget.nickname!;
       }
-    } catch (e) {
-      Utils.toast(desc: '오류가 발생했습니다: $e');
-    } finally {
-      isCheckingNickname = false; // 중복 확인이 끝났음을 표시
+      vnSignUpButtonEnabled.value = true;
+    } else {
+      vnSignUpButtonEnabled.value = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         appBar: AppBar(title: const Text('닉네임')),
         body: SafeArea(
@@ -96,42 +83,46 @@ class _RouteAuthSignUpNicknameState extends State<RouteAuthSignUpNickname> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Gaps.v28,
-                        const Text('닉네임', style: TS.s14w500(colorGray900)),
+                        const Text(
+                          '닉네임',
+                          style: TS.s14w500(colorGray900),
+                        ),
                         Gaps.v10,
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               flex: 3,
-                              child: TextFieldBorder(
-                                controller: tecNickname,
-                                hintText: '닉네임 입력',
-                                keyboardType: TextInputType.text,
-                                onChanged: (value) {
-                                  final trimmedValue = value.trim();
-                                  vnSignUpButtonEnabled.value =
-                                      trimmedValue.isNotEmpty && !isCheckingNickname;
+                              child: ValueListenableBuilder(
+                                valueListenable: tecNickname,
+                                builder: (context, value, child) {
+                                  debugPrint("리빌드 ${tecNickname.text.isEmpty}");
+                                  return TextFieldBorder(
+                                    controller: tecNickname,
+                                    hintText: '닉네임 입력',
+                                    keyboardType: TextInputType.text,
+                                    onChanged: (value) {},
+                                    errorText: tecNickname.text.isNotEmpty ? null : '닉네임을 입력해주세요',
+                                  );
                                 },
-                                errorText: tecNickname.text.trim().isNotEmpty
-                                    ? null
-                                    : '닉네임을 입력해주세요',
                               ),
                             ),
                             Gaps.h8,
                             Expanded(
-                              child: ButtonBasic(
-                                title: '중복확인',
-                                colorBg: tecNickname.text.isNotEmpty
-                                    ? colorGreen900
-                                    : colorGray200,
-                                onTap: () async {
-                                  if (isCheckingNickname) return;
-                                  if (tecNickname.text.trim().isEmpty) {
-                                    Utils.toast(desc: '닉네임을 입력해주세요.');
-                                    return;
-                                  }
-                                  isCheckingNickname = true;
-                                  await checkNickname(false);
+                              child: ValueListenableBuilder(
+                                valueListenable: tecNickname,
+                                builder: (context, tec, child) {
+                                  return ButtonBasic(
+                                    title: '중복확인',
+                                    colorBg: tecNickname.text.isNotEmpty ? colorGreen900 : colorGray200,
+                                    onTap: () async {
+                                      if (tecNickname.text.isEmpty) {
+                                        Utils.toast(desc: '닉네임을 입력해주세요.');
+                                        return;
+                                      }
+                                      checkNickname(false);
+                                    },
+                                  );
                                 },
                               ),
                             ),
@@ -183,3 +174,7 @@ class _RouteAuthSignUpNicknameState extends State<RouteAuthSignUpNickname> {
     );
   }
 }
+
+
+
+

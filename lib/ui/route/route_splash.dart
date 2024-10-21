@@ -10,6 +10,8 @@ import '../../const/service/stream/stream_me.dart';
 import '../../const/static/global.dart';
 import 'auth/route_auth_login(not use).dart';
 
+BuildContext? contextMain;
+
 class RouteSplash extends ConsumerStatefulWidget {
   const RouteSplash({super.key});
 
@@ -20,20 +22,12 @@ class RouteSplash extends ConsumerStatefulWidget {
 class _RouteSplashState extends ConsumerState<RouteSplash> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    _checkUserAndInitData();
-/*    Future.delayed(const Duration(milliseconds: 2000), () {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) =>
-          ///const RouteAuthLogin(),
-          const RouteAuthLogin(), // sns 연결
-        ),
-      );
-    });*/
+    checkUserAndInitData();
   }
 
-  Future<void> _checkUserAndInitData() async {
+  Future<void> checkUserAndInitData() async {
     final pref = await SharedPreferences.getInstance();
     final uid = pref.getString('uid');
 
@@ -44,19 +38,14 @@ class _RouteSplashState extends ConsumerState<RouteSplash> {
             (timeStamp) async {
           /// FirebaseAuth에 등록되어 있지 않음: 아무것도 안함
           if (uid == null) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => RouteAuthLogin()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthLogin()));
           }
 
-          /// uid 를 들고 있을 때
+          /// FirebaseAuth에 등록되어 있음
           else {
-            await Future.delayed(Duration(milliseconds: 2000));
-
             StreamMe.listenMe(ref);
-
-            WidgetsBinding.instance.endOfFrame.then((value) async {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const RouteMain(), settings: const RouteSettings(name: 'home')));
-            });
+            await Future.delayed(Duration(milliseconds: 100));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteMain(), settings: const RouteSettings(name: 'home')));
           }
         },
       );
@@ -64,7 +53,6 @@ class _RouteSplashState extends ConsumerState<RouteSplash> {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthLogin()));
     }
   }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
