@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import '../../model/model_member.dart';
+import '../../model/model_user.dart';
 
-final userNotifier = ValueNotifier<ModelMember?>(null);
+final userNotifier = ValueNotifier<ModelUser?>(null);
 // userNotifier.value : ModelMember Or null
 final ValueNotifier<bool> vnIsShow = ValueNotifier(false);
 // vnIsShow.value : false

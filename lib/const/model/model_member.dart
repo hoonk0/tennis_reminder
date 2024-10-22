@@ -1,3 +1,4 @@
+/*
 
 
 import '../value/enum.dart';
@@ -63,3 +64,4 @@ class ModelMember {
     );
   }
 }
+*/

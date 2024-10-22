@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennisreminder/ui/route/search/neartby_courts_map.dart';
 import '../../../const/model/model_court.dart';
 import '../../../const/model/model_member.dart';
+import '../../../const/model/model_user.dart';
 import '../../../const/service/provider/providers.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
@@ -49,7 +50,7 @@ class _TabHomeState extends State<TabHome> {
         .listen((event) {
       final data = event.data();
       if (data != null) {
-        final ModelMember newModelMember = ModelMember.fromJson(data);
+        final ModelUser newModelMember = ModelUser.fromJson(data);
         userNotifier.value = newModelMember;
         debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
       } else {

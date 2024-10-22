@@ -116,11 +116,11 @@ class _CourtInformationState extends State<CourtInformation> {
                             child: IconButton(
                               onPressed: () {
                                 if (userNotifier.value!.favorites.contains(widget.courtId)) {
-                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                  FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
                                     keyFavorites: FieldValue.arrayRemove([widget.courtId])
                                   });
                                 } else {
-                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                  FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
                                     keyFavorites: FieldValue.arrayUnion([widget.courtId])
                                   });
                                 }
@@ -146,11 +146,11 @@ class _CourtInformationState extends State<CourtInformation> {
                             child: IconButton(
                               onPressed: () {
                                 if (userNotifier.value!.notify.contains(widget.courtId)) {
-                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                  FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
                                     'notify': FieldValue.arrayRemove([widget.courtId])
                                   });
                                 } else {
-                                  FirebaseFirestore.instance.collection('member').doc(userNotifier.value!.id).update({
+                                  FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
                                     'notify': FieldValue.arrayUnion([widget.courtId])
                                   });
                                 }

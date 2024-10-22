@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../enum/enums.dart';
+import '../value/enum.dart';
 
 class ModelUser {
   final String uid;
@@ -7,6 +8,10 @@ class ModelUser {
   final String email;
   final String phoneNumber;
   final EnumLoginType loginType;
+  final bool isAdmin;
+  final List<String> favorites;
+  final List<String> notify;
+  final UserGrade userGrade;
 
   const ModelUser({
     required this.uid,
@@ -14,6 +19,10 @@ class ModelUser {
     required this.email,
     required this.phoneNumber,
     required this.loginType,
+    this.isAdmin = false,
+    this.favorites = const [],
+    this.notify = const [],
+    this.userGrade = UserGrade.guest,
   });
 
   // fromJson
@@ -24,6 +33,11 @@ class ModelUser {
       email: json['email'],
       phoneNumber: json['phoneNumber'],
       loginType: EnumLoginType.values.firstWhere((e) => e.name == json['loginType']),
+      isAdmin: json['isAdmin'] ?? false,
+      favorites: List<String>.from(json['favorites'] ?? []),
+      notify: List<String>.from(json['notify'] ?? []),
+      userGrade: UserGrade.values
+          .firstWhere((userGrade) => userGrade.name == json['userGrade'] ),
     );
   }
 
@@ -35,6 +49,9 @@ class ModelUser {
       'email': email,
       'phoneNumber': phoneNumber,
       'loginType': loginType.name,
+      'isAdmin': isAdmin,
+      'favorites': favorites,
+      'userGrade': userGrade.name,
     };
   }
 

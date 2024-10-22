@@ -12,7 +12,36 @@
           "package_name": "com.example.tennisreminder"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "714794753331-3s67cd9t013ovhiomv8q871a8vl0k6kk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tennisreminder",
+            "certificate_hash": "0ddc5d91e9d96430c8ba17513f603d493fa798a2"
+          }
+        },
+        {
+          "client_id": "714794753331-ersjf1tjao2a691nn3d5jo4mhualfn9f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tennisreminder",
+            "certificate_hash": "989b625419869600025d5a7d3ff7ec2d31d580ed"
+          }
+        },
+        {
+          "client_id": "714794753331-slefu2gf9ivmbkog7okj31k5u59r4ato.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tennisreminder",
+            "certificate_hash": "4742aafd9350ecc5a9f83e9280c6865e6a14ed97"
+          }
+        },
+        {
+          "client_id": "714794753331-itqatr70tdu83e0de0c6tdr37s6lknol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAaYqDYfTXNw6dK_2MLugILKDrx1YVw-eI"
@@ -20,7 +49,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714794753331-itqatr70tdu83e0de0c6tdr37s6lknol.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "714794753331-jpiqp00jitc5r1jjiir963muicqhnhfe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tennisreminder"
+              }
+            }
+          ]
         }
       }
     }
