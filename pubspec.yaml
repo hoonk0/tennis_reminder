@@ -97,7 +97,6 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.2
   url_strategy: ^0.2.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

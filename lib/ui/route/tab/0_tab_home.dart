@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tennisreminder/ui/component/container_court_column.dart';
 import '../../../const/model/model_court.dart';
 import '../../../const/model/model_user.dart';
 import '../../../const/value/colors.dart';
@@ -114,28 +116,35 @@ class _TabHomeState extends State<TabHome> {
                       MaterialPageRoute(builder: (context) => CourtSearch()));
                 },
                 child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                     color: colorWhite,
                     border: Border.all(color: colorGreen900, width: 2),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 16.0),
-                        child: Text(
-                          '원하는 코트를 검색하세요.',
-                          style: TS.s13w500(colorGray900),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.start, // 좌측 정렬
+                  children: [
+                    // 돋보기 아이콘 추가
+                    Icon(
+                      Icons.search, // Flutter 기본 아이콘 중 검색 아이콘 사용
+                      color: colorGray900, // 아이콘 색상 설정
+                      size: 20, // 아이콘 크기 조정 (필요에 따라 조정)
+                    ),
+                    SizedBox(width: 4), // 아이콘과 텍스트 사이의 간격 추가
+                    Text(
+                      '원하는 코트를 검색하세요.',
+                      style: TS.s13w500(colorGray900),
+                    ),
+                  ],
                 ),
+        ),
               ),
 
-              Gaps.v20,
+              Gaps.v10,
+
+              CourtGridView(listCourt: modelCourts),
+
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,7 +224,7 @@ class _TabHomeState extends State<TabHome> {
                 ),
               ),
 
-              Gaps.v20,
+ /*             Gaps.v20,
 
               Row(
                 children: [
@@ -231,7 +240,7 @@ class _TabHomeState extends State<TabHome> {
               const SizedBox(
                 height: 300, // 원하는 높이로 설정 가능
                 child: NearbyCourtsMap(),
-              ),
+              ),*/
 
             ],
           ),

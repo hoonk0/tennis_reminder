@@ -27,7 +27,7 @@ class _RouteMainState extends State<RouteMain> {
           title: tabIndex == 0
               ? Text('홈', style: TextStyle(color: colorGreen900),)
               : tabIndex == 1
-              ? Text('선호 코트',style: TextStyle(color: colorGreen900),)
+              ? Text('기능?',style: TextStyle(color: colorGreen900),)
               : Text('프로필',style: TextStyle(color: colorGreen900),),
         ),
 
@@ -84,7 +84,7 @@ class _RouteMainState extends State<RouteMain> {
                         index == 0
                             ? '홈'
                             : index == 1
-                            ? '선호 코트'
+                            ? '기능?'
                             : '프로필',
                         style: TextStyle(
                           color: vnTabIndex.value == index ? colorGreen900 : colorGray900,

@@ -35,24 +35,11 @@ class _RouteCourtFavoriteState extends State<RouteCourtFavorite> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor:  const Color(0xffe8e8e8),
-        centerTitle: true,
-        title: Text(
-          'FAVORITE COURT',
-          style: GoogleFonts.anton(
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.w400,
-              color: colorGreen900,
-              fontSize: 24,
-            ),
-          ),
-        ),
-      ),
-      body:
-      Column(
+    return
+
+    Scaffold(
+      appBar: AppBar(title: Text("선호코트"),),
+      body:       Column(
         children: [
           const SizedBox(height: 10),
           Expanded(
@@ -108,5 +95,7 @@ class _RouteCourtFavoriteState extends State<RouteCourtFavorite> {
         ],
       ),
     );
+
+
   }
 }

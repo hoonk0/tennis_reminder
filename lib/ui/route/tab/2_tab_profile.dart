@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennisreminder/ui/component/custom_divider.dart';
+import 'package:tennisreminder/ui/route/alarm/route_court_alarm.dart';
 import 'package:tennisreminder/ui/route/favorite/court_favorite.dart';
 import 'package:tennisreminder/ui/route/profile/notice/route_setting_notice.dart';
 import '../../../const/value/colors.dart';
@@ -31,7 +32,6 @@ class TabProfile extends StatelessWidget {
               Gaps.v16,
               Row(
                 children: [
-
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,8 +45,7 @@ class TabProfile extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              RouteProfileEditMyInfoSns(),
+                          builder: (context) => RouteProfileEditMyInfoSns(),
                         ),
                       );
                     },
@@ -72,9 +71,8 @@ class TabProfile extends StatelessWidget {
                   ),
                 ],
               ),
-
               CustomDivider(
-              margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 10),
                 height: 3,
               ),
               _buildProfileOptions(context),
@@ -97,10 +95,10 @@ class TabProfile extends StatelessWidget {
           },
         ),
         CustomContainerProfileList(
-          title: "알람 이력",
+          title: "알람 코트",
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => RouteSettingNotice()),
+              MaterialPageRoute(builder: (context) => RouteCourtAlarm()),
             );
           },
         ),
@@ -113,11 +111,7 @@ class TabProfile extends StatelessWidget {
           },
         ),
 
-
-        CustomDivider(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          height: 1
-        ),
+        CustomDivider(margin: EdgeInsets.symmetric(vertical: 10), height: 1),
 
         CustomContainerProfileList(
           title: "개인정보처리방침 및 이용약관",
@@ -127,7 +121,6 @@ class TabProfile extends StatelessWidget {
             );
           },
         ),
-
 
         CustomContainerProfileList(
           title: "로그아웃",
@@ -141,14 +134,46 @@ class TabProfile extends StatelessWidget {
             showMemberOutModalBottomSheet(context);
           },
         ),
+        // 관리자 화면: userGrade가 'admin'일 때만 표시
+
         CustomContainerProfileList(
           title: "관리자화면",
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SettingManagerCourt()),
+              MaterialPageRoute(
+                builder: (context) => SettingManagerCourt(),
+              ),
             );
           },
-        ),
+        )
+
+        ///질문 유저등급에 따라 보이게 하기
+/*        ValueListenableBuilder(
+          valueListenable: Global.userNotifier,
+          builder: (context, user, child) {
+            debugPrint('유저등급: ${user?.userGrade}'); // 로그로 확인
+
+            // user가 null인 경우 처리
+            if (user == null) {
+              return SizedBox(); // 데이터가 없으면 빈 위젯 반환
+            }
+
+            if (user.userGrade == 'admin') {
+              return CustomContainerProfileList(
+                title: "관리자화면",
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SettingManagerCourt(),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return SizedBox(); // 관리자 등급이 아니면 빈 위젯 반환
+            }
+          },
+        ),*/
       ],
     );
   }
@@ -192,8 +217,9 @@ class TabProfile extends StatelessWidget {
                     final pref = await SharedPreferences.getInstance();
                     pref.remove('uid');
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const RouteSplash()),
-                          (route) => false,
+                      MaterialPageRoute(
+                          builder: (context) => const RouteSplash()),
+                      (route) => false,
                     );
                   },
                 ),
@@ -256,7 +282,10 @@ class TabProfile extends StatelessWidget {
                   colorBg: colorBlack,
                   titleColorBg: colorGray500,
                   onTap: () async {
-                    FirebaseFirestore.instance.collection(keyUser).doc(Global.userNotifier.value!.uid).delete();
+                    FirebaseFirestore.instance
+                        .collection(keyUser)
+                        .doc(Global.userNotifier.value!.uid)
+                        .delete();
 
                     final pref = await SharedPreferences.getInstance();
                     pref.remove('uid');
@@ -265,7 +294,7 @@ class TabProfile extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => RouteSplash(),
                       ),
-                          (route) => false,
+                      (route) => false,
                     );
                     Utils.toast(desc: '정상적으로 탈퇴되었습니다.');
                   },

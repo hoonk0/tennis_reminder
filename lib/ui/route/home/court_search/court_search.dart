@@ -46,6 +46,9 @@ class _CourtSearchState extends State<CourtSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("코트검색"),
+      ),
       body: Column(
         children: [
           SizedBox(height:50),
