@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../../../../const/value/colors.dart';
-import '../../../../../../../const/value/text_style.dart';
-import '../../../alarm/user_alarm.dart';
-import '../../search_court/court_favorite.dart';
+import '../../../../../../const/value/colors.dart';
+import '../../../../../../const/value/text_style.dart';
+import '../alarm/user_alarm.dart';
+import '../favorite/court_favorite.dart';
 
 class SettingMyPage extends StatelessWidget {
   const SettingMyPage({super.key});
@@ -42,7 +42,7 @@ class SettingMyPage extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => CourtFavorite(),
+                          builder: (context) => RouteCourtFavorite(),
                         ),
                       );
                     },
@@ -57,7 +57,7 @@ class SettingMyPage extends StatelessWidget {
                     onPressed: () async {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => CourtFavorite(),
+                          builder: (context) => RouteCourtFavorite(),
                         ),
                       );
                     },

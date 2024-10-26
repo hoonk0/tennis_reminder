@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tennisreminder/ui/route/profile/setting/setting_detail/notice/setting_notice_detail.dart';
+import 'package:tennisreminder/ui/route/profile/notice/setting_notice_detail.dart';
 import '../../../../../../../../const/model/model_notice.dart';
-import '../../../../../../../../const/service/provider/providers.dart';
 import '../../../../../../../../const/value/colors.dart';
 import '../../../../../../const/value/enum.dart';
+import '../../../../service/provider/providers.dart';
 import 'new_notice.dart';
 
-class SettingNotice extends StatefulWidget {
-  const SettingNotice({Key? key}) : super(key: key);
+class RouteSettingNotice extends StatefulWidget {
+  const RouteSettingNotice({Key? key}) : super(key: key);
 
   @override
-  State<SettingNotice> createState() => _SettingNoticeState();
+  State<RouteSettingNotice> createState() => _RouteSettingNoticeState();
 }
 
-class _SettingNoticeState extends State<SettingNotice> {
+class _RouteSettingNoticeState extends State<RouteSettingNotice> {
   late List<ModelNotice> modelNotices;
 
   @override
@@ -41,17 +41,8 @@ class _SettingNoticeState extends State<SettingNotice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xffe8e8e8),
-        automaticallyImplyLeading: false,
         title: Text(
-        'Notice',
-        style: GoogleFonts.anton(
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w400,
-            color: colorGreen900,
-            fontSize: 24,
-          ),
-        ),
+        '공지사항',
       ),
 
         centerTitle: true,

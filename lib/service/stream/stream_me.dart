@@ -5,14 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tennisreminder/const/service/provider/providers.dart';
 
 import '../../../ui/route/route_splash.dart';
-import '../../model/model_user.dart';
+import '../../const/model/model_user.dart';
+import '../../const/value/keys.dart';
 import '../../static/global.dart';
-import '../../value/keys.dart';
-import '../provider/providers.dart';
-import '../provider/providers.dart';
 import '../utils/utils.dart';
 
 class StreamMe {

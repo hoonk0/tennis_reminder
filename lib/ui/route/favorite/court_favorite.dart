@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../const/model/model_court.dart';
-import '../../../../../../const/service/provider/providers.dart';
 import '../../../../../../const/value/colors.dart';
 import '../../../../../../const/value/text_style.dart';
-import 'court_information.dart';
+import '../../../service/provider/providers.dart';
+import '../home/court_search/court_information.dart';
 
-class CourtFavorite extends StatefulWidget {
-  const CourtFavorite({super.key});
+class RouteCourtFavorite extends StatefulWidget {
+  const RouteCourtFavorite({super.key});
 
   @override
-  State<CourtFavorite> createState() => _CourtFavoriteState();
+  State<RouteCourtFavorite> createState() => _RouteCourtFavoriteState();
 }
 
-class _CourtFavoriteState extends State<CourtFavorite> {
+class _RouteCourtFavoriteState extends State<RouteCourtFavorite> {
   final ValueNotifier<List<ModelCourt>> vnListModelCourt = ValueNotifier([]);
 
   @override

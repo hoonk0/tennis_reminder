@@ -6,7 +6,6 @@ import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/main_screen/home/splash_screen.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/court_manager/setting_manager_court.dart';
 import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/setting_contact_manager.dart';
-import 'package:tennisreminder/main_screen/my_page/setting/setting_detail/notice/setting_notice.dart';
 import 'package:tennisreminder/const/color.dart';
 
 import '../../../const/text_style.dart';

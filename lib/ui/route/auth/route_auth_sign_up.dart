@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:tennisreminder/ui/route/auth/route_auth_sign_up_email.dart';
 import '../../../const/enum/enums.dart';
-import '../../../const/service/utils/utils.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
+import '../../../service/utils/utils.dart';
 import '../../component/button_basic.dart';
 import '../../component/textfield_border.dart';
 

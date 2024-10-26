@@ -20,8 +20,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:uuid/uuid.dart';
 import '../../../ui/component/throttler_debouncer.dart';
 import 'package:http/http.dart' as http;
+import '../../const/value/keys.dart';
 import '../../static/global.dart';
-import '../../value/keys.dart';
 
 class Utils {
   /// 구글 로그인 함수

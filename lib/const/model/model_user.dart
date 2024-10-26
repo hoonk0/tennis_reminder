@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../enum/enums.dart';
-import '../value/enum.dart';
 
 class ModelUser {
   final String uid;

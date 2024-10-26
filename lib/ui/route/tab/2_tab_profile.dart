@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tennisreminder/ui/route/auth/route_auth_login.dart';
-import 'package:tennisreminder/ui/route/profile/setting/setting_detail/court_manager/setting_manager_court.dart';
-import '../../../const/service/utils/utils.dart';
-import '../../../const/static/global.dart';
+import 'package:tennisreminder/ui/component/custom_divider.dart';
+import 'package:tennisreminder/ui/route/favorite/court_favorite.dart';
+import 'package:tennisreminder/ui/route/profile/notice/route_setting_notice.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/keys.dart';
 import '../../../const/value/text_style.dart';
+import '../../../service/utils/utils.dart';
+import '../../../static/global.dart';
 import '../../component/custom_container_profile_list.dart';
 import '../../component/button_basic.dart';
+import '../profile/court_manager/setting_manager_court.dart';
 import '../profile/route_profile_edit_my_info_sns.dart';
 import '../profile/route_profile_privacy_policy.dart';
 import '../route_splash.dart';
@@ -29,12 +31,7 @@ class TabProfile extends StatelessWidget {
               Gaps.v16,
               Row(
                 children: [
-                  Image.asset(
-                    'assets/images/profile.png',
-                    fit: BoxFit.fitWidth,
-                    height: 70,
-                  ),
-                  Gaps.h16,
+
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +52,7 @@ class TabProfile extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: colorGreen600,
+                        color: colorGreen900,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -75,9 +72,11 @@ class TabProfile extends StatelessWidget {
                   ),
                 ],
               ),
-              Gaps.v16,
-              _buildScoreContainer(),
-              Gaps.v26,
+
+              CustomDivider(
+              margin: EdgeInsets.symmetric(vertical: 10),
+                height: 3,
+              ),
               _buildProfileOptions(context),
             ],
           ),
@@ -86,27 +85,40 @@ class TabProfile extends StatelessWidget {
     );
   }
 
-  Widget _buildScoreContainer() {
-    return Container(
-      decoration: BoxDecoration(
-        color: colorGreen50,
-        border: Border.all(color: colorGreen600),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('나의 점수', style: TS.s16w600(colorGray900)),
-          Text('30점', style: TS.s18w700(colorGreen600)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildProfileOptions(BuildContext context) {
     return Column(
       children: [
+        CustomContainerProfileList(
+          title: "선호 코트",
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => RouteCourtFavorite()),
+            );
+          },
+        ),
+        CustomContainerProfileList(
+          title: "알람 이력",
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => RouteSettingNotice()),
+            );
+          },
+        ),
+        CustomContainerProfileList(
+          title: "공지사항",
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => RouteSettingNotice()),
+            );
+          },
+        ),
+
+
+        CustomDivider(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          height: 1
+        ),
+
         CustomContainerProfileList(
           title: "개인정보처리방침 및 이용약관",
           onTap: () {
@@ -115,14 +127,8 @@ class TabProfile extends StatelessWidget {
             );
           },
         ),
-        CustomContainerProfileList(
-          title: "관리자화면",
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => SettingManagerCourt()),
-            );
-          },
-        ),
+
+
         CustomContainerProfileList(
           title: "로그아웃",
           onTap: () {
@@ -133,6 +139,14 @@ class TabProfile extends StatelessWidget {
           title: "회원탈퇴",
           onTap: () {
             showMemberOutModalBottomSheet(context);
+          },
+        ),
+        CustomContainerProfileList(
+          title: "관리자화면",
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => SettingManagerCourt()),
+            );
           },
         ),
       ],

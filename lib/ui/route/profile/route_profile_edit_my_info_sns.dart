@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tennisreminder/const/service/utils/utils.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
+import '../../../service/utils/utils.dart';
 import '../../component/custom_divider.dart';
 import '../../component/button_basic.dart';
 import '../../component/textfield_border.dart';

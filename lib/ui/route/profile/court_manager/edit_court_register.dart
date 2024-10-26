@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../../../const/model/model_court.dart';
-import '../../../../../../../../const/service/utils/utils.dart';
 import '../../../../../../../../const/value/colors.dart';
 import '../../../../../../../../const/value/text_style.dart';
+import '../../../../service/utils/utils.dart';
 
 class EditCourtRegister extends StatefulWidget {
   final ModelCourt modelCourt;

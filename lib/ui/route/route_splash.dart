@@ -6,9 +6,8 @@ import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/ui/route/auth/route_auth_login.dart';
 import 'package:tennisreminder/ui/route/route_main.dart';
 
-import '../../const/service/stream/stream_me.dart';
-import '../../const/static/global.dart';
-import 'auth/route_auth_login(not use).dart';
+import '../../service/stream/stream_me.dart';
+import '../../static/global.dart';
 
 BuildContext? contextMain;
 
@@ -34,25 +33,26 @@ class _RouteSplashState extends ConsumerState<RouteSplash> {
     try {
       Global.uid = uid;
 
-      WidgetsBinding.instance.addPostFrameCallback(
-            (timeStamp) async {
-          /// FirebaseAuth에 등록되어 있지 않음: 아무것도 안함
-          if (uid == null) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthLogin()));
-          }
-
-          /// FirebaseAuth에 등록되어 있음
-          else {
-            StreamMe.listenMe(ref);
-            await Future.delayed(Duration(milliseconds: 100));
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteMain(), settings: const RouteSettings(name: 'home')));
-          }
-        },
-      );
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        if (uid == null) {
+          debugPrint('uid null');
+          // uid가 null인 경우 로그인 화면으로 이동
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthLogin()));
+        } else {
+          // uid가 있는 경우 데이터 초기화
+          debugPrint('uid login');
+          StreamMe.listenMe(ref);
+          await Future.delayed(Duration(milliseconds: 100));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteMain(), settings: const RouteSettings(name: 'home')));
+        }
+      });
     } catch (e) {
+      // 에러 로그 출력
+      debugPrint('Error occurred: $e');
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthLogin()));
     }
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

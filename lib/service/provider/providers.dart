@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import '../../model/model_member.dart';
-import '../../model/model_user.dart';
+
+import '../../const/model/model_user.dart';
 
 final userNotifier = ValueNotifier<ModelUser?>(null);
 // userNotifier.value : ModelMember Or null

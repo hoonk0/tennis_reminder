@@ -5,10 +5,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../const/model/model_court.dart';
-import '../../../../../../const/service/provider/providers.dart';
 import '../../../../../../const/value/colors.dart';
 import '../../../../../../const/value/text_style.dart';
 import '../../../../const/value/keys.dart';
+import '../../../../service/provider/providers.dart';
 import 'court_location.dart';
 
 class CourtInformation extends StatefulWidget {
@@ -128,9 +128,8 @@ class _CourtInformationState extends State<CourtInformation> {
                               icon: ValueListenableBuilder(
                                 valueListenable: userNotifier,
                                 builder: (context, userMe, child) {
-                                  if (userMe == null) {
-                                    // userMe가 null인 경우 처리
-                                    return Container(); // 예시: 빈 Container를 반환하거나 원하는 처리를 수행하세요.
+                                  if (userMe == null || userMe.uid == null) {
+                                    return Container(); // 빈 Container나 다른 예외 처리 로직을 추가하세요.
                                   }
                                   final isMyCourt = userMe.favorites.contains(widget.courtId);
                                   return Icon(

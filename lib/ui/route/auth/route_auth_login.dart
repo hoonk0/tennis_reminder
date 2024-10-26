@@ -5,10 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tennisreminder/ui/route/auth/route_auth_sign_up.dart';
 import '../../../const/enum/enums.dart';
-import '../../../const/service/utils/utils.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/keys.dart';
+import '../../../service/utils/utils.dart';
 import '../route_main.dart';
 import '../route_splash.dart';
 

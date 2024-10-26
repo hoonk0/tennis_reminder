@@ -1,11 +1,13 @@
+/*
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../const/model/model_court.dart';
-import '../../../const/value/colors.dart';
-import '../profile/search_court/court_information.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:location/location.dart';
+import '../../../../const/model/model_court.dart';
+import '../../../../const/value/colors.dart';
+import '../court_search/court_information.dart';
 
 class NearbyCourts extends StatefulWidget {
   const NearbyCourts({super.key});
@@ -105,8 +107,8 @@ class _NearbyCourtsState extends State<NearbyCourts> {
                 return Column(
                   children: [
                     if (index == 0)
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Divider(color: colorGray900),
                       ),
                     Padding(
@@ -160,3 +162,4 @@ class _NearbyCourtsState extends State<NearbyCourts> {
     super.dispose();
   }
 }
+*/

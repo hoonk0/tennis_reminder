@@ -3,17 +3,15 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tennisreminder/ui/route/search/neartby_courts_map.dart';
 import '../../../const/model/model_court.dart';
-import '../../../const/model/model_member.dart';
 import '../../../const/model/model_user.dart';
-import '../../../const/service/provider/providers.dart';
 import '../../../const/value/colors.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
-import '../search/near_by_court.dart';
-import '../profile/search_court/court_information.dart';
-import '../profile/search_court/court_search.dart';
+import '../../../service/provider/providers.dart';
+import '../home/court_map/neartby_courts_map.dart';
+import '../home/court_search/court_information.dart';
+import '../home/court_search/court_search.dart';
 
 class TabHome extends StatefulWidget {
   const TabHome({super.key});
@@ -44,14 +42,14 @@ class _TabHomeState extends State<TabHome> {
     }
 
     streamSub = FirebaseFirestore.instance
-        .collection('member')
+        .collection('user')
         .doc(userId)
         .snapshots()
         .listen((event) {
       final data = event.data();
       if (data != null) {
-        final ModelUser newModelMember = ModelUser.fromJson(data);
-        userNotifier.value = newModelMember;
+        final ModelUser newModelUser = ModelUser.fromJson(data);
+        userNotifier.value = newModelUser;
         debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
       } else {
         debugPrint("Firestore 문서 데이터가 null입니다.");
