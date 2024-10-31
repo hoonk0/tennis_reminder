@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tennisreminder/ui/bottom_sheet/bottom_sheet_name_filter.dart';
 import 'package:tennisreminder/ui/component/container_court_column.dart';
+import '../../../const/enum/enums.dart';
 import '../../../const/model/model_court.dart';
 import '../../../const/model/model_user.dart';
 import '../../../const/value/colors.dart';
@@ -26,6 +28,8 @@ class _TabHomeState extends State<TabHome> {
   late List<ModelCourt> modelCourts;
   StreamSubscription? streamSub;
 
+  final ValueNotifier<SeoulDistrict?> vnLocationGuSelected = ValueNotifier<SeoulDistrict?>(null);
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +38,7 @@ class _TabHomeState extends State<TabHome> {
     streamMe();
     _loadNearbyCourts(); // 근처 코트 데이터 로드
   }
+
   Future<void> streamMe() async {
     final pref = await SharedPreferences.getInstance();
     final userId = pref.getString('uid');
@@ -61,12 +66,12 @@ class _TabHomeState extends State<TabHome> {
     });
   }
 
-
   Future<void> _fetchCourtData() async {
     // 시작시간
     final now = DateTime.now();
     debugPrint("시작시간 $now");
-    final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
+    final courtSnapshot =
+        await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
@@ -110,6 +115,7 @@ class _TabHomeState extends State<TabHome> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              ///코트 검색 화면
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(
@@ -123,125 +129,59 @@ class _TabHomeState extends State<TabHome> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.start, // 좌측 정렬
-                  children: [
-                    // 돋보기 아이콘 추가
-                    Icon(
-                      Icons.search, // Flutter 기본 아이콘 중 검색 아이콘 사용
-                      color: colorGray900, // 아이콘 색상 설정
-                      size: 20, // 아이콘 크기 조정 (필요에 따라 조정)
-                    ),
-                    SizedBox(width: 4), // 아이콘과 텍스트 사이의 간격 추가
-                    Text(
-                      '원하는 코트를 검색하세요.',
-                      style: TS.s13w500(colorGray900),
-                    ),
-                  ],
+                    mainAxisAlignment: MainAxisAlignment.start, // 좌측 정렬
+                    children: [
+                      // 돋보기 아이콘 추가
+                      Icon(
+                        Icons.search, // Flutter 기본 아이콘 중 검색 아이콘 사용
+                        color: colorGray900, // 아이콘 색상 설정
+                        size: 20, // 아이콘 크기 조정 (필요에 따라 조정)
+                      ),
+                      SizedBox(width: 4), // 아이콘과 텍스트 사이의 간격 추가
+                      Text(
+                        '원하는 코트를 검색하세요.',
+                        style: TS.s13w500(colorGray900),
+                      ),
+                    ],
+                  ),
                 ),
-        ),
               ),
-
               Gaps.v10,
 
-              CourtGridView(listCourt: modelCourts),
-
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    '주변 코트 검색하기',
-                    style: TS.s14w700(colorGray900),
+              ///필터
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BottomSheetNameFilter(
+                          vnSelectedFilterList: vnLocationGuSelected,
+                        );
+                      });
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: colorBlack),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CourtSearch()),
+                  child: ValueListenableBuilder<SeoulDistrict?>(
+                    valueListenable: vnLocationGuSelected, // ValueListenableBuilder 추가
+                    builder: (context, value, child) {
+                      return Text(
+                        value != null
+                            ? seoulDistrictKorean[value]!
+                            : '선택', // ValueListenableBuilder에 따라 텍스트 변경
                       );
                     },
-                    icon: const Icon(Icons.arrow_forward),
-                    color: colorGray900,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 150,
-                child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: 1,
-                  ),
-                  itemCount: modelCourts.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () async {
-                        final watchModelCourt = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CourtInformation(
-                                courtId: modelCourts[index].id,
-                              )),
-                        );
-
-                        if (watchModelCourt != null) {
-                          setState(() {
-                            modelCourts[index] = watchModelCourt;
-                          });
-                        }
-                      },
-                      ///
-                      child: Container(
-                        margin: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Expanded(
-                              child: modelCourts[index].imagePath.isNotEmpty
-                                  ? Image.network(
-                                modelCourts[index].imagePath,
-                                fit: BoxFit.cover,
-                              )
-                                  : const Icon(Icons.image),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  modelCourts[index].name,
-                                  style: const TS.s12w600(colorBlack),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                  ), // 변경된 부분
                 ),
               ),
-
- /*             Gaps.v20,
-
-              Row(
-                children: [
-                  Text(
-                    'NEARBY 5KM',
-                    style: TS.s14w700(colorGray900),
-                  ),
-                ],
-              ),
-
               Gaps.v10,
-              // `NearbyCourtsMap`을 Expanded로 감싸기
-              const SizedBox(
-                height: 300, // 원하는 높이로 설정 가능
-                child: NearbyCourtsMap(),
-              ),*/
+
+              ///코트 나열
+              CourtGridView(listCourt: modelCourts),
+
 
             ],
           ),
