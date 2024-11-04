@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tennisreminder/ui/component/custom_divider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../const/model/model_court.dart';
 import '../../../../../../const/value/colors.dart';
 import '../../../../../../const/value/text_style.dart';
+import '../../../../const/value/gaps.dart';
 import '../../../../const/value/keys.dart';
 import '../../../../service/provider/providers.dart';
 import 'court_location.dart';
@@ -72,8 +74,6 @@ class _RouteCourtInformationState extends State<RouteCourtInformation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xffe8e8e8),
-        centerTitle: true,
         title: const Text(
           '코트 정보',
           style: TS.s20w700(colorGreen900),
@@ -93,9 +93,10 @@ class _RouteCourtInformationState extends State<RouteCourtInformation> {
           ModelCourt court = snapshot.data!;
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 children: [
+                  /// 코트사진
                   if (court.imagePath.isNotEmpty)
                     Image.network(
                       court.imagePath,
@@ -103,6 +104,116 @@ class _RouteCourtInformationState extends State<RouteCourtInformation> {
                       height: 30.h,
                     ),
                   const SizedBox(height: 20),
+
+                  ///코트 설명
+                  Column(
+                    children: [
+                      ///상단 컨테이너
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: colorGreen900, // 위쪽은 초록색
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(court.name, style: const TS.s18w600(colorWhite)),
+                                Gaps.v10,
+                                Transform.translate(
+                                  offset: const Offset(-10, 0),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      if (userNotifier.value!.favorites.contains(widget.courtId)) {
+                                        FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
+                                          keyFavorites: FieldValue.arrayRemove([widget.courtId])
+                                        });
+                                      } else {
+                                        FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
+                                          keyFavorites: FieldValue.arrayUnion([widget.courtId])
+                                        });
+                                      }
+                                    },
+                                    icon: ValueListenableBuilder(
+                                      valueListenable: userNotifier,
+                                      builder: (context, userMe, child) {
+                                        if (userMe == null || userMe.uid == null) {
+                                          return Container(); // 빈 Container나 다른 예외 처리 로직을 추가하세요.
+                                        }
+                                        final isMyCourt = userMe.favorites.contains(widget.courtId);
+                                        return Icon(
+                                          isMyCourt ? Icons.star : Icons.star_border_purple500_sharp,
+                                          color: isMyCourt ? colorPrimary200 : colorWhite,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Transform.translate(
+                                  offset: const Offset(-10, 0),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      if (userNotifier.value!.notify.contains(widget.courtId)) {
+                                        FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
+                                          'notify': FieldValue.arrayRemove([widget.courtId])
+                                        });
+                                      } else {
+                                        FirebaseFirestore.instance.collection('user').doc(userNotifier.value!.uid).update({
+                                          'notify': FieldValue.arrayUnion([widget.courtId])
+                                        });
+                                      }
+                                    },
+                                    icon: ValueListenableBuilder(
+                                      valueListenable: userNotifier,
+                                      builder: (context, userMe, child) {
+                                        if (userMe == null) {
+                                          // userMe가 null인 경우 처리
+                                          return Container(); // 예시: 빈 Container를 반환하거나 원하는 처리를 수행하세요.
+                                        }
+                                        final isMyCourt = userMe.notify.contains(widget.courtId);
+                                        return Icon(
+                                          isMyCourt ? Icons.notifications : Icons.notifications_none_outlined,
+                                          color: isMyCourt ? colorPrimary200 : colorWhite,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              _getFirstTwoWords(court.location),
+                              style: const TS.s14w400(colorWhite),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ///하단 컨테이너
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
+                          border: Border.all(
+                           color: colorGray900
+                          )
+                        ),
+                        child: Column(
+                          children: [
+                          CourtInformationRowList(title: '코트 종류', desc: 'ㅇㅇ'),
+                          Container(
+                              color: colorGray200,
+                              child: CourtInformationRowList(title: '코트 수', desc: 'ㅇㅇ')),
+                          CourtInformationRowList(title: '주차장', desc: 'ㅇㅇ'),
+                          Container(
+                              color: colorGray200,
+                              child: CourtInformationRowList(title: '샤워실', desc: 'ㅇㅇ')),
+                        ],),
+                      ),
+
+                    ],
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Align(
@@ -184,14 +295,8 @@ class _RouteCourtInformationState extends State<RouteCourtInformation> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    height: 1,
-                    width: 80.w,
-                    color: colorGreen900,
-                  ),
-                  const SizedBox(height: 15),
-                  Padding(
+
+/*                  Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -200,14 +305,7 @@ class _RouteCourtInformationState extends State<RouteCourtInformation> {
                         style: const TS.s14w400(colorBlack),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    height: 1,
-                    width: 80.w,
-                    color: colorGreen900,
-                  ),
-                  const SizedBox(height: 15),
+                  ),*/
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: Align(
@@ -275,6 +373,43 @@ class _RouteCourtInformationState extends State<RouteCourtInformation> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class CourtInformationRowList extends StatelessWidget {
+  final String title;
+  final String desc;
+
+  const CourtInformationRowList({
+    required this.title,
+    required this.desc,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10), // Row 간의 간격을 추가
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // 양 끝에 요소 배치
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: const TS.s14w400(colorBlack), // 필요한 스타일 적용
+            ),
+          ),
+
+          Expanded(
+            child: Text(
+              desc,
+              textAlign: TextAlign.right, // 오른쪽 정렬
+              style: const TS.s14w400(colorBlack), // 필요한 스타일 적용
+            ),
+          ),
+        ],
       ),
     );
   }
