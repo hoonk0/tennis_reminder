@@ -7,7 +7,7 @@ import '../component/button_basic.dart';
 import '../component/custom_checkbox_container.dart';
 
 class BottomSheetNameFilter extends StatelessWidget {
-  final ValueNotifier<SeoulDistrict?> vnSelectedFilterList;
+  final ValueNotifier<List<SeoulDistrict>> vnSelectedFilterList;
 
   const BottomSheetNameFilter({
     super.key,
@@ -16,8 +16,8 @@ class BottomSheetNameFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 임시로 vnSelectedFilterList의 값을 저장하는 ValueNotifier
-    ValueNotifier<SeoulDistrict?> vnLocationGu = ValueNotifier(vnSelectedFilterList.value);
+    // 선택된 구를 임시로 저장할 ValueNotifier
+    ValueNotifier<List<SeoulDistrict>> tempSelectedDistricts = ValueNotifier<List<SeoulDistrict>>(List.from(vnSelectedFilterList.value));
 
     return Container(
       decoration: const BoxDecoration(
@@ -48,17 +48,25 @@ class BottomSheetNameFilter extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                child: ValueListenableBuilder<SeoulDistrict?>(
-                  valueListenable: vnLocationGu,
-                  builder: (context, locationGuTemp, child) {
+                child: ValueListenableBuilder<List<SeoulDistrict>>(
+                  valueListenable: tempSelectedDistricts,
+                  builder: (context, selectedDistricts, child) {
                     return Column(
-                      children: SeoulDistrict.values.map((district) => CustomCheckboxContainer(
-                        title: seoulDistrictKorean[district]!,
-                        isSelected: locationGuTemp == district,
-                        onTap: () {
-                          vnLocationGu.value = district; // 선택된 구를 업데이트
-                        },
-                      )).toList(),
+                      children: SeoulDistrict.values.map((district) {
+                        final isSelected = selectedDistricts.contains(district);
+                        return CustomCheckboxContainer(
+                          title: seoulDistrictKorean[district]!,
+                          isSelected: isSelected,
+                          onTap: () {
+                            if (isSelected) {
+                              selectedDistricts.remove(district); // 선택 해제
+                            } else {
+                              selectedDistricts.add(district); // 선택
+                            }
+                            tempSelectedDistricts.value = List.from(selectedDistricts); // 업데이트
+                          },
+                        );
+                      }).toList(),
                     );
                   },
                 ),
@@ -89,7 +97,7 @@ class BottomSheetNameFilter extends StatelessWidget {
                   colorBg: colorGreen800,
                   onTap: () {
                     // 선택된 구를 최종적으로 vnSelectedFilterList에 반영하고 닫기
-                    vnSelectedFilterList.value = vnLocationGu.value;
+                    vnSelectedFilterList.value = List.from(tempSelectedDistricts.value);
                     Navigator.of(context).pop();
                   },
                 ),

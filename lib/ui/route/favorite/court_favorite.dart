@@ -58,7 +58,7 @@ class _RouteCourtFavoriteState extends State<RouteCourtFavorite> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CourtInformation(courtId: listModelCourt[index].id),
+                            builder: (context) => RouteCourtInformation(courtId: listModelCourt[index].id),
                           ),
                         );
                       },

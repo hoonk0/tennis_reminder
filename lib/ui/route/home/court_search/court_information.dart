@@ -11,16 +11,16 @@ import '../../../../const/value/keys.dart';
 import '../../../../service/provider/providers.dart';
 import 'court_location.dart';
 
-class CourtInformation extends StatefulWidget {
+class RouteCourtInformation extends StatefulWidget {
   final String courtId;
 
-  const CourtInformation({super.key, required this.courtId});
+  const RouteCourtInformation({super.key, required this.courtId});
 
   @override
-  State<CourtInformation> createState() => _CourtInformationState();
+  State<RouteCourtInformation> createState() => _RouteCourtInformationState();
 }
 
-class _CourtInformationState extends State<CourtInformation> {
+class _RouteCourtInformationState extends State<RouteCourtInformation> {
   final ValueNotifier<bool> vnIsFavorite = ValueNotifier(false);
 
   Future<ModelCourt?> _fetchCourtDetails() async {

@@ -104,7 +104,7 @@ class _CourtSearchState extends State<CourtSearch> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                          builder: (context) => CourtInformation(courtId: _courts[index].id),
+                          builder: (context) => RouteCourtInformation(courtId: _courts[index].id),
                       ),
                       );
                     },

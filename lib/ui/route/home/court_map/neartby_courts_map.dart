@@ -113,7 +113,7 @@ class _NearbyCourtsMapState extends State<NearbyCourtsMap> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CourtInformation(courtId: court.id),
+                      builder: (context) => RouteCourtInformation(courtId: court.id),
                     ),
                   );
                 },

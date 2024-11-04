@@ -58,7 +58,7 @@ class _RouteCourtAlarmState extends State<RouteCourtAlarm> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CourtInformation(courtId: listModelCourt[index].id),
+                              builder: (context) => RouteCourtInformation(courtId: listModelCourt[index].id),
                             ),
                           );
                         },

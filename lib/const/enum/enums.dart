@@ -13,35 +13,37 @@ enum UserGrade {
 
 // 영어로 된 enum 정의
 enum SeoulDistrict {
-  Jongno,
-  Jung,
-  Yongsan,
-  Seongdong,
-  Gwangjin,
-  Dongdaemun,
-  Jungnang,
-  Seongbuk,
+  Gangnam,
+  Gangdong,
   Gangbuk,
-  Dobong,
-  Nowon,
-  Eunpyeong,
-  Seodaemun,
-  Mapo,
-  Yangcheon,
   Gangseo,
+  Gwanak,
+  Gwangjin,
   Guro,
   Geumcheon,
-  Yeongdeungpo,
+  Nowon,
+  Dobong,
+  Dongdaemun,
   Dongjak,
-  Gwanak,
+  Mapo,
+  Seodaemun,
   Seocho,
-  Gangnam,
+  Seongdong,
+  Seongbuk,
   Songpa,
-  Gangdong,
+  Yangcheon,
+  Yeongdeungpo,
+  Yongsan,
+  Eunpyeong,
+  Jongno,
+  Jung,
+  Jungnang,
 }
 
 // 영어 이름을 한국어로 변환하는 Map
 const Map<SeoulDistrict, String> seoulDistrictKorean = {
+  SeoulDistrict.Gangnam: '강남구',
+  SeoulDistrict.Gangdong: '강동구',
   SeoulDistrict.Jongno: '종로구',
   SeoulDistrict.Jung: '중구',
   SeoulDistrict.Yongsan: '용산구',
@@ -64,9 +66,8 @@ const Map<SeoulDistrict, String> seoulDistrictKorean = {
   SeoulDistrict.Dongjak: '동작구',
   SeoulDistrict.Gwanak: '관악구',
   SeoulDistrict.Seocho: '서초구',
-  SeoulDistrict.Gangnam: '강남구',
   SeoulDistrict.Songpa: '송파구',
-  SeoulDistrict.Gangdong: '강동구',
+
 };
 
 

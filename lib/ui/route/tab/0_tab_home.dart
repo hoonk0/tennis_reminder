@@ -26,84 +26,48 @@ class TabHome extends StatefulWidget {
 
 class _TabHomeState extends State<TabHome> {
   late List<ModelCourt> modelCourts;
+  List<ModelCourt> filteredCourts = []; // 필터링된 코트 리스트
   StreamSubscription? streamSub;
 
-  final ValueNotifier<SeoulDistrict?> vnLocationGuSelected = ValueNotifier<SeoulDistrict?>(null);
+  // 여러 구를 선택할 수 있도록 ValueNotifier를 List로 변경
+  final ValueNotifier<List<SeoulDistrict>> vnLocationGuSelected = ValueNotifier<List<SeoulDistrict>>([]);
 
   @override
   void initState() {
     super.initState();
-    modelCourts = []; // 데이터를 담을 리스트 초기화
-    _fetchCourtData(); // Firestore에서 데이터 가져오기
-    streamMe();
-    _loadNearbyCourts(); // 근처 코트 데이터 로드
-  }
+    modelCourts = [];
+    _fetchCourtData();
 
-  Future<void> streamMe() async {
-    final pref = await SharedPreferences.getInstance();
-    final userId = pref.getString('uid');
-
-    if (userId == null) {
-      debugPrint("userId가 null입니다.");
-      return; // null이면 바로 종료
-    }
-
-    streamSub = FirebaseFirestore.instance
-        .collection('user')
-        .doc(userId)
-        .snapshots()
-        .listen((event) {
-      final data = event.data();
-      if (data != null) {
-        final ModelUser newModelUser = ModelUser.fromJson(data);
-        userNotifier.value = newModelUser;
-        debugPrint("유저정보 업데이트 ${userNotifier.value!.toJson()}");
-      } else {
-        debugPrint("Firestore 문서 데이터가 null입니다.");
-      }
-    }, onError: (error) {
-      debugPrint("Firestore 오류 발생: $error");
-    });
   }
 
   Future<void> _fetchCourtData() async {
-    // 시작시간
-    final now = DateTime.now();
-    debugPrint("시작시간 $now");
-    final courtSnapshot =
-        await FirebaseFirestore.instance.collection('court').get();
+    final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();
     final List<ModelCourt> fetchedModelCourts = courtSnapshot.docs.map((doc) {
       final data = doc.data();
       return ModelCourt.fromJson(data);
     }).toList();
-    // 경과시간
-    final elapsed = DateTime.now().difference(now);
-    debugPrint("경과시간 $elapsed");
 
-    // 1. 현재 위젯트리를 dispose 안되게 하는 방법
-    // 2. final courtSnapshot = await FirebaseFirestore.instance.collection('court').get();를 끝마치고서 이 위젯트리로 오게
-    // 3. Widget Tree에 살아있을때만 실행
-    debugPrint("mounted $mounted");
     if (mounted) {
       setState(() {
         modelCourts = fetchedModelCourts;
+        _filterCourts(); // 초기 필터링 실행
       });
-    } else {
-      debugPrint("위젯트리 죽음");
     }
   }
 
-  Future<void> _loadNearbyCourts() async {
-    // TODO: 근처 코트 데이터를 로드하고 화면에 표시하는 기능 구현
-    // 여기에 코드를 추가하세요.
-  }
-
-  @override
-  void dispose() {
-    debugPrint("UserHome dispose");
-    // TODO: implement dispose
-    super.dispose();
-    streamSub?.cancel();
+  // 선택된 구에 맞게 코트 필터링하는 메서드
+  void _filterCourts() {
+    final selectedGus = vnLocationGuSelected.value;
+    setState(() {
+      if (selectedGus.isEmpty) {
+        filteredCourts = modelCourts; // 선택된 구가 없으면 모든 코트를 표시
+      } else {
+        filteredCourts = modelCourts.where((court) {
+          final locationWords = court.location.split(' ');
+          return locationWords.length > 1 && selectedGus.any((gu) => locationWords[1] == seoulDistrictKorean[gu]!);
+        }).toList();
+      }
+    });
   }
 
   @override
@@ -113,42 +77,8 @@ class _TabHomeState extends State<TabHome> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ///코트 검색 화면
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => CourtSearch()));
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: colorWhite,
-                    border: Border.all(color: colorGreen900, width: 2),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start, // 좌측 정렬
-                    children: [
-                      // 돋보기 아이콘 추가
-                      Icon(
-                        Icons.search, // Flutter 기본 아이콘 중 검색 아이콘 사용
-                        color: colorGray900, // 아이콘 색상 설정
-                        size: 20, // 아이콘 크기 조정 (필요에 따라 조정)
-                      ),
-                      SizedBox(width: 4), // 아이콘과 텍스트 사이의 간격 추가
-                      Text(
-                        '원하는 코트를 검색하세요.',
-                        style: TS.s13w500(colorGray900),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Gaps.v10,
-
-              ///필터
+              // 필터 UI
               GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
@@ -165,24 +95,23 @@ class _TabHomeState extends State<TabHome> {
                     borderRadius: BorderRadius.circular(8.0),
                     border: Border.all(color: colorBlack),
                   ),
-                  child: ValueListenableBuilder<SeoulDistrict?>(
-                    valueListenable: vnLocationGuSelected, // ValueListenableBuilder 추가
-                    builder: (context, value, child) {
+                  child: ValueListenableBuilder<List<SeoulDistrict>>(
+                    valueListenable: vnLocationGuSelected,
+                    builder: (context, selectedGus, child) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) => _filterCourts());
                       return Text(
-                        value != null
-                            ? seoulDistrictKorean[value]!
-                            : '선택', // ValueListenableBuilder에 따라 텍스트 변경
+                        selectedGus.isNotEmpty
+                            ? selectedGus.map((gu) => seoulDistrictKorean[gu]!).join(', ')  // 선택된 구 목록 표시
+                            : '선택',
                       );
                     },
-                  ), // 변경된 부분
+                  ),
                 ),
               ),
               Gaps.v10,
 
-              ///코트 나열
-              CourtGridView(listCourt: modelCourts),
-
-
+              // 필터링된 코트 나열
+              CourtGridView(listCourt: filteredCourts),
             ],
           ),
         ),
