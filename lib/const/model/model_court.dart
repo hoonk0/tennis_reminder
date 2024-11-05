@@ -9,6 +9,11 @@ class ModelCourt {
   final String information;
   final double courtLat;
   final double courtLng;
+  final int courtNum;
+  final String courtType;
+  final String inOutDoor;
+  final bool parking;
+  final bool shower;
 
   // 생성자
   ModelCourt({
@@ -22,8 +27,14 @@ class ModelCourt {
     required this.information,
     required this.courtLat,
     required this.courtLng,
+    required this.courtNum,
+    required this.inOutDoor,
+    required this.courtType,
+    required this.parking,
+    required this.shower,
   });
 
+  // toJson 메서드
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -36,9 +47,15 @@ class ModelCourt {
       'information': information,
       'courtLat': courtLat,
       'courtLng': courtLng,
+      'courtNum': courtNum,
+      'courtType': courtType,
+      'inOutDoor': inOutDoor,
+      'parking': parking,
+      'shower': shower,
     };
   }
 
+  // fromJson 메서드
   factory ModelCourt.fromJson(Map<String, dynamic> json) {
     return ModelCourt(
       id: json['id'] ?? '',
@@ -51,7 +68,12 @@ class ModelCourt {
       information: json['information'] ?? '',
       courtLat: json['courtLat'] != null ? double.parse(json['courtLat'].toString()) : 0.0,
       courtLng: json['courtLng'] != null ? double.parse(json['courtLng'].toString()) : 0.0,
+      courtNum: json['courtNum'] != null ? int.parse(json['courtNum'].toString()) : 0,
+      courtType: json['courtType'] ?? '',
+      inOutDoor: json['inOutDoor'] ?? '',
+      parking: json['parking'] == true, // bool로 변환
+      shower: json['shower'] == true,   // bool로 변환
     );
   }
-
 }
+

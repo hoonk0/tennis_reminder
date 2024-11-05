@@ -26,6 +26,12 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
   TextEditingController tecName = TextEditingController();
   TextEditingController tecLat = TextEditingController();
   TextEditingController tecLng = TextEditingController();
+  TextEditingController tecCourtNum = TextEditingController();
+  TextEditingController tecInOutDoor = TextEditingController();
+  TextEditingController tecCourtType = TextEditingController();
+  bool isParking = false; // 주차장 여부
+  bool isShower = false;  // 샤워실 여부
+
   XFile? selectedXFile;
   String _imagePath = '';
 
@@ -124,6 +130,46 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                 style: const TS.s14w400(colorBlack),
               ),
 
+              const Text('코트 수'), // 내용 입력 레이블
+              TextField(
+                controller: tecCourtNum,
+                maxLines: null,
+                keyboardType: TextInputType.number,
+                style: const TS.s14w400(colorBlack),
+              ),
+
+              const Text('실내/실외'), // 내용 입력 레이블
+              TextField(
+                controller: tecInOutDoor,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: const TS.s14w400(colorBlack),
+              ),
+              const Text('코트 타입'), // 내용 입력 레이블
+              TextField(
+                controller: tecCourtType,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: const TS.s14w400(colorBlack),
+              ),
+              const Text('주차장'), // 내용 입력 레이블
+              Switch(
+                value: isParking,
+                onChanged: (value) {
+                  setState(() {
+                    isParking = value;
+                  });
+                },
+              ),
+              const Text('샤워시설'), // 내용 입력 레이블
+              Switch(
+                value: isShower,
+                onChanged: (value) {
+                  setState(() {
+                    isShower = value;
+                  });
+                },
+              ),
               IconButton(
                 icon: const Icon(Icons.save),
                 onPressed: () async {
@@ -144,12 +190,21 @@ class _NewCourtRegisterState extends State<NewCourtRegister> {
                     phone: tecPhone.text,
                     notice: tecNotice.text,
                     website: tecWebsite.text,
-                    imagePath: listImgUrl.isNotEmpty ? listImgUrl.first : '', // 이미지 경로 설정
+                    imagePath: listImgUrl.isNotEmpty ? listImgUrl.first : '',
+                    // 이미지 경로 설정
                     courtLng: double.tryParse(tecLng.text) ?? 0.0,
                     courtLat: double.tryParse(tecLat.text) ?? 0.0,
+                    courtNum: int.tryParse(tecCourtNum.text) ?? 0,
+                    inOutDoor: tecInOutDoor.text,
+                    courtType: tecCourtType.text,
+                    parking: isParking, // 주차장 여부 설정
+                    shower: isShower,   // 샤워실 여부 설정
                   );
 
-                  await FirebaseFirestore.instance.collection('court').doc(modelCourt.id).set(modelCourt.toJson());
+                  await FirebaseFirestore.instance
+                      .collection('court')
+                      .doc(modelCourt.id)
+                      .set(modelCourt.toJson());
                   Navigator.pop(context, modelCourt);
                 },
               ),

@@ -6,20 +6,18 @@ import '../../const/value/text_style.dart';
 import '../component/button_basic.dart';
 import '../component/custom_checkbox_container.dart';
 
-class BottomSheetNameFilter extends StatelessWidget {
-  final ValueNotifier<List<SeoulDistrict>> vnSelectedFilterList;
+class BottomSheetParkingFilter extends StatelessWidget {
+  final ValueNotifier<bool?> vnSelectedFilter;
 
-  const BottomSheetNameFilter({
+  const BottomSheetParkingFilter({
     super.key,
-    required this.vnSelectedFilterList,
+    required this.vnSelectedFilter,
   });
 
   @override
   Widget build(BuildContext context) {
-    // 선택된 구를 임시로 저장할 ValueNotifier
-    ValueNotifier<List<SeoulDistrict>> tempSelectedDistricts =
-        ValueNotifier<List<SeoulDistrict>>(
-            List.from(vnSelectedFilterList.value));
+    // 임시 선택 상태를 저장할 ValueNotifier
+    ValueNotifier<bool?> tempSelected = ValueNotifier<bool?>(vnSelectedFilter.value);
 
     return Container(
       decoration: const BoxDecoration(
@@ -42,7 +40,7 @@ class BottomSheetNameFilter extends StatelessWidget {
             ),
           ),
           Gaps.v16,
-          const Text('필터', style: TS.s18w600(Color(0xff222222))),
+          const Text('주차장 필터', style: TS.s18w600(Color(0xff222222))),
           Gaps.v20,
 
           /// 필터
@@ -50,26 +48,26 @@ class BottomSheetNameFilter extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                child: ValueListenableBuilder<List<SeoulDistrict>>(
-                  valueListenable: tempSelectedDistricts,
-                  builder: (context, selectedDistricts, child) {
+                child: ValueListenableBuilder<bool?>(
+                  valueListenable: tempSelected,
+                  builder: (context, selected, child) {
                     return Column(
-                      children: SeoulDistrict.values.map((district) {
-                        final isSelected = selectedDistricts.contains(district);
-                        return CustomCheckboxContainer(
-                          title: seoulDistrictKorean[district]!,
-                          isSelected: isSelected,
+                      children: [
+                        CustomCheckboxContainer(
+                          title: '주차장 있음',
+                          isSelected: selected == true,
                           onTap: () {
-                            if (isSelected) {
-                              selectedDistricts.remove(district); // 선택 해제
-                            } else {
-                              selectedDistricts.add(district); // 선택
-                            }
-                            tempSelectedDistricts.value =
-                                List.from(selectedDistricts); // 업데이트
+                            tempSelected.value = true; // 주차장 있음 선택
                           },
-                        );
-                      }).toList(),
+                        ),
+                        CustomCheckboxContainer(
+                          title: '주차장 없음',
+                          isSelected: selected == false,
+                          onTap: () {
+                            tempSelected.value = false; // 주차장 없음 선택
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -88,7 +86,7 @@ class BottomSheetNameFilter extends StatelessWidget {
                   colorBg: colorWhite,
                   borderColor: colorGreen900,
                   onTap: () {
-                    tempSelectedDistricts.value = []; // 모든 선택 해제
+                    tempSelected.value = null; // 모든 선택 해제
                   },
                 ),
               ),
@@ -99,9 +97,8 @@ class BottomSheetNameFilter extends StatelessWidget {
                   titleColorBg: colorWhite,
                   colorBg: colorGreen800,
                   onTap: () {
-                    // 선택된 구를 최종적으로 vnSelectedFilterList에 반영하고 닫기
-                    vnSelectedFilterList.value =
-                        List.from(tempSelectedDistricts.value);
+                    // 선택된 주차장 유무를 최종적으로 vnSelectedFilter에 반영하고 닫기
+                    vnSelectedFilter.value = tempSelected.value;
                     Navigator.of(context).pop();
                   },
                 ),

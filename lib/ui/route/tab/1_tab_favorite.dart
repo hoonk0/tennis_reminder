@@ -34,8 +34,7 @@ class TabFavorite extends StatelessWidget {
                 ],
               ),
             ),
-            Text('하드코트'),
-            Text('성동구 코트'),
+            Text('달력 넣어서 알람 코트 리스트+ 언제알람 했는지 표시하는 기능 필요'),
 
 /*            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

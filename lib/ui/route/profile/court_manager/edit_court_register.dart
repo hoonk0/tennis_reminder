@@ -26,6 +26,11 @@ class _EditCourtRegisterState extends State<EditCourtRegister> {
   late TextEditingController tecLat;
   late TextEditingController tecLng;
   String _imagePath = '';
+  TextEditingController tecCourtNum = TextEditingController();
+  TextEditingController tecInOutDoor = TextEditingController();
+  TextEditingController tecCourtType = TextEditingController();
+  bool isParking = false; // 주차장 여부
+  bool isShower = false;  // 샤워실 여부oller();
 
   @override
   void initState() {
@@ -146,6 +151,48 @@ class _EditCourtRegisterState extends State<EditCourtRegister> {
                 style: const TS.s14w400(colorBlack),
               ),
 
+              const Text('코트 수'), // 내용 입력 레이블
+              TextField(
+                controller: tecCourtNum,
+                maxLines: null,
+                keyboardType: TextInputType.number,
+                style: const TS.s14w400(colorBlack),
+              ),
+
+              const Text('실내/실외'), // 내용 입력 레이블
+              TextField(
+                controller: tecInOutDoor,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: const TS.s14w400(colorBlack),
+              ),
+              const Text('코트 타입'), // 내용 입력 레이블
+              TextField(
+                controller: tecCourtType,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: const TS.s14w400(colorBlack),
+              ),
+              const Text('주차장'), // 내용 입력 레이블
+              Switch(
+                value: isParking,
+                onChanged: (value) {
+                  setState(() {
+                    isParking = value;
+                  });
+                },
+              ),
+              const Text('샤워시설'), // 내용 입력 레이블
+              Switch(
+                value: isShower,
+                onChanged: (value) {
+                  setState(() {
+                    isShower = value;
+                  });
+                },
+              ),
+
+
               ElevatedButton.icon(
                 icon: const Icon(Icons.save),
                 label: const Text('저장'), // 저장 버튼 텍스트 추가
@@ -162,6 +209,11 @@ class _EditCourtRegisterState extends State<EditCourtRegister> {
                       imagePath: _imagePath, // 업데이트된 이미지 경로 사용
                       courtLng: double.parse(tecLng.text),
                       courtLat: double.parse(tecLat.text),
+                      courtNum: int.tryParse(tecCourtNum.text) ?? 0,
+                      inOutDoor: tecInOutDoor.text,
+                      courtType: tecCourtType.text,
+                      parking: isParking, // 주차장 여부 설정
+                      shower: isShower,   // 샤워실 여부 설정
                     );
                     await FirebaseFirestore.instance
                         .collection('court')
